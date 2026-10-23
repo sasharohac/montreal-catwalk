@@ -1,0 +1,304 @@
+/* ============================================================
+   style.css = PRESENTATION: colours, fonts, spacing, layout, the map's size.
+   Shared by index.html (the map page) and gallery.html (gallery.css adds to it).
+
+   Sections:
+     1. Colours and font
+     2. Page layout and text
+     3. Map key (legend) and sources
+     4. The map
+     5. Phone layout
+     6. Popups
+     7. Cat pins
+     8. Layer switcher
+     9. Small phones
+   ============================================================ */
+
+
+/* ---------- 1. Colours and font: set once here, used everywhere ---------- */
+:root {
+  --accent: #a8465f;  /* darker pink for headings and links */
+  --text: #1f1e1a;    /* main text colour (near black) */
+  --muted: #6b6960;   /* grey for the status line and small print */
+  --pink: #de889d;    /* light pink, used on the gallery page */
+  --paper: #f4f4f2;   /* off-white for cards, the map key and popups */
+  --butter: #f1dfc3;  /* light yellow page background around the map */
+  --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
+/* ---------- 2. Page layout and text ---------- */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font);
+  font-weight: 300;   /* light */
+  color: var(--text);
+}
+
+body {
+  background: var(--butter);
+}
+
+/* Photo dates (gallery cards, big view, map popups) in bold; descriptions stay light */
+.when {
+  font-weight: 600;
+}
+
+/* Only headings and titles are italic (page titles, section headings, popup titles, gallery months) */
+h1, h2 {
+  font-style: italic;
+}
+
+/* Two columns: the story on the left, a wider map on the right */
+.page {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 2fr;   /* story, then a wider map */
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Let both columns shrink to fit a narrow screen instead of growing to fit what's inside */
+.page > * {
+  min-width: 0;
+}
+
+.story {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.story h1 {
+  margin: 8px 0 16px;
+  font-size: 40px;
+  font-weight: 300;   /* light */
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.story h2 {
+  margin: 28px 0 8px;
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.story .lede {
+  font-size: 19px;
+}
+
+/* Highlighted statistic in the intro, same pink as the title */
+.story .stat {
+  color: var(--accent);
+}
+
+.story a {
+  color: var(--accent);
+}
+
+/* Status line ("Loading cats…", then the number of cats) */
+#status {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* Status line turns red if the cat data fails to load */
+#status.error {
+  color: #b3261e;
+}
+
+
+/* ---------- 3. Map key (legend) and sources ---------- */
+/* Map key under "What you can do here": a coloured mark and a name for each layer */
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 10px 14px;
+  background: var(--paper);
+  border-radius: 14px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* The little cat image in the key */
+.legend img {
+  vertical-align: -2px;
+  margin-right: 6px;
+}
+
+/* A coloured square (or dot) in the key; these colours must match the ones in app.js */
+.swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  vertical-align: -2px;
+}
+
+.swatch.dot { border-radius: 50%; }   /* round instead of square */
+/* Alleys: one shade per distance class, darkest = closest to a cat (alleyColour() in app.js) */
+.swatch.alley { border: 1px solid #2e7d32; opacity: 0.8; }
+.swatch.alley.d1 { background: #006d2c; }
+.swatch.alley.d2 { background: #31a354; }
+.swatch.alley.d3 { background: #74c476; }
+.swatch.alley.d4 { background: #bae4b3; }
+.swatch.alley.d5 { background: #edf8e9; }
+
+/* The five alley classes, indented under "Green alleys" */
+.legend-classes {
+  list-style: none;
+  margin: 0;
+  padding-left: 22px;
+}
+.swatch.fountain { width: 10px; height: 10px; margin: 0 8px 0 2px; background: #1e88e5; }
+.swatch.garden { background: #79b968; }
+.swatch.cool { background: #8e24aa; }
+
+/* A little space between each source in "Where this comes from" */
+.sources li {
+  margin-bottom: 6px;
+}
+
+
+/* ---------- 4. The map ---------- */
+/* As tall as the window and stays in view while the story scrolls,
+   with rounded corners and a soft shadow so it looks like a card on the yellow page */
+#map {
+  height: calc(100vh - 32px);   /* the map needs a height, or it is invisible */
+  min-height: 420px;
+  position: sticky;
+  top: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(31, 30, 26, 0.15);
+  background: var(--paper);
+}
+
+
+/* ---------- 5. Phone layout ---------- */
+/* One column on a phone or narrow window: story, then map */
+@media (max-width: 800px) {
+  .page { grid-template-columns: 1fr; }
+  #map { height: 70vh; position: static; }
+}
+
+
+/* ---------- 6. Popups (the boxes that open when you click something on the map) ---------- */
+/* Popup box: photo edge to edge, text underneath */
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  width: 260px !important;
+  font-family: var(--font);
+}
+
+/* The cat photo at the top of a cat popup */
+.popup-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
+  background: var(--paper);
+}
+
+/* The popup photo is a link to the gallery: hand cursor and a slight zoom on hover */
+.popup-photo-link {
+  display: block;
+  overflow: hidden;
+}
+
+.popup-photo-link .popup-photo {
+  transition: transform 0.2s;
+}
+
+.popup-photo-link:hover .popup-photo {
+  transform: scale(1.04);
+}
+
+/* Shown instead of the photo when the image file is missing */
+.popup-missing {
+  padding: 24px 16px;
+  background: var(--paper);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* The text part of every popup: title, details, and small grey coordinates/borough */
+.popup-text {
+  padding: 10px 14px 12px;
+}
+
+.popup-text h2 {
+  margin: 0 0 2px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.popup-text p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.popup-text .coords {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The round ✕ close button in the top-right corner of a popup */
+.leaflet-container a.leaflet-popup-close-button {
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  font: 18px/26px var(--font);
+}
+
+/* Alley, fountain, garden and cool place popups have no photo: keep the title clear of the close button */
+.alley-popup h2,
+.fountain-popup h2,
+.garden-popup h2,
+.cool-popup h2 {
+  padding-right: 24px;
+}
+
+
+/* ---------- 7. Cat pins ---------- */
+/* A soft shadow so they stand out on the map */
+.cat-icon {
+  filter: drop-shadow(0 1px 2px rgba(31, 30, 26, 0.5));
+}
+
+
+/* ---------- 8. Layer switcher (top right of the map) ---------- */
+/* Styled like the map key: same font, rounded corners, off-white background */
+.leaflet-control-layers {
+  font-family: var(--font);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(31, 30, 26, 0.15);
+}
+
+.leaflet-control-layers-expanded {
+  padding: 8px 14px 8px 10px;
+  background: var(--paper);
+}
+
+
+/* ---------- 9. Small phones: smaller title and narrower popups ---------- */
+@media (max-width: 500px) {
+  .story h1 { font-size: 32px; }
+  .leaflet-popup-content { width: 220px !important; }
+}

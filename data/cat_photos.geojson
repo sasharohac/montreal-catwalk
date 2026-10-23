@@ -1,0 +1,1465 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.580367,
+          45.520292
+        ]
+      },
+      "properties": {
+        "photo": "IMG_8621.HEIC",
+        "image": "photos/IMG_8621.jpg",
+        "date": "2024-05-15 14:24",
+        "lat": 45.520292,
+        "lon": -73.580367,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581261,
+          45.522014
+        ]
+      },
+      "properties": {
+        "photo": "IMG_8914.HEIC",
+        "image": "photos/IMG_8914.jpg",
+        "date": "2024-05-25 13:45",
+        "lat": 45.522014,
+        "lon": -73.581261,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581153,
+          45.52195
+        ]
+      },
+      "properties": {
+        "photo": "IMG_1565.HEIC",
+        "image": "photos/IMG_1565.jpg",
+        "date": "2024-06-09 10:50",
+        "lat": 45.52195,
+        "lon": -73.581153,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5813,
+          45.520656
+        ]
+      },
+      "properties": {
+        "photo": "IMG_0173.HEIC",
+        "image": "photos/IMG_0173.jpg",
+        "date": "2024-06-30 19:37",
+        "lat": 45.520656,
+        "lon": -73.5813,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581506,
+          45.521992
+        ]
+      },
+      "properties": {
+        "photo": "FullSizeRender.HEIC",
+        "image": "photos/FullSizeRender.jpg",
+        "date": "2024-06-30 20:03",
+        "lat": 45.521992,
+        "lon": -73.581506,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.57785,
+          45.525611
+        ]
+      },
+      "properties": {
+        "photo": "IMG_0965.HEIC",
+        "image": "photos/IMG_0965.jpg",
+        "date": "2024-07-17 20:23",
+        "lat": 45.525611,
+        "lon": -73.57785,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578331,
+          45.525364
+        ]
+      },
+      "properties": {
+        "photo": "IMG_0968.HEIC",
+        "image": "photos/IMG_0968.jpg",
+        "date": "2024-07-17 20:26",
+        "lat": 45.525364,
+        "lon": -73.578331,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.573172,
+          45.520381
+        ]
+      },
+      "properties": {
+        "photo": "IMG_0987.HEIC",
+        "image": "photos/IMG_0987.jpg",
+        "date": "2024-07-17 20:40",
+        "lat": 45.520381,
+        "lon": -73.573172,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581222,
+          45.520694
+        ]
+      },
+      "properties": {
+        "photo": "IMG_1676.HEIC",
+        "image": "photos/IMG_1676.jpg",
+        "date": "2024-08-06 19:53",
+        "lat": 45.520694,
+        "lon": -73.581222,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.593314,
+          45.525039
+        ]
+      },
+      "properties": {
+        "photo": "IMG_1931.HEIC",
+        "image": "photos/IMG_1931.jpg",
+        "date": "2024-08-14 13:43",
+        "lat": 45.525039,
+        "lon": -73.593314,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.600167,
+          45.524719
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2190.HEIC",
+        "image": "photos/IMG_2190.jpg",
+        "date": "2024-08-18 13:44",
+        "lat": 45.524719,
+        "lon": -73.600167,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.58255,
+          45.519133
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2368.HEIC",
+        "image": "photos/IMG_2368.jpg",
+        "date": "2024-08-26 17:27",
+        "lat": 45.519133,
+        "lon": -73.58255,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.575692,
+          45.521042
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2555.HEIC",
+        "image": "photos/IMG_2555.jpg",
+        "date": "2024-09-02 11:40",
+        "lat": 45.521042,
+        "lon": -73.575692,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.585197,
+          45.520875
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2954.HEIC",
+        "image": "photos/IMG_2954.jpg",
+        "date": "2024-09-22 14:52",
+        "lat": 45.520875,
+        "lon": -73.585197,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.583428,
+          45.520153
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3282.HEIC",
+        "image": "photos/IMG_3282.jpg",
+        "date": "2024-10-05 12:59",
+        "lat": 45.520153,
+        "lon": -73.583428,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577919,
+          45.518569
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3593.heic",
+        "image": "photos/IMG_3593.jpg",
+        "date": "2025-05-12 19:15",
+        "lat": 45.518569,
+        "lon": -73.577919,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.582183,
+          45.522481
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3797.HEIC",
+        "image": "photos/IMG_3797.jpg",
+        "date": "2025-05-20 14:15",
+        "lat": 45.522481,
+        "lon": -73.582183,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577836,
+          45.525581
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3859.heic",
+        "image": "photos/IMG_3859.jpg",
+        "date": "2025-05-21 13:37",
+        "lat": 45.525581,
+        "lon": -73.577836,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578583,
+          45.525833
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3920.HEIC",
+        "image": "photos/IMG_3920.jpg",
+        "date": "2025-05-21 14:58",
+        "lat": 45.525833,
+        "lon": -73.578583,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579108,
+          45.518806
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3934.HEIC",
+        "image": "photos/IMG_3934.jpg",
+        "date": "2025-05-21 15:49",
+        "lat": 45.518806,
+        "lon": -73.579108,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.576247,
+          45.529961
+        ]
+      },
+      "properties": {
+        "photo": "IMG_4265.HEIC",
+        "image": "photos/IMG_4265.jpg",
+        "date": "2025-05-28 10:35",
+        "lat": 45.529961,
+        "lon": -73.576247,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577606,
+          45.517483
+        ]
+      },
+      "properties": {
+        "photo": "IMG_4678.HEIC",
+        "image": "photos/IMG_4678.jpg",
+        "date": "2025-06-14 15:19",
+        "lat": 45.517483,
+        "lon": -73.577606,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577781,
+          45.519078
+        ]
+      },
+      "properties": {
+        "photo": "IMG_4871.HEIC",
+        "image": "photos/IMG_4871.jpg",
+        "date": "2025-06-21 15:40",
+        "lat": 45.519078,
+        "lon": -73.577781,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.582161,
+          45.522511
+        ]
+      },
+      "properties": {
+        "photo": "IMG_4939.HEIC",
+        "image": "photos/IMG_4939.jpg",
+        "date": "2025-06-24 20:43",
+        "lat": 45.522511,
+        "lon": -73.582161,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.582183,
+          45.522481
+        ]
+      },
+      "properties": {
+        "photo": "IMG_4948.HEIC",
+        "image": "photos/IMG_4948.jpg",
+        "date": "2025-06-24 20:47",
+        "lat": 45.522481,
+        "lon": -73.582183,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578972,
+          45.523297
+        ]
+      },
+      "properties": {
+        "photo": "IMG_4954.HEIC",
+        "image": "photos/IMG_4954.jpg",
+        "date": "2025-06-24 20:52",
+        "lat": 45.523297,
+        "lon": -73.578972,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579033,
+          45.523319
+        ]
+      },
+      "properties": {
+        "photo": "IMG_4961.HEIC",
+        "image": "photos/IMG_4961.jpg",
+        "date": "2025-06-24 20:53",
+        "lat": 45.523319,
+        "lon": -73.579033,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.580986,
+          45.520603
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5228.HEIC",
+        "image": "photos/IMG_5228.jpg",
+        "date": "2025-07-02 13:13",
+        "lat": 45.520603,
+        "lon": -73.580986,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.572053,
+          45.517625
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5282.HEIC",
+        "image": "photos/IMG_5282.jpg",
+        "date": "2025-07-03 20:55",
+        "lat": 45.517625,
+        "lon": -73.572053,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581092,
+          45.521961
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5400.HEIC",
+        "image": "photos/IMG_5400.jpg",
+        "date": "2025-07-09 12:30",
+        "lat": 45.521961,
+        "lon": -73.581092,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578431,
+          45.519417
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5447.HEIC",
+        "image": "photos/IMG_5447.jpg",
+        "date": "2025-07-10 15:53",
+        "lat": 45.519417,
+        "lon": -73.578431,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.584847,
+          45.523711
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5911.HEIC",
+        "image": "photos/IMG_5911.jpg",
+        "date": "2025-07-27 13:48",
+        "lat": 45.523711,
+        "lon": -73.584847,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.586556,
+          45.517789
+        ]
+      },
+      "properties": {
+        "photo": "IMG_6037.HEIC",
+        "image": "photos/IMG_6037.jpg",
+        "date": "2025-07-30 15:48",
+        "lat": 45.517789,
+        "lon": -73.586556,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.570703,
+          45.517569
+        ]
+      },
+      "properties": {
+        "photo": "IMG_6155.HEIC",
+        "image": "photos/IMG_6155.jpg",
+        "date": "2025-08-05 12:15",
+        "lat": 45.517569,
+        "lon": -73.570703,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.576881,
+          45.519322
+        ]
+      },
+      "properties": {
+        "photo": "IMG_6192.HEIC",
+        "image": "photos/IMG_6192.jpg",
+        "date": "2025-08-06 12:05",
+        "lat": 45.519322,
+        "lon": -73.576881,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.598892,
+          45.523625
+        ]
+      },
+      "properties": {
+        "photo": "IMG_6314.HEIC",
+        "image": "photos/IMG_6314.jpg",
+        "date": "2025-08-12 15:44",
+        "lat": 45.523625,
+        "lon": -73.598892,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.580789,
+          45.515361
+        ]
+      },
+      "properties": {
+        "photo": "IMG_6364.HEIC",
+        "image": "photos/IMG_6364.jpg",
+        "date": "2025-08-14 16:39",
+        "lat": 45.515361,
+        "lon": -73.580789,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.580078,
+          45.518514
+        ]
+      },
+      "properties": {
+        "photo": "IMG_6699.HEIC",
+        "image": "photos/IMG_6699.jpg",
+        "date": "2025-08-31 14:51",
+        "lat": 45.518514,
+        "lon": -73.580078,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.573028,
+          45.520306
+        ]
+      },
+      "properties": {
+        "photo": "IMG_6953.HEIC",
+        "image": "photos/IMG_6953.jpg",
+        "date": "2025-09-07 11:54",
+        "lat": 45.520306,
+        "lon": -73.573028,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.570428,
+          45.517792
+        ]
+      },
+      "properties": {
+        "photo": "IMG_7039.heic",
+        "image": "photos/IMG_7039.jpg",
+        "date": "2025-09-12 10:43",
+        "lat": 45.517792,
+        "lon": -73.570428,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.582589,
+          45.521275
+        ]
+      },
+      "properties": {
+        "photo": "IMG_7122.HEIC",
+        "image": "photos/IMG_7122.jpg",
+        "date": "2025-09-15 11:59",
+        "lat": 45.521275,
+        "lon": -73.582589,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.586328,
+          45.517697
+        ]
+      },
+      "properties": {
+        "photo": "IMG_7387.HEIC",
+        "image": "photos/IMG_7387.jpg",
+        "date": "2025-09-26 15:46",
+        "lat": 45.517697,
+        "lon": -73.586328,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.582664,
+          45.516025
+        ]
+      },
+      "properties": {
+        "photo": "IMG_7410.HEIC",
+        "image": "photos/IMG_7410.jpg",
+        "date": "2025-09-26 15:54",
+        "lat": 45.516025,
+        "lon": -73.582664,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581964,
+          45.515728
+        ]
+      },
+      "properties": {
+        "photo": "IMG_7413.heic",
+        "image": "photos/IMG_7413.jpg",
+        "date": "2025-09-26 15:55",
+        "lat": 45.515728,
+        "lon": -73.581964,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581169,
+          45.520942
+        ]
+      },
+      "properties": {
+        "photo": "IMG_7491.heic",
+        "image": "photos/IMG_7491.jpg",
+        "date": "2025-09-29 14:11",
+        "lat": 45.520942,
+        "lon": -73.581169,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.570244,
+          45.517789
+        ]
+      },
+      "properties": {
+        "photo": "IMG_1458.HEIC",
+        "image": "photos/IMG_1458.jpg",
+        "date": "2026-04-02 18:27",
+        "lat": 45.517789,
+        "lon": -73.570244,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.576789,
+          45.516781
+        ]
+      },
+      "properties": {
+        "photo": "IMG_1993.HEIC",
+        "image": "photos/IMG_1993.jpg",
+        "date": "2026-04-26 15:50",
+        "lat": 45.516781,
+        "lon": -73.576789,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.610261,
+          45.537972
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2073.HEIC",
+        "image": "photos/IMG_2073.jpg",
+        "date": "2026-04-29 17:51",
+        "lat": 45.537972,
+        "lon": -73.610261,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.562303,
+          45.535586
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2090.HEIC",
+        "image": "photos/IMG_2090.jpg",
+        "date": "2026-04-30 13:18",
+        "lat": 45.535586,
+        "lon": -73.562303,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.582506,
+          45.519767
+        ]
+      },
+      "properties": {
+        "photo": "FullSizeRender 2.HEIC",
+        "image": "photos/FullSizeRender 2.jpg",
+        "date": "2026-04-30 18:38",
+        "lat": 45.519767,
+        "lon": -73.582506,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577256,
+          45.518836
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2139.HEIC",
+        "image": "photos/IMG_2139.jpg",
+        "date": "2026-05-01 11:57",
+        "lat": 45.518836,
+        "lon": -73.577256,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.570647,
+          45.517617
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2313.HEIC",
+        "image": "photos/IMG_2313.jpg",
+        "date": "2026-05-12 16:48",
+        "lat": 45.517617,
+        "lon": -73.570647,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5961,
+          45.525936
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2451.HEIC",
+        "image": "photos/IMG_2451.jpg",
+        "date": "2026-05-18 14:54",
+        "lat": 45.525936,
+        "lon": -73.5961,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.591492,
+          45.519725
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2493.HEIC",
+        "image": "photos/IMG_2493.jpg",
+        "date": "2026-05-18 16:11",
+        "lat": 45.519725,
+        "lon": -73.591492,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.576814,
+          45.516761
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2504.HEIC",
+        "image": "photos/IMG_2504.jpg",
+        "date": "2026-05-19 18:41",
+        "lat": 45.516761,
+        "lon": -73.576814,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581978,
+          45.515889
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2628.HEIC",
+        "image": "photos/IMG_2628.jpg",
+        "date": "2026-05-24 16:45",
+        "lat": 45.515889,
+        "lon": -73.581978,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.58175,
+          45.521175
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2803.HEIC",
+        "image": "photos/IMG_2803.jpg",
+        "date": "2026-06-01 17:51",
+        "lat": 45.521175,
+        "lon": -73.58175,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579011,
+          45.523247
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2811.HEIC",
+        "image": "photos/IMG_2811.jpg",
+        "date": "2026-06-01 18:10",
+        "lat": 45.523247,
+        "lon": -73.579011,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.574197,
+          45.520789
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2821.heic",
+        "image": "photos/IMG_2821.jpg",
+        "date": "2026-06-01 18:21",
+        "lat": 45.520789,
+        "lon": -73.574197,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577514,
+          45.518119
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2850.HEIC",
+        "image": "photos/IMG_2850.jpg",
+        "date": "2026-06-01 18:34",
+        "lat": 45.518119,
+        "lon": -73.577514,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578194,
+          45.526097
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2972.HEIC",
+        "image": "photos/IMG_2972.jpg",
+        "date": "2026-06-05 14:24",
+        "lat": 45.526097,
+        "lon": -73.578194,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.592094,
+          45.524453
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3222.HEIC",
+        "image": "photos/IMG_3222.jpg",
+        "date": "2026-06-15 15:13",
+        "lat": 45.524453,
+        "lon": -73.592094,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.582939,
+          45.516
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3411.HEIC",
+        "image": "photos/IMG_3411.jpg",
+        "date": "2026-06-28 17:18",
+        "lat": 45.516,
+        "lon": -73.582939,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.57685,
+          45.519386
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3667.HEIC",
+        "image": "photos/IMG_3667.jpg",
+        "date": "2026-07-13 17:45",
+        "lat": 45.519386,
+        "lon": -73.57685,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.589828,
+          45.521206
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3747.HEIC",
+        "image": "photos/IMG_3747.jpg",
+        "date": "2026-07-17 19:52",
+        "lat": 45.521206,
+        "lon": -73.589828,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.589767,
+          45.521192
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3752.HEIC",
+        "image": "photos/IMG_3752.jpg",
+        "date": "2026-07-17 19:53",
+        "lat": 45.521192,
+        "lon": -73.589767,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.594575,
+          45.522994
+        ]
+      },
+      "properties": {
+        "photo": "IMG_3766.HEIC",
+        "image": "photos/IMG_3766.jpg",
+        "date": "2026-07-17 20:02",
+        "lat": 45.522994,
+        "lon": -73.594575,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.586556,
+          45.474289
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5036.HEIC",
+        "image": "photos/IMG_5036.jpg",
+        "date": "2026-08-25 12:50",
+        "lat": 45.474289,
+        "lon": -73.586556,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.588272,
+          45.523422
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5501.HEIC",
+        "image": "photos/IMG_5501.jpg",
+        "date": "2026-09-26 16:55",
+        "lat": 45.523422,
+        "lon": -73.588272,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.586731,
+          45.529969
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5504.HEIC",
+        "image": "photos/IMG_5504.jpg",
+        "date": "2026-09-26 19:24",
+        "lat": 45.529969,
+        "lon": -73.586731,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.576125,
+          45.516858
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5703.jpeg",
+        "image": "photos/IMG_5703.jpg",
+        "date": "2026-10-07 17:25",
+        "lat": 45.516858,
+        "lon": -73.576125,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.601503,
+          45.521767
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5938.HEIC",
+        "image": "photos/IMG_5938.jpg",
+        "date": "2026-10-19 12:12",
+        "lat": 45.521767,
+        "lon": -73.601503,
+        "name": "",
+        "category": "Cat",
+        "description": "Friendly cat always outside Mordecai Richler Library, nice place to take a pause, read a book, meet this friend"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.584253,
+          45.516772
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5947.HEIC",
+        "image": "photos/IMG_5947.jpg",
+        "date": "2026-10-19 13:26",
+        "lat": 45.516772,
+        "lon": -73.584253,
+        "name": "",
+        "category": "Cat",
+        "description": ""
+      }
+    }
+  ]
+}

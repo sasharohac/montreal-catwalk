@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     index.html = STRUCTURE: the words and the order they appear in.
+     Change this file to add or reword text, add a section, or add a link.
+     (Colours and layout live in style.css; the map's behaviour lives in app.js.)
+     ============================================================ -->
+
+<!-- HEAD: setup the visitor doesn't see -->
+<head>
+  <!-- Display text correctly and fit the page to phone screens -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Text shown on the browser tab -->
+  <title>The Montréal CatWalk</title>
+
+  <!-- Leaflet's styles for the map (its code is loaded at the bottom of the page) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <!-- Our own styles; loaded after Leaflet's so they can override its defaults -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<!-- BODY: this is what appears on tha screen....hmmmm  -->
+<body>
+  <!-- Two columns: the story on the left, the map on the right (one column on a phone) -->
+  <div class="page">
+    <main class="story">
+
+      <!-- 1. Title: what the map shows -->
+      <h1>The Montréal CatWalk</h1>
+
+      <!-- 2. Lede: why it matters, for this place -->
+      <p class="lede">Between the traffic and the noise, Montréal has hidden places where the non-human world takes over. This map leads you to them one cat at a time, through green alleys and gardens, with somewhere to drink and cool down when the city gets too hot!</p>
+
+      <!-- 3. This map is for: the audience -->
+      <p><strong>This map is for</strong> Montrealers who need a break from the noise and want a short nature walk close to home, no car or trip to the mountain required.</p>
+      <p><span class="stat">City dwellers are about 39% more likely to experience mood disorders like depression, and 21% more likely to have anxiety disorders, than people in rural areas.</span> A cat, a garden, or a quiet space won’t fix that, but they’re a good place to start.</p>
+
+      <!-- 4. What you can do here: the core action, as an instruction -->
+      <p><strong>What you can do here:</strong> Find a cat near you and click it to meet them. Then switch on the green alleys, community gardens, water fountains and free air-conditioned places, and plan a wandering walk from one cat to the next. Maybe stop for water along the way.</p>
+
+      <!-- Map key: every colour on the map also has a text label (the layer switcher uses the same names) -->
+      <ul class="legend" aria-label="Map key">
+        <li><img src="icons/cat.png" alt="" width="14" height="16"> Cats </li>
+        <li>Green alleys, by distance to the nearest cat:
+          <!-- These five colours and breaks must match alleyColour() in app.js -->
+          <ul class="legend-classes">
+            <li><span class="swatch alley d1"></span> under 100 m</li>
+            <li><span class="swatch alley d2"></span> 100 to 249 m (under 3 min walk)</li>
+            <li><span class="swatch alley d3"></span> 250 to 499 m (under 6 min)</li>
+            <li><span class="swatch alley d4"></span> 500 to 999 m (under 12 min)</li>
+            <li><span class="swatch alley d5"></span> 1 km or more</li>
+          </ul>
+        </li>
+        <li><span class="swatch dot fountain"></span> Water fountains</li>
+        <li><span class="swatch dot garden"></span> Communal gardens</li>
+        <li><span class="swatch dot cool"></span> Free AC (cool places)</li>
+      </ul>
+
+      <!-- Status line: app.js replaces "Loading cats…" with the number of cats once they load -->
+      <p id="status">Loading cats…</p>
+      <p><a href="gallery.html">See every cat in the photo gallery</a></p>
+
+      <!-- 6. Not in this iteration: what was cut, and why -->
+      <section>
+        <h2>Not in this iteration</h2>
+        <p>There are no suggested walking routes yet. Eventually a set route from a starting point of the user’s choice would be cool… or a collaborative aspect.</p>
+      </section>
+
+      <!-- 7. Where this comes from: every source, linked, with publisher, licence and date accessed -->
+      <section>
+        <h2>Where this comes from</h2>
+        <ul class="sources">
+          <li>Cat photos: my own, taken around Montréal.</li>
+          <li>City and mental health statistics: <a href="https://www.camh.ca/en/camh-news-and-stories/nature-can-have-a-nurturing-effect-on-your-mental-health">Nature can have a nurturing effect on your mental health</a>, Centre for Addiction and Mental Health (CAMH), published 8 July 2016, © CAMH, accessed 19 October 2026.</li>
+          <li><a href="https://www.donneesquebec.ca/recherche/dataset/vmtl-ruelles-vertes">Ruelles vertes (green alleys)</a>, Ville de Montréal, CC BY 4.0, accessed 23 September 2026. The city updates this dataset every autumn.</li>
+          <li><a href="https://www.donneesquebec.ca/recherche/dataset/vmtl-jardins-communautaires">Jardins communautaires (community gardens)</a>, Ville de Montréal, CC BY 4.0, accessed 30 September 2026.</li>
+          <li><a href="https://www.donneesquebec.ca/recherche/dataset/vmtl-fontaines-a-boire-eau-exterieures">Fontaines à boire extérieures (outdoor drinking fountains)</a>, Ville de Montréal, CC BY 4.0, accessed 30 September 2026.</li>
+          <li><a href="https://www.donneesquebec.ca/recherche/dataset/vmtl-lieux-publics-climatises">Lieux publics climatisés (air-conditioned public places)</a>, Ville de Montréal, CC BY 4.0, accessed 30 September 2026.</li>
+          <li>Base map: <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, ODbL</a>.</li>
+          <li>Cat paw animation on the gallery page: <a href="https://tenor.com/view/whitepaw-cute-paws-paw-white-gif-9808874833446807951">White paw GIF</a>, via Tenor, accessed 21 October 2026.</li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- 5. The map: an empty box that app.js fills with the Leaflet map -->
+    <div id="map"></div>
+  </div>
+
+  <!-- Scripts last, so everything above already exists when they run:
+       first Leaflet (gives us the L. functions), then our own map code -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+/* Gallery page: scrolls normally, on the same off-white background as the map's cards */
+body.gallery-page {
+  height: auto;
+  background: var(--paper);
+}
+
+/* Header: back link, title and status line */
+.gallery-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 8px;
+}
+
+.back-link {
+  color: var(--muted);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--pink);
+}
+
+.gallery-header h1 {
+  margin: 12px 0 0;
+  font-size: 44px;
+  font-weight: 300; /* light, same as the map title */
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--pink);
+}
+
+.gallery-header p {
+  margin: 6px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.gallery-header p.error {
+  color: #b3261e;
+}
+
+/* The photos */
+#gallery {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+/* One heading per month, e.g. "July 2026" */
+.month h2 {
+  margin: 32px 0 12px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+/* Grid of photo cards: as many 200px-wide columns as fit the screen */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* One card: square photo on top, date and "Show on map" underneath */
+.card {
+  margin: 0;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(31, 30, 26, 0.1);
+  scroll-margin-top: 80px;
+}
+
+/* Square thumbnails, cropped (not squashed); the fixed shape stops the page jumping as photos load */
+.card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: var(--paper);
+}
+
+/* Shown instead of the photo when the image file is missing */
+.card .missing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  padding: 16px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.card figcaption {
+  padding: 10px 14px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.card figcaption strong {
+  display: block;
+}
+
+.map-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--pink);
+  text-decoration: none;
+}
+
+.map-link:hover {
+  text-decoration: underline;
+}
+
+/* "Show on map" and "Expand" side by side under each photo */
+.card-links {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+
+/* "Expand" is a button (it does something on this page) but looks like the map link */
+.expand-link {
+  margin-top: 4px;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--pink);
+  cursor: pointer;
+}
+
+.expand-link:hover {
+  text-decoration: underline;
+}
+
+/* Thumbnails can be clicked to expand them too */
+.card img {
+  cursor: zoom-in;
+}
+
+/* The photo you clicked on the map: pink outline that fades out */
+.card.highlight {
+  animation: highlight 2.5s ease-out;
+}
+
+@keyframes highlight {
+  0%, 40% { box-shadow: 0 0 0 4px var(--pink); }
+  100% { box-shadow: 0 2px 12px rgba(31, 30, 26, 0.1); }
+}
+
+/* Phones: smaller title, two columns of smaller cards */
+@media (max-width: 500px) {
+  .gallery-header h1 { font-size: 32px; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .card figcaption { padding: 8px 10px 10px; font-size: 13px; }
+}
+
+/* Lightbox: fills the window; the page behind is dimmed by ::backdrop */
+.lightbox {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.lightbox::backdrop {
+  background: rgba(20, 20, 18, 0.88);
+}
+
+.lightbox figure {
+  margin: 0;
+  text-align: center;
+}
+
+/* The big photo: as large as fits, never stretched or cropped */
+#lb-img {
+  display: block;
+  max-width: min(1200px, calc(100vw - 180px));
+  max-height: calc(100vh - 120px);
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.lightbox figcaption {
+  margin-top: 12px;
+  color: #f4f4f2;
+  font-size: 15px;
+}
+
+.lightbox figcaption .map-link {
+  margin-left: 12px;
+  font-size: 15px;
+}
+
+/* Round white buttons: close (top right), previous and next (either side of the photo) */
+.lb-button {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  font: 20px/44px var(--font);
+  cursor: pointer;
+}
+
+.lb-button:hover {
+  background: #fff;
+}
+
+.lb-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+/* Phones: photo uses the full width; arrows move to the bottom corners */
+@media (max-width: 500px) {
+  #lb-img { max-width: calc(100vw - 24px); max-height: calc(100vh - 160px); }
+  .lb-prev, .lb-next { position: absolute; bottom: 16px; }
+  .lb-prev { left: 16px; }
+  .lb-next { right: 16px; }
+}
