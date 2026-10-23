@@ -104,8 +104,10 @@ What I changed: each city dataset was cut down to the columns the popups show, w
 ---
 ## After the demo
 - At my demo, Everything went pretty smoothly, just working on fully understanding and grasping each line taking it step by step. Also going to work on adding a gradient to the alleyways depending on how close they are to a reported cat, which is what I will accomplish in lab #5 today. 
-I add
 
+## Suggestions from a classmate 
+- Leo reviewed my site, and he critiques the color gradient of the alleys in relation to the nearest cat, the green gradient is not super evident especially considering that the alleys are so thin. 
+Going forward, I'm not sure if i want this  feature on my final map because it doesn't necessarily add to what I am trying to do.... 
 
 
 ## Test evidence
