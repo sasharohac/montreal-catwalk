@@ -135,14 +135,15 @@ My edge case is a ___starting point outside the walking network or with no mappe
 - **Handler:** `showWalk()` (line 405) reads the start, length and theme, and finds the matching walk.
 - **Update:** `walkLayer.clearLayers()` (line 406) removes the old route, `L.geoJSON(walk, ...)` (line 422) draws the new one, and `walkSummary.innerHTML` (line 428) writes the summary.
 
-Test 1. Type a starting point (maybe just, mont-royal metro ,  and laurier metro  and laurier park as options for now), in the starting box and choose 3km. 
-Expected: A route is drawn on the map from that point. A summary shows the walks length , and lists the cats, green alleys, fountains and gardens it will pass. 
-**Result: passed, with one difference.** The start is picked from a menu, not typed. Métro Mont-Royal, 3 km, Cat walk draws a pink dashed loop from the metro and back. The summary says "3.0 km loop", then 24 cats, 7 m of green alleys, 0 community gardens and 2 water fountains. It gives how many of each, not their names.
+**Test 1**. 
+   Type a starting point (maybe just, mont-royal metro ,  and laurier metro  and laurier park as options for now), in the starting box and choose 3km. 
+   **Expected**: A route is drawn on the map from that point. A summary shows the walks length , and lists the cats, green alleys, fountains and gardens it will pass. 
+   **Result: passed, with one difference.** The start is picked from a menu, not typed. Métro Mont-Royal, 3 km, Cat walk draws a pink dashed loop from the metro and back. The summary says "3.0 km loop", then 24 cats, 7 m of green alleys, 0 community gardens and 2 water fountains. It gives how many of each, not their names.
 
-Test 2. I keep the same starting point, but switch it to  2km or 5km 
-Expected: The old route disappears and a new one is drawn each time. 
-**Result: passed.** Each change removes the old loop and draws the new one, and the summary updates to match, for every start and both themes. For example, Métro Mont-Royal Cat walk: 2 km = "2.1 km loop", 21 cats; 3 km = "3.0 km loop", 24 cats; 5 km = "4.9 km loop", 27 cats.
+**Test 2**. I keep the same starting point, but switch it to  2km or 5km 
+   **Expected**: The old route disappears and a new one is drawn each time. 
+   **Result: passed.** Each change removes the old loop and draws the new one, and the summary updates to match, for every start and both themes. For example, Métro Mont-Royal Cat walk: 2 km = "2.1 km loop", 21 cats; 3 km = "3.0 km loop", 24 cats; 5 km = "4.9 km loop", 27 cats.
 
-Test 3. I type a starting point outsdie the walking network or far from nay mapped feature (like ottawa), 
-Expected: no route is drawn, and a message like "sorry no cats or green places iwthin 2km of this spot, try another adress" 
-**Result: failed.** The start is a menu with only three choices, so there is no way to type "Ottawa" and no message appears. Next step: change the menu into a box you can type in, with the three starts as suggestions, and show the "sorry" message for anything else.
+**Test 3**. I type a starting point outsdie the walking network or far from nay mapped feature (like ottawa), 
+   **Expected**: no route is drawn, and a message like "sorry no cats or green places iwthin 2km of this spot, try another adress" 
+   **Result: failed.** The start is a menu with only three choices, so there is no way to type "Ottawa" and no message appears. Next step: change the menu into a box you can type in, with the three starts as suggestions, and show the "sorry" message for anything else.
