@@ -118,3 +118,10 @@ Going forward, I'm not sure if i want this  feature on my final map because it d
 - [x] Checked on a narrow window: the map moves below the story.
 - [x] If the cat data fails to load, the status line turns red and says which file is missing.
 - [x] All notebook check cells pass (feature count, coordinates in longitude and latitude, inside Montréal, under 5 MB).
+
+# A3 Feature to be added 
+## A3 feature: Custom cat walks
+For A3 I will add a starting-point box and 100 m, 300 m, and 500 m route options, so that my reader can build a cat walk that visits as many nearby cats, green alleys, water fountains, and gardens as possible.
+It has depth because it computes a walking route from the reader's chosen starting point and responds to the selected distance.
+I will know it works when each option draws a route from the chosen start and shows the mapped cats and places the walk passes.
+My edge case is a starting point outside the walking network or with no mapped features nearby.
