@@ -58,11 +58,41 @@
         <li><span class="swatch dot fountain"></span> Water fountains</li>
         <li><span class="swatch dot garden"></span> Communal gardens</li>
         <li><span class="swatch dot cool"></span> Free AC (cool places)</li>
+        <li><span class="swatch walk"></span> Suggested walk</li>
       </ul>
 
       <!-- Status line: app.js replaces "Loading cats…" with the number of cats once they load -->
       <p id="status">Loading cats…</p>
       <p><a href="gallery.html">See every cat in the photo gallery</a></p>
+
+      <!-- Suggested walks: app.js (section 10) moves this box into the map's bottom left corner
+           and draws the walk chosen in the menus. The walks are planned in walks_pipeline.ipynb. -->
+      <section id="walk-box" class="walk-box">
+        <h2>Suggested walks</h2>
+        <form id="walk-form">
+          <label for="walk-start">Start at</label>
+          <!-- These values must match the "start" names in data/walks.geojson -->
+          <select id="walk-start">
+            <option value="">Choose a start…</option>
+            <option value="Métro Mont-Royal">Métro Mont-Royal</option>
+            <option value="Métro Laurier">Métro Laurier</option>
+            <option value="Parc Laurier">Parc Laurier</option>
+          </select>
+          <label for="walk-km">Length</label>
+          <select id="walk-km">
+            <option value="2" selected>2 km</option>
+            <option value="3">3 km</option>
+            <option value="5">5 km</option>
+          </select>
+          <label for="walk-theme">Theme</label>
+          <select id="walk-theme">
+            <option value="cats" selected>Cat walk (most cats)</option>
+            <option value="nature">Nature walk (most green alleys)</option>
+          </select>
+        </form>
+        <!-- What the walk passes, or a "sorry" message; read aloud by screen readers when it changes -->
+        <div id="walk-summary" aria-live="polite">Loading walks…</div>
+      </section>
 
       <!-- 6. Not in this iteration: what was cut, and why -->
       <section>

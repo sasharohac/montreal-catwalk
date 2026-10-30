@@ -119,9 +119,30 @@ Going forward, I'm not sure if i want this  feature on my final map because it d
 - [x] If the cat data fails to load, the status line turns red and says which file is missing.
 - [x] All notebook check cells pass (feature count, coordinates in longitude and latitude, inside Montréal, under 5 MB).
 
-# A3 Feature to be added 
 ## A3 feature: Custom cat walks
-For A3 I will add a starting-point box and 100 m, 300 m, and 500 m route options, so that my reader can build a cat walk that visits as many nearby cats, green alleys, water fountains, and gardens as possible.
-It has depth because it computes a walking route from the reader's chosen starting point and responds to the selected distance.
-I will know it works when each option draws a route from the chosen start and shows the mapped cats and places the walk passes.
-My edge case is a starting point outside the walking network or with no mapped features nearby.
+For A3 I will add a starting-point box and 2km, 3km, and 5km___ route options, so that my reader __can build a cat walk that visits as many nearby cats, or an option that focuses more on nature walk. 
+
+It has depth because ___it computes a walking route from the reader's chosen starting point and responds to the selected distance____
+
+I will know it works when ____each option draws a route from the chosen start and shows the mapped cats and places the walk passes____
+
+My edge case is a ___starting point outside the walking network or with no mapped features nearby.____
+
+## TESTS 
+
+**Inspection (before testing):** the code uses my real file, `data/walks.geojson`, and its real property names, checked with `print(walks.columns.tolist())`: `start`, `km`, `theme`, `length_km`, `cats`, `green_m`, `gardens`, `fountains`. No library was added (only Leaflet, as before). Nothing that already worked was rewritten: the walk box is a new section 10 at the end of `app.js`.
+- **Event:** `walkForm.addEventListener("change", showWalk)` (`app.js` line 438), fired when any of the three menus changes.
+- **Handler:** `showWalk()` (line 405) reads the start, length and theme, and finds the matching walk.
+- **Update:** `walkLayer.clearLayers()` (line 406) removes the old route, `L.geoJSON(walk, ...)` (line 422) draws the new one, and `walkSummary.innerHTML` (line 428) writes the summary.
+
+Test 1. Type a starting point (maybe just, mont-royal metro ,  and laurier metro  and laurier park as options for now), in the starting box and choose 3km. 
+Expected: A route is drawn on the map from that point. A summary shows the walks length , and lists the cats, green alleys, fountains and gardens it will pass. 
+**Result: passed, with one difference.** The start is picked from a menu, not typed. Métro Mont-Royal, 3 km, Cat walk draws a pink dashed loop from the metro and back. The summary says "3.0 km loop", then 24 cats, 7 m of green alleys, 0 community gardens and 2 water fountains. It gives how many of each, not their names.
+
+Test 2. I keep the same starting point, but switch it to  2km or 5km 
+Expected: The old route disappears and a new one is drawn each time. 
+**Result: passed.** Each change removes the old loop and draws the new one, and the summary updates to match, for every start and both themes. For example, Métro Mont-Royal Cat walk: 2 km = "2.1 km loop", 21 cats; 3 km = "3.0 km loop", 24 cats; 5 km = "4.9 km loop", 27 cats.
+
+Test 3. I type a starting point outsdie the walking network or far from nay mapped feature (like ottawa), 
+Expected: no route is drawn, and a message like "sorry no cats or green places iwthin 2km of this spot, try another adress" 
+**Result: failed.** The start is a menu with only three choices, so there is no way to type "Ottawa" and no message appears. Next step: change the menu into a box you can type in, with the three starts as suggestions, and show the "sorry" message for anything else.
