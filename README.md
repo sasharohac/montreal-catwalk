@@ -155,19 +155,11 @@ Test 3: still dont have an option to insert my own location, so test 3 still rea
 ## Pre-flight report (Lab 7)
 | Check | Result | What I did |
 | --- | --- | --- |
-| 1. Cold start | pass / fault: 
-      - received this error message at first in incognito: Failed to load resource: the server responded with a status of 404 () - upon refresh it is no longer there? and upon further investigation it was. a tile missing from my OSM and now seems to be all good. 
-| 2. Read every label 
-      Passed with flying colors. 
-| 3. Ask twice 
-      -PASS yes, if you click on one cat and then another, the first cat popup disapears. same with the routes. 
-| 4. The edge 
-      - PASS dont have an option to put in my own starting point, so works great no errors yet. 
-| 5. The data does not come 
-      If one of the data files gets blocked or an error with it, a message pops up: "Sorry, some layers couldn't load: Communal Gardens. Try reloading the page". It also gets greyed out in the legend and is marked as wont load. 
-| 6. On a phone (size view and my phone) 
-      On my phone, the site looks great, the only problem is that the legend was underneath all the text and not the mapframe, so I changed that accordingly. 
-| 7. Mouse in my pocket 
-      PASS - goes through every "clickable" button, including all of the cats / data points which is useful. 
-| 8. Accessibility audit 
-      PASS - got a 100%. 
+| 1. Cold start | pass | In incognito I first got "Failed to load resource: the server responded with a status of 404 ()". It was one missing OpenStreetMap tile (`tile.openstreetmap.org/14/4842/5858.png`), not one of my files, and it was gone on refresh. Nothing to fix: known issue on OSM's side. |
+| 2. Read every label | pass | Passed with flying colours! No changes needed. |
+| 3. Ask twice | pass | Clicking one cat and then another closes the first popup. Same with the walks: picking a new one erases the old route. No changes needed. |
+| 4. The edge | pass | There's no way to type my own starting point yet (only a menu of three starts), so no errors. Known issue: a typed start box with a "sorry" message is the next step (see Test 3). |
+| 5. The data does not come | fault, now fixed | Blocking a GeoJSON in the Network tab made its layer silently disappear. Now a red notice appears on the map ("Sorry, some layers couldn't load: Communal gardens. Try reloading the page."), and the layer stays in the layer switcher, greyed out and marked "couldn't load". Error messages were also reworded for readers. Fixed in commits "error messages update" and "Updated error messages for missing data". |
+| 6. On a phone (size view and my phone) | fault, now fixed | Looks great on my phone, except the legend was under all the text instead of right under the map frame, so I moved it. I also swapped the generic layers icon for the white paw with "Layers" under it. Fixed in commits "moved legend to below map frame" and "changed legend pop up & readme". |
+| 7. Mouse in my pocket | pass | Tab goes through every clickable button, including all of the cats and data points, which is useful. No changes needed. |
+| 8. Accessibility audit | pass | Lighthouse accessibility score: 100 (up from 96 on 10/21/26). |
