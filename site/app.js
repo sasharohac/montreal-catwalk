@@ -237,7 +237,8 @@ map.on("popupopen", (e) => {
   img.addEventListener("error", () => {
     const note = document.createElement("div");
     note.className = "popup-missing";
-    note.textContent = `Photo not found: site/${img.getAttribute("src")}. Run step 6 of photos_to_csv.ipynb.`;
+    console.error(`Photo not found: site/${img.getAttribute("src")}. Run step 6 of photos_to_csv.ipynb.`);
+    note.textContent = "Sorry, this cat's photo couldn't be loaded.";
     img.replaceWith(note);
   }, { once: true });
   img.addEventListener("load", () => e.popup.update(), { once: true }); // resize popup to fit the photo
@@ -247,6 +248,20 @@ map.on("popupopen", (e) => {
 // ---------- 5. Load the cats (shown when the map opens) ----------
 // The status line under the story ("Loading cats…")
 const status = document.getElementById("status");
+
+// When one of the extra layers (alleys, fountains, gardens, cool places) fails to load, the rest of
+// the map still works, but the reader should know that layer is missing rather than wonder where it went.
+// This shows a red line under the status naming every layer that failed, and logs the fix in the console.
+const layerErrors = document.getElementById("layer-errors");
+const failedLayers = [];
+function layerFailed(name, url, fix, err) {
+  console.error(`Couldn't load ${url}. ${fix}`, err);
+  failedLayers.push(name);
+  layerErrors.textContent =
+    `Some map layers couldn't load, so they're missing from the map: ${failedLayers.join(", ")}. ` +
+    "Try reloading the page.";
+  layerErrors.hidden = false;
+}
 
 // Download the GeoJSON file; stop with an error if the server says it is missing
 fetch(DATA_URL)
@@ -292,13 +307,13 @@ fetch(DATA_URL)
       document.getElementById("map").scrollIntoView({ behavior: "smooth" });
     }
   })
-  // If anything above failed, turn the status line red and explain how to fix it
+  // If anything above failed, turn the status line red and tell the reader; log the fix in the console
   .catch((err) => {
-    console.error(err);
+    console.error(`Couldn't load ${DATA_URL}. Run mvp_pipeline.ipynb to create it, then open this page with Live Server.`, err);
     status.className = "error";
     status.textContent =
-      `Couldn't load ${DATA_URL}. Run mvp_pipeline.ipynb to create it, ` +
-      "then open this page with Live Server.";
+      "Sorry, the cats couldn't be loaded, so the map has no cat pins right now. " +
+      "Try reloading the page in a minute.";
   });
 
 
@@ -318,9 +333,9 @@ fetch(ALLEYS_URL)
     }).addTo(map);
     layerSwitcher.addOverlay(alleys, "Green alleys");
   })
-  // If the alleys fail, the cats still work: just log why in the browser console
+  // If the alleys fail, the cats still work: tell the reader under the status line, and log the fix
   .catch((err) => {
-    console.error(`Couldn't load ${ALLEYS_URL}. Run ruelles_pipeline.ipynb, then ruelles_cat_distance.ipynb, to create it.`, err);
+    layerFailed("green alleys", ALLEYS_URL, "Run ruelles_pipeline.ipynb, then ruelles_cat_distance.ipynb, to create it.", err);
   });
 
 
@@ -340,9 +355,9 @@ fetch(FOUNTAINS_URL)
     });
     layerSwitcher.addOverlay(fountains, "Water fountains");
   })
-  // If the fountains fail, the rest of the map still works: just log why in the browser console
+  // If the fountains fail, the rest of the map still works: tell the reader under the status line, and log the fix
   .catch((err) => {
-    console.error(`Couldn't load ${FOUNTAINS_URL}. Run fountains_pipeline.ipynb to create it.`, err);
+    layerFailed("water fountains", FOUNTAINS_URL, "Run fountains_pipeline.ipynb to create it.", err);
   });
 
 
@@ -362,9 +377,9 @@ fetch(GARDENS_URL)
     });
     layerSwitcher.addOverlay(gardens, "Communal gardens");
   })
-  // If the gardens fail, the rest of the map still works: just log why in the browser console
+  // If the gardens fail, the rest of the map still works: tell the reader under the status line, and log the fix
   .catch((err) => {
-    console.error(`Couldn't load ${GARDENS_URL}. Run gardens_pipeline.ipynb to create it.`, err);
+    layerFailed("communal gardens", GARDENS_URL, "Run gardens_pipeline.ipynb to create it.", err);
   });
 
 
@@ -384,9 +399,9 @@ fetch(COOL_URL)
     });
     layerSwitcher.addOverlay(coolPlaces, "Free AC (cool places)");
   })
-  // If the cool places fail, the rest of the map still works: just log why in the browser console
+  // If the cool places fail, the rest of the map still works: tell the reader under the status line, and log the fix
   .catch((err) => {
-    console.error(`Couldn't load ${COOL_URL}. Run ac_pipeline.ipynb to create it.`, err);
+    layerFailed("free AC places", COOL_URL, "Run ac_pipeline.ipynb to create it.", err);
   });
 
 
@@ -478,5 +493,5 @@ fetch(WALKS_URL)
   // If the walks fail, the rest of the map still works: say so in the box and log why
   .catch((err) => {
     console.error(`Couldn't load ${WALKS_URL}. Run walks_pipeline.ipynb to create it.`, err);
-    walkSummary.textContent = "Couldn't load the walks. Run walks_pipeline.ipynb to create them.";
+    walkSummary.textContent = "Sorry, the suggested walks couldn't be loaded. Try reloading the page.";
   });

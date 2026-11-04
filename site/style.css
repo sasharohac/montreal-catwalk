@@ -120,6 +120,12 @@ h1, h2 {
   color: #b3261e;
 }
 
+/* "Some layers couldn't load…" line under the status (hidden unless a data file fails) */
+#layer-errors {
+  color: #b3261e;
+  font-size: 16px;
+}
+
 
 /* ---------- 3. Map key (legend) and sources ---------- */
 /* Map key under "What you can do here": a coloured mark and a name for each layer */

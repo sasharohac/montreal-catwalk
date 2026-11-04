@@ -155,10 +155,14 @@ Test 3: still dont have an option to insert my own location, so test 3 still rea
 ## Pre-flight report (Lab 7)
 | Check | Result | What I did |
 | --- | --- | --- |
-| 1. Cold start | pass / fault: ... | fixed in commit "..." / known issue |
-| 2. Read every label | ... | ... |
-| 3. Ask twice | ... | ... |
-| 4. The edge | ... | ... |
+| 1. Cold start | pass / fault: 
+      - received this error message at first in incognito: Failed to load resource: the server responded with a status of 404 () - upon refresh it is no longer there? and upon further investigation it was. a tile missing from my OSM and now seems to be all good. 
+| 2. Read every label 
+      Passed with flying colors. 
+| 3. Ask twice 
+      -PASS yes, if you click on one cat and then another, the first cat popup disapears. same with the routes. 
+| 4. The edge 
+      - PASS dont have an option to put in my own starting point, so works great no errors yet. 
 | 5. The data does not come | ... | ... |
 | 6. On a phone (size view and my phone) | ... | ... |
 | 7. Mouse in my pocket | ... | ... |

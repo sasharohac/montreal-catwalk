@@ -66,6 +66,8 @@
 
       <!-- Status line: app.js replaces "Loading cats…" with the number of cats once they load -->
       <p id="status">Loading cats…</p>
+      <!-- Stays hidden unless a layer's data file fails to load; app.js (layerFailed) then names the missing layers here -->
+      <p id="layer-errors" role="alert" hidden></p>
       <p><a href="gallery.html">See every cat in the photo gallery</a></p>
 
       <!-- Suggested walks: app.js (section 10) moves this box into the map's bottom left corner
