@@ -286,8 +286,8 @@ fetch(DATA_URL)
     showWantedCat();
     window.addEventListener("hashchange", showWantedCat);
 
-    // On a phone the map sits below the whole story, so someone arriving from the
-    // gallery would only see the title. Scroll down so the map and the open popup are in view.
+    // On a phone the map sits just under the title; scroll it fully into view so
+    // someone arriving from the gallery sees the whole map and the open popup.
     if (location.hash.includes("cat=") && isPhone()) {
       document.getElementById("map").scrollIntoView({ behavior: "smooth" });
     }
@@ -413,7 +413,7 @@ const WalkBox = L.Control.extend({
 new WalkBox({ position: "bottomleft" }).addTo(map);
 
 // On a phone the open box would cover most of the map, so it starts folded into
-// just its title; tapping "Suggested walks" opens it. Opening it on a phone also folds
+// just its title; tapping "Suggested cat walks" opens it and the ✕ folds it again. Opening it on a phone also folds
 // the layer switcher, so the two boxes never sit on top of each other.
 walkBox.open = !isPhone();
 walkBox.addEventListener("toggle", () => {

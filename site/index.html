@@ -27,10 +27,13 @@
 <body>
   <!-- Two columns: the story on the left, the map on the right (one column on a phone) -->
   <div class="page">
-    <main class="story">
-
-      <!-- 1. Title: what the map shows -->
+    <!-- 1. Title: what the map shows. It sits outside the story so that on a phone
+         the map can go right under it (see "Phone layout" in style.css) -->
+    <header class="title">
       <h1>The Montréal CatWalk</h1>
+    </header>
+
+    <main class="story">
 
       <!-- 2. Lede: why it matters, for this place -->
       <p class="lede">Between the traffic and the noise, Montréal has hidden places where the non-human world takes over. This map leads you to them one cat at a time, through green alleys and gardens, with somewhere to drink and cool down when the city gets too hot!</p>
@@ -69,7 +72,9 @@
            and draws the walk chosen in the menus. The walks are planned in walks_pipeline.ipynb.
            It is a <details> box: tapping the title folds it away (app.js starts it folded on phones). -->
       <details id="walk-box" class="walk-box" open>
-        <summary><h2>Suggested walks</h2></summary>
+        <!-- The title bar: shows "▸" when folded and a round ✕ (style.css) when open.
+             Tapping anywhere on it, including the ✕, folds or unfolds the box. -->
+        <summary title="Show or hide the suggested walks"><h2>Suggested cat walks</h2></summary>
         <form id="walk-form">
           <label for="walk-start">Start at</label>
           <!-- These values must match the "start" names in data/walks.geojson -->

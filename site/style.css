@@ -55,7 +55,12 @@ h1, h2 {
 .page {
   display: grid;
   grid-template-columns: minmax(280px, 1fr) 2fr;   /* story, then a wider map */
-  gap: 24px;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "title map"
+    "story map";
+  column-gap: 24px;
+  row-gap: 0;
   max-width: 1400px;
   margin: 0 auto;
   padding: 16px;
@@ -66,12 +71,16 @@ h1, h2 {
   min-width: 0;
 }
 
+.title { grid-area: title; }
+.story { grid-area: story; }
+#map   { grid-area: map; }
+
 .story {
   font-size: 17px;
   line-height: 1.5;
 }
 
-.story h1 {
+.title h1 {
   margin: 8px 0 16px;
   font-size: 40px;
   font-weight: 300;   /* light */
@@ -179,9 +188,18 @@ h1, h2 {
 
 
 /* ---------- 5. Phone layout ---------- */
-/* One column on a phone or narrow window: story, then map */
+/* One column on a phone or narrow window: title, then map, then the story */
 @media (max-width: 800px) {
-  .page { grid-template-columns: 1fr; }
+  .page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "title"
+      "map"
+      "story";
+    row-gap: 16px;
+  }
+  .title h1 { margin-bottom: 0; }
   #map { height: 70vh; position: static; }
 }
 
@@ -300,7 +318,7 @@ h1, h2 {
 
 /* ---------- 9. Small phones: smaller title and narrower popups ---------- */
 @media (max-width: 500px) {
-  .story h1 { font-size: 32px; }
+  .title h1 { font-size: 32px; }
   .leaflet-popup-content { width: 220px !important; }
 }
 
@@ -320,21 +338,46 @@ h1, h2 {
   color: var(--text);
 }
 
-/* The title is the button that folds and unfolds the box: ▸ when folded, ▾ when open */
+/* The title bar is the button that folds and unfolds the box:
+   folded, it's a thin strip "Suggested cat walks ▸"; open, a round ✕ sits in its top right corner */
 .walk-box summary {
   list-style: none;        /* hide the browser's own triangle... */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 .walk-box summary::-webkit-details-marker { display: none; }   /* ...in Safari too */
 .walk-box summary::after {
-  content: " ▸";
+  content: "▸";
   color: var(--accent);
 }
-.walk-box[open] summary::after { content: " ▾"; }
 .walk-box[open] summary { margin-bottom: 8px; }
 
+/* The ✕, styled like the popups' close button */
+.walk-box[open] summary::after {
+  content: "✕";
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(31, 30, 26, 0.08);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 24px;
+  text-align: center;
+}
+.walk-box[open] summary:hover::after { background: rgba(31, 30, 26, 0.16); }
+
+/* Folded: the box shrinks to just the title strip */
+.walk-box:not([open]) {
+  width: auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
 .walk-box h2 {
-  display: inline;         /* so the ▸ sits right after the title */
   margin: 0;
   font-size: 18px;
   color: var(--accent);
@@ -382,5 +425,4 @@ h1, h2 {
     width: calc(100vw - 52px);   /* screen width minus the page and map edges */
     box-sizing: border-box;
   }
-  .walk-box:not([open]) { width: auto; }
 }

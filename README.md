@@ -147,3 +147,19 @@ My edge case is a ___starting point outside the walking network or with no mappe
 **Test 3**. I type a starting point outsdie the walking network or far from nay mapped feature (like ottawa), 
    **Expected**: no route is drawn, and a message like "sorry no cats or green places iwthin 2km of this spot, try another adress" 
    **Result: failed.** The start is a menu with only three choices, so there is no way to type "Ottawa" and no message appears. Next step: change the menu into a box you can type in, with the three starts as suggestions, and show the "sorry" message for anything else.
+## Running tests again - lab 7 
+Test 1 : works great, picked mont-royal, 3km, as expected it drew a route and no errors in console. 
+Test 2: works, as expected the old route gets erased, a new one with the updated route is visible on the map. 
+Test 3: still dont have an option to insert my own location, so test 3 still really isnt applicable but all of the available routes and starting points work with no errors. 
+
+## Pre-flight report (Lab 7)
+| Check | Result | What I did |
+| --- | --- | --- |
+| 1. Cold start | pass / fault: ... | fixed in commit "..." / known issue |
+| 2. Read every label | ... | ... |
+| 3. Ask twice | ... | ... |
+| 4. The edge | ... | ... |
+| 5. The data does not come | ... | ... |
+| 6. On a phone (size view and my phone) | ... | ... |
+| 7. Mouse in my pocket | ... | ... |
+| 8. Accessibility audit | ... | ... |
