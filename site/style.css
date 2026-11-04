@@ -12,6 +12,7 @@
      7. Cat pins
      8. Layer switcher
      9. Small phones
+    10. Montréal Cat Walk box
    ============================================================ */
 
 
@@ -301,4 +302,51 @@ h1, h2 {
 @media (max-width: 500px) {
   .story h1 { font-size: 32px; }
   .leaflet-popup-content { width: 220px !important; }
+}
+
+
+/* ---------- 10. Montréal Cat Walk box (bottom left of the map) ---------- */
+/* Styled like the layer switcher; scrolls inside itself if the list of stops is long */
+.walk-box {
+  width: 250px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 10px 14px;
+  background: var(--paper);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(31, 30, 26, 0.15);
+  font-family: var(--font);
+  font-size: 16px;
+  color: var(--text);
+}
+
+.walk-box h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--accent);
+}
+
+/* Each label above its menu */
+.walk-box label { display: block; }
+.walk-box select {
+  font: inherit;
+  width: 100%;
+  margin: 2px 0 6px;
+}
+
+.walk-box ul {
+  margin: 6px 0 0;
+  padding-left: 22px;
+}
+
+/* The walk's colour in the map key: a dashed light pink line (matches showWalk() in app.js) */
+.swatch.walk {
+  height: 0;
+  border-top: 4px dashed #de889d;
+  vertical-align: 3px;
+}
+
+/* On small phones the box is narrower so the map still shows beside it */
+@media (max-width: 500px) {
+  .walk-box { width: 200px; max-height: 45vh; }
 }

@@ -17,6 +17,7 @@
 //   7. Load the water fountains
 //   8. Load the communal gardens
 //   9. Load the free air-conditioned places
+//  10. Suggested walks: pick a start, a length and a theme
 // ============================================================
 
 
@@ -27,6 +28,7 @@ const ALLEYS_URL = "../data/ruelles_cat_distance.geojson"; // made by ruelles_ca
 const FOUNTAINS_URL = "../data/water_fountains.geojson";  // made by fountains_pipeline.ipynb
 const GARDENS_URL = "../data/communal_gardens.geojson";   // made by gardens_pipeline.ipynb
 const COOL_URL = "../data/cool_places.geojson";           // made by ac_pipeline.ipynb
+const WALKS_URL = "../data/walks.geojson";                // made by walks_pipeline.ipynb
 const MONTREAL = [45.522, -73.59]; // roughly the Plateau / Mile End
 
 
@@ -370,4 +372,82 @@ fetch(COOL_URL)
   // If the cool places fail, the rest of the map still works: just log why in the browser console
   .catch((err) => {
     console.error(`Couldn't load ${COOL_URL}. Run ac_pipeline.ipynb to create it.`, err);
+  });
+
+
+// ---------- 10. Suggested walks (the box in the bottom left corner of the map) ----------
+// The walks are loops along the streets, planned in walks_pipeline.ipynb: one per start, length (2, 3 or 5 km)
+// and theme (cats: as many cats as possible; nature: as much green alley as possible).
+// Here the reader picks all three; we draw that loop and say what it passes.
+const walkForm = document.getElementById("walk-form");
+const walkSummary = document.getElementById("walk-summary");
+const walkLayer = L.layerGroup().addTo(map); // the drawn walks, emptied before each new choice
+let catWalks = [];   // every walk in the file, once it has loaded
+
+// Move the walk box from the page into the map's bottom left corner.
+// Clicks and scrolling inside it don't move the map.
+const WalkBox = L.Control.extend({
+  onAdd: () => {
+    const box = document.getElementById("walk-box");
+    L.DomEvent.disableClickPropagation(box);
+    L.DomEvent.disableScrollPropagation(box);
+    return box;
+  },
+});
+new WalkBox({ position: "bottomleft" }).addTo(map);
+
+// "1 cat" vs "3 cats"
+function plural(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+
+// Runs whenever any of the three menus changes
+function showWalk() {
+  walkLayer.clearLayers();   // remove the previous walk
+  const start = document.getElementById("walk-start").value;
+  const km = Number(document.getElementById("walk-km").value);
+  const theme = document.getElementById("walk-theme").value;
+  if (!start) {
+    walkSummary.textContent = "Pick a starting point to see its walk.";
+    return;
+  }
+  const walk = catWalks.find((f) => f.properties.start === start && f.properties.km === km && f.properties.theme === theme);
+  if (!walk) {
+    walkSummary.textContent = `Sorry, there's no ${km} km ${theme} walk from ${start} yet. Try another length or theme.`;
+    return;
+  }
+
+  // Draw the loop and a dot where it starts and ends
+  const [lon, lat] = walk.geometry.coordinates[0];
+  const line = L.geoJSON(walk, { style: { color: "#de889d", weight: 5, dashArray: "6 6" } }).addTo(walkLayer);
+  L.circleMarker([lat, lon], { radius: 7, fillColor: "#e65100", fillOpacity: 1, color: "#ffffff", weight: 2 }).addTo(walkLayer);
+  map.fitBounds(line.getBounds(), { padding: [40, 40], maxZoom: 18 });
+
+  // Summary: length, then what the loop passes
+  const p = walk.properties;
+  walkSummary.innerHTML = `
+    <p><strong>${p.length_km.toFixed(1)} km loop</strong> from ${escapeHtml(p.start)} and back. It passes:</p>
+    <ul>
+      <li>${plural(p.cats, "cat")}</li>
+      <li>${formatDistance(p.green_m)} of green alleys</li>
+      <li>${plural(p.gardens, "community garden")}</li>
+      <li>${plural(p.fountains, "water fountain")}</li>
+    </ul>`;
+}
+
+walkForm.addEventListener("change", showWalk);   // any of the three menus
+
+fetch(WALKS_URL)
+  .then((response) => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  })
+  .then((data) => {
+    catWalks = data.features;
+    walkSummary.textContent = "Pick a starting point to see its walk.";
+  })
+  // If the walks fail, the rest of the map still works: say so in the box and log why
+  .catch((err) => {
+    console.error(`Couldn't load ${WALKS_URL}. Run walks_pipeline.ipynb to create it.`, err);
+    walkSummary.textContent = "Couldn't load the walks. Run walks_pipeline.ipynb to create them.";
   });
