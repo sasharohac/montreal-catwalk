@@ -167,5 +167,7 @@ Test 3: still dont have an option to insert my own location, so test 3 still rea
       If one of the data files gets blocked or an error with it, a message pops up: "Sorry, some layers couldn't load: Communal Gardens. Try reloading the page". It also gets greyed out in the legend and is marked as wont load. 
 | 6. On a phone (size view and my phone) 
       On my phone, the site looks great, the only problem is that the legend was underneath all the text and not the mapframe, so I changed that accordingly. 
-| 7. Mouse in my pocket | ... | ... |
-| 8. Accessibility audit | ... | ... |
+| 7. Mouse in my pocket 
+      PASS - goes through every "clickable" button, including all of the cats / data points which is useful. 
+| 8. Accessibility audit 
+      PASS - got a 100%. 

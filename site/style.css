@@ -350,6 +350,30 @@ h1, h2 {
   background: var(--paper);
 }
 
+/* Folded switcher (small phones): the white paw from the gallery page with "Layers" under it,
+   instead of Leaflet's stacked-squares icon. Tap it to unfold the checkboxes.
+   Three classes so this beats Leaflet's own touch-screen and retina-screen rules. */
+.leaflet-container .leaflet-control-layers .leaflet-control-layers-toggle {
+  position: relative;
+  width: 54px;
+  height: 58px;
+  background: var(--paper) url("icons/18ba5d426eae90d75234a5df205081a8.gif") no-repeat center 4px;
+  background-size: 36px 36px;
+  border-radius: 14px;
+  image-rendering: pixelated;   /* keep the pixel-art paw crisp when shrunk */
+}
+.leaflet-container .leaflet-control-layers .leaflet-control-layers-toggle::after {
+  content: "Layers";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text);
+}
+
 
 /* ---------- 9. Small phones: smaller title and narrower popups ---------- */
 @media (max-width: 500px) {
