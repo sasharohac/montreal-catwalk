@@ -163,7 +163,9 @@ Test 3: still dont have an option to insert my own location, so test 3 still rea
       -PASS yes, if you click on one cat and then another, the first cat popup disapears. same with the routes. 
 | 4. The edge 
       - PASS dont have an option to put in my own starting point, so works great no errors yet. 
-| 5. The data does not come | ... | ... |
-| 6. On a phone (size view and my phone) | ... | ... |
+| 5. The data does not come 
+      If one of the data files gets blocked or an error with it, a message pops up: "Sorry, some layers couldn't load: Communal Gardens. Try reloading the page". It also gets greyed out in the legend and is marked as wont load. 
+| 6. On a phone (size view and my phone) 
+      On my phone, the site looks great, the only problem is that the legend was underneath all the text and not the mapframe, so I changed that accordingly. 
 | 7. Mouse in my pocket | ... | ... |
 | 8. Accessibility audit | ... | ... |

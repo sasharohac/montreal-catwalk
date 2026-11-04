@@ -226,6 +226,16 @@ h1, h2 {
   }
   .title h1 { margin-bottom: 0; }
   #map { height: 70vh; position: static; }
+
+  /* Map key right under the map, before the story text. "display: contents" lets the story's
+     paragraphs, key and sections take part in the page's one column, so "order" can move the key up:
+     title (0), map (1), key (2), then the rest of the story (3) in its usual order. */
+  .page { row-gap: 0; }
+  .story { display: contents; }
+  .title { order: 0; }
+  #map { order: 1; margin-top: 16px; }   /* the gap under the title (row-gap is now 0) */
+  .story > * { order: 3; margin-top: 0; }   /* no top margin: in a grid, margins add up instead of overlapping */
+  .story > .legend { order: 2; margin: 16px 0; }
 }
 
 
