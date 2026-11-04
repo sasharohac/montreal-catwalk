@@ -320,8 +320,22 @@ h1, h2 {
   color: var(--text);
 }
 
+/* The title is the button that folds and unfolds the box: ▸ when folded, ▾ when open */
+.walk-box summary {
+  list-style: none;        /* hide the browser's own triangle... */
+  cursor: pointer;
+}
+.walk-box summary::-webkit-details-marker { display: none; }   /* ...in Safari too */
+.walk-box summary::after {
+  content: " ▸";
+  color: var(--accent);
+}
+.walk-box[open] summary::after { content: " ▾"; }
+.walk-box[open] summary { margin-bottom: 8px; }
+
 .walk-box h2 {
-  margin: 0 0 8px;
+  display: inline;         /* so the ▸ sits right after the title */
+  margin: 0;
   font-size: 18px;
   color: var(--accent);
 }
@@ -346,7 +360,27 @@ h1, h2 {
   vertical-align: 3px;
 }
 
-/* On small phones the box is narrower so the map still shows beside it */
+/* Phones and narrow windows (the one-column layout, where the map is 70vh tall):
+   the box starts folded (app.js), and when open it takes at most 30vh, under half the map,
+   with smaller text. It sits just above the OpenStreetMap credit so that stays readable. */
+@media (max-width: 800px) {
+  .walk-box {
+    max-height: 30vh;
+    padding: 8px 12px;
+    font-size: 14px;
+    margin-bottom: 24px !important;   /* above the map credit in the bottom right */
+  }
+  .walk-box h2 { font-size: 16px; }
+  .walk-box select { margin: 1px 0 4px; }
+  .walk-box p { margin: 4px 0; }
+}
+
+/* Small phones: the open box spans the bottom of the map as a short, wide strip
+   instead of a tall narrow column; folded, it is just the title */
 @media (max-width: 500px) {
-  .walk-box { width: 200px; max-height: 45vh; }
+  .walk-box[open] {
+    width: calc(100vw - 52px);   /* screen width minus the page and map edges */
+    box-sizing: border-box;
+  }
+  .walk-box:not([open]) { width: auto; }
 }

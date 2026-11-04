@@ -31,6 +31,15 @@ const COOL_URL = "../data/cool_places.geojson";           // made by ac_pipeline
 const WALKS_URL = "../data/walks.geojson";                // made by walks_pipeline.ipynb
 const MONTREAL = [45.522, -73.59]; // roughly the Plateau / Mile End
 
+// Phones: true when the page is in its one-column layout (same 800px break as style.css section 5)
+function isPhone() {
+  return window.matchMedia("(max-width: 800px)").matches;
+}
+
+// Every popup uses these settings. autoPanPadding keeps a popup at least 20px
+// inside the edges of the map, so on a small phone screen it never opens half off-screen.
+const POPUP_OPTIONS = { maxWidth: 260, minWidth: 220, autoPanPadding: [20, 20] };
+
 
 // ---------- 2. Base map and layer switcher ----------
 // Turn the empty <div id="map"> into a Leaflet map, centred on Montréal at zoom 14
@@ -250,7 +259,7 @@ fetch(DATA_URL)
     const layer = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.marker(latlng, { icon: catIcon }),// draw a cat pin at the photo's coordinates
       onEachFeature: (feature, marker) => {// attach the popup to that pin
-        marker.bindPopup(popupHtml(feature.properties), { maxWidth: 260, minWidth: 220 }); // popups are a bit wider than the cat icon
+        marker.bindPopup(popupHtml(feature.properties), POPUP_OPTIONS); // popups are a bit wider than the cat icon
       },
     }).addTo(map);
     layerSwitcher.addOverlay(layer, "Cats");
@@ -276,6 +285,12 @@ fetch(DATA_URL)
     }
     showWantedCat();
     window.addEventListener("hashchange", showWantedCat);
+
+    // On a phone the map sits below the whole story, so someone arriving from the
+    // gallery would only see the title. Scroll down so the map and the open popup are in view.
+    if (location.hash.includes("cat=") && isPhone()) {
+      document.getElementById("map").scrollIntoView({ behavior: "smooth" });
+    }
   })
   // If anything above failed, turn the status line red and explain how to fix it
   .catch((err) => {
@@ -298,7 +313,7 @@ fetch(ALLEYS_URL)
     const alleys = L.geoJSON(data, {
       style: alleyStyle,
       onEachFeature: (feature, shape) => {
-        shape.bindPopup(alleyPopupHtml(feature.properties), { maxWidth: 260, minWidth: 220 });
+        shape.bindPopup(alleyPopupHtml(feature.properties), POPUP_OPTIONS);
       },
     }).addTo(map);
     layerSwitcher.addOverlay(alleys, "Green alleys");
@@ -320,7 +335,7 @@ fetch(FOUNTAINS_URL)
     const fountains = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, fountainStyle),
       onEachFeature: (feature, dot) => {
-        dot.bindPopup(fountainPopupHtml(feature.properties), { maxWidth: 260, minWidth: 220 });
+        dot.bindPopup(fountainPopupHtml(feature.properties), POPUP_OPTIONS);
       },
     });
     layerSwitcher.addOverlay(fountains, "Water fountains");
@@ -342,7 +357,7 @@ fetch(GARDENS_URL)
     const gardens = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, gardenStyle),
       onEachFeature: (feature, dot) => {
-        dot.bindPopup(gardenPopupHtml(feature.properties), { maxWidth: 260, minWidth: 220 });
+        dot.bindPopup(gardenPopupHtml(feature.properties), POPUP_OPTIONS);
       },
     });
     layerSwitcher.addOverlay(gardens, "Communal gardens");
@@ -364,7 +379,7 @@ fetch(COOL_URL)
     const coolPlaces = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, coolStyle),
       onEachFeature: (feature, dot) => {
-        dot.bindPopup(coolPopupHtml(feature.properties), { maxWidth: 260, minWidth: 220 });
+        dot.bindPopup(coolPopupHtml(feature.properties), POPUP_OPTIONS);
       },
     });
     layerSwitcher.addOverlay(coolPlaces, "Free AC (cool places)");
@@ -384,17 +399,26 @@ const walkSummary = document.getElementById("walk-summary");
 const walkLayer = L.layerGroup().addTo(map); // the drawn walks, emptied before each new choice
 let catWalks = [];   // every walk in the file, once it has loaded
 
+const walkBox = document.getElementById("walk-box");
+
 // Move the walk box from the page into the map's bottom left corner.
 // Clicks and scrolling inside it don't move the map.
 const WalkBox = L.Control.extend({
   onAdd: () => {
-    const box = document.getElementById("walk-box");
-    L.DomEvent.disableClickPropagation(box);
-    L.DomEvent.disableScrollPropagation(box);
-    return box;
+    L.DomEvent.disableClickPropagation(walkBox);
+    L.DomEvent.disableScrollPropagation(walkBox);
+    return walkBox;
   },
 });
 new WalkBox({ position: "bottomleft" }).addTo(map);
+
+// On a phone the open box would cover most of the map, so it starts folded into
+// just its title; tapping "Suggested walks" opens it. Opening it on a phone also folds
+// the layer switcher, so the two boxes never sit on top of each other.
+walkBox.open = !isPhone();
+walkBox.addEventListener("toggle", () => {
+  if (walkBox.open && isPhone()) layerSwitcher.collapse();
+});
 
 // "1 cat" vs "3 cats"
 function plural(n, word) {
@@ -421,7 +445,12 @@ function showWalk() {
   const [lon, lat] = walk.geometry.coordinates[0];
   const line = L.geoJSON(walk, { style: { color: "#de889d", weight: 5, dashArray: "6 6" } }).addTo(walkLayer);
   L.circleMarker([lat, lon], { radius: 7, fillColor: "#e65100", fillOpacity: 1, color: "#ffffff", weight: 2 }).addTo(walkLayer);
-  map.fitBounds(line.getBounds(), { padding: [40, 40], maxZoom: 18 });
+  // Zoom to the loop, keeping it clear of the walk box: on a phone the box spans the
+  // bottom of the map, so leave room under the loop; on a computer it sits on the left
+  const boxRoom = isPhone()
+    ? { paddingTopLeft: [20, 20], paddingBottomRight: [20, walkBox.offsetHeight + 30] }
+    : { paddingTopLeft: [walkBox.offsetWidth + 30, 20], paddingBottomRight: [20, 20] };
+  map.fitBounds(line.getBounds(), { ...boxRoom, maxZoom: 18 });
 
   // Summary: length, then what the loop passes
   const p = walk.properties;

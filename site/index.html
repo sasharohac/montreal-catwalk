@@ -66,9 +66,10 @@
       <p><a href="gallery.html">See every cat in the photo gallery</a></p>
 
       <!-- Suggested walks: app.js (section 10) moves this box into the map's bottom left corner
-           and draws the walk chosen in the menus. The walks are planned in walks_pipeline.ipynb. -->
-      <section id="walk-box" class="walk-box">
-        <h2>Suggested walks</h2>
+           and draws the walk chosen in the menus. The walks are planned in walks_pipeline.ipynb.
+           It is a <details> box: tapping the title folds it away (app.js starts it folded on phones). -->
+      <details id="walk-box" class="walk-box" open>
+        <summary><h2>Suggested walks</h2></summary>
         <form id="walk-form">
           <label for="walk-start">Start at</label>
           <!-- These values must match the "start" names in data/walks.geojson -->
@@ -92,7 +93,7 @@
         </form>
         <!-- What the walk passes, or a "sorry" message; read aloud by screen readers when it changes -->
         <div id="walk-summary" aria-live="polite">Loading walks…</div>
-      </section>
+      </details>
 
       <!-- 6. Not in this iteration: what was cut, and why -->
       <section>
