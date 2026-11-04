@@ -249,18 +249,29 @@ map.on("popupopen", (e) => {
 // The status line under the story ("Loading cats…")
 const status = document.getElementById("status");
 
-// When one of the extra layers (alleys, fountains, gardens, cool places) fails to load, the rest of
-// the map still works, but the reader should know that layer is missing rather than wonder where it went.
-// This shows a red line under the status naming every layer that failed, and logs the fix in the console.
-const layerErrors = document.getElementById("layer-errors");
+// When a data file fails to load (missing, blocked, or no connection), the rest of the map still works,
+// but the reader should be told which layer is missing rather than see it silently disappear. So:
+//   1. a red notice appears on the map itself (top left, under the zoom buttons) naming every layer that failed;
+//   2. the layer still appears in the layer switcher, greyed out and marked "couldn't load";
+//   3. the fix for the developer goes to the browser console.
+const MapAlert = L.Control.extend({
+  onAdd: () => {
+    const box = L.DomUtil.create("div", "map-alert");
+    box.setAttribute("role", "alert"); // screen readers announce it
+    return box;
+  },
+});
+const mapAlert = new MapAlert({ position: "topleft" });
 const failedLayers = [];
-function layerFailed(name, url, fix, err) {
+
+function layerFailed(name, url, fix, err, inSwitcher = true) {
   console.error(`Couldn't load ${url}. ${fix}`, err);
   failedLayers.push(name);
-  layerErrors.textContent =
-    `Some map layers couldn't load, so they're missing from the map: ${failedLayers.join(", ")}. ` +
-    "Try reloading the page.";
-  layerErrors.hidden = false;
+  if (!mapAlert.getContainer()) mapAlert.addTo(map); // show the notice the first time something fails
+  mapAlert.getContainer().textContent =
+    `Sorry, some layers couldn't load: ${failedLayers.join(", ")}. Try reloading the page.`;
+  // An empty stand-in layer, so the name stays in the switcher (style.css greys it out and hides its checkbox)
+  if (inSwitcher) layerSwitcher.addOverlay(L.layerGroup(), `<span class="layer-failed">${name} (couldn't load)</span>`);
 }
 
 // Download the GeoJSON file; stop with an error if the server says it is missing
@@ -309,7 +320,7 @@ fetch(DATA_URL)
   })
   // If anything above failed, turn the status line red and tell the reader; log the fix in the console
   .catch((err) => {
-    console.error(`Couldn't load ${DATA_URL}. Run mvp_pipeline.ipynb to create it, then open this page with Live Server.`, err);
+    layerFailed("Cats", DATA_URL, "Run mvp_pipeline.ipynb to create it, then open this page with Live Server.", err);
     status.className = "error";
     status.textContent =
       "Sorry, the cats couldn't be loaded, so the map has no cat pins right now. " +
@@ -335,7 +346,7 @@ fetch(ALLEYS_URL)
   })
   // If the alleys fail, the cats still work: tell the reader under the status line, and log the fix
   .catch((err) => {
-    layerFailed("green alleys", ALLEYS_URL, "Run ruelles_pipeline.ipynb, then ruelles_cat_distance.ipynb, to create it.", err);
+    layerFailed("Green alleys", ALLEYS_URL, "Run ruelles_pipeline.ipynb, then ruelles_cat_distance.ipynb, to create it.", err);
   });
 
 
@@ -357,7 +368,7 @@ fetch(FOUNTAINS_URL)
   })
   // If the fountains fail, the rest of the map still works: tell the reader under the status line, and log the fix
   .catch((err) => {
-    layerFailed("water fountains", FOUNTAINS_URL, "Run fountains_pipeline.ipynb to create it.", err);
+    layerFailed("Water fountains", FOUNTAINS_URL, "Run fountains_pipeline.ipynb to create it.", err);
   });
 
 
@@ -379,7 +390,7 @@ fetch(GARDENS_URL)
   })
   // If the gardens fail, the rest of the map still works: tell the reader under the status line, and log the fix
   .catch((err) => {
-    layerFailed("communal gardens", GARDENS_URL, "Run gardens_pipeline.ipynb to create it.", err);
+    layerFailed("Communal gardens", GARDENS_URL, "Run gardens_pipeline.ipynb to create it.", err);
   });
 
 
@@ -401,7 +412,7 @@ fetch(COOL_URL)
   })
   // If the cool places fail, the rest of the map still works: tell the reader under the status line, and log the fix
   .catch((err) => {
-    layerFailed("free AC places", COOL_URL, "Run ac_pipeline.ipynb to create it.", err);
+    layerFailed("Free AC (cool places)", COOL_URL, "Run ac_pipeline.ipynb to create it.", err);
   });
 
 
@@ -492,6 +503,6 @@ fetch(WALKS_URL)
   })
   // If the walks fail, the rest of the map still works: say so in the box and log why
   .catch((err) => {
-    console.error(`Couldn't load ${WALKS_URL}. Run walks_pipeline.ipynb to create it.`, err);
+    layerFailed("Suggested walks", WALKS_URL, "Run walks_pipeline.ipynb to create it.", err, false); // not in the switcher
     walkSummary.textContent = "Sorry, the suggested walks couldn't be loaded. Try reloading the page.";
   });

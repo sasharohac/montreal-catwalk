@@ -120,10 +120,29 @@ h1, h2 {
   color: #b3261e;
 }
 
-/* "Some layers couldn't load…" line under the status (hidden unless a data file fails) */
-#layer-errors {
+/* "Sorry, some layers couldn't load…" notice on the map, top left under the zoom buttons
+   (only appears when a data file fails; made by layerFailed() in app.js) */
+.map-alert {
+  max-width: 220px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 2px solid #b3261e;
+  border-radius: 6px;
   color: #b3261e;
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+/* A layer that failed to load stays in the layer switcher, greyed out, with no checkbox to tick */
+.leaflet-control-layers label:has(.layer-failed) {
+  pointer-events: none;
+}
+.leaflet-control-layers label:has(.layer-failed) input {
+  display: none;
+}
+.layer-failed {
+  color: #8a8a8a;
+  font-style: italic;
 }
 
 
