@@ -489,7 +489,7 @@ function showWalk() {
 function drawWalk(walk) {
   // Draw the loop and a dot where it starts and ends
   const [lon, lat] = walk.geometry.coordinates[0];
-  const line = L.geoJSON(walk, { style: { color: "#de889d", weight: 5, dashArray: "6 6" } }).addTo(walkLayer);
+  const line = L.geoJSON(walk, { style: { color: "#cf3d62", weight: 5, dashArray: "6 6" } }).addTo(walkLayer);
   L.circleMarker([lat, lon], { radius: 7, fillColor: "#e65100", fillOpacity: 1, color: "#ffffff", weight: 2 }).addTo(walkLayer);
   // Zoom to the loop, keeping it clear of the walk box: on a phone the box spans the
   // bottom of the map, so leave room under the loop; on a computer it sits on the left
