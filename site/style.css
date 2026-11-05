@@ -455,6 +455,35 @@ h1, h2 {
   padding-left: 22px;
 }
 
+/* "My own spot…": the address box with its Find button on one line, and a small hint under it */
+.walk-box .custom-row {
+  display: flex;
+  gap: 6px;
+  margin: 2px 0 2px;
+}
+.walk-box .custom-row input {
+  flex: 1;
+  min-width: 0;   /* let the box shrink so the button always fits */
+  font: inherit;
+  padding: 2px 6px;
+}
+.walk-box .custom-row button {
+  font: inherit;
+  font-weight: 500;
+  padding: 2px 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.walk-box .custom-row button:disabled { opacity: 0.5; cursor: wait; }
+.walk-box .hint {
+  margin: 0 0 6px;
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
 /* The walk's colour in the map key: a dashed light pink line (matches showWalk() in app.js) */
 .swatch.walk {
   height: 0;

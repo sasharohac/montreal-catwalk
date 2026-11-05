@@ -83,7 +83,18 @@
             <option value="Métro Mont-Royal">Métro Mont-Royal</option>
             <option value="Métro Laurier">Métro Laurier</option>
             <option value="Parc Laurier">Parc Laurier</option>
+            <!-- Plans a walk from an address or a tapped spot (app.js section 11) -->
+            <option value="custom">My own spot…</option>
           </select>
+          <!-- Only shown when "My own spot…" is chosen. Enter or Find looks up the address. -->
+          <div id="custom-start" hidden>
+            <label for="custom-address">Your starting point</label>
+            <div class="custom-row">
+              <input id="custom-address" type="text" placeholder="e.g. 4300 rue Saint-Denis" autocomplete="street-address">
+              <button id="custom-find" type="submit">Find</button>
+            </div>
+            <p class="hint">or tap the map where you want to start.</p>
+          </div>
           <label for="walk-km">Length</label>
           <select id="walk-km">
             <option value="2" selected>2 km</option>
@@ -116,7 +127,8 @@
           <li><a href="https://www.donneesquebec.ca/recherche/dataset/vmtl-jardins-communautaires">Jardins communautaires (community gardens)</a>, Ville de Montréal, CC BY 4.0, accessed 30 September 2026.</li>
           <li><a href="https://www.donneesquebec.ca/recherche/dataset/vmtl-fontaines-a-boire-eau-exterieures">Fontaines à boire extérieures (outdoor drinking fountains)</a>, Ville de Montréal, CC BY 4.0, accessed 30 September 2026.</li>
           <li><a href="https://www.donneesquebec.ca/recherche/dataset/vmtl-lieux-publics-climatises">Lieux publics climatisés (air-conditioned public places)</a>, Ville de Montréal, CC BY 4.0, accessed 30 September 2026.</li>
-          <li>Base map: <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, ODbL</a>.</li>
+          <li>Base map and walking network: <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, ODbL</a>.</li>
+          <li>Address search for "My own spot" walks: <a href="https://nominatim.org/">Nominatim</a>, using OpenStreetMap data.</li>
           <li>Cat paw animation on the gallery page: <a href="https://tenor.com/view/whitepaw-cute-paws-paw-white-gif-9808874833446807951">White paw GIF</a>, via Tenor, accessed 21 October 2026.</li>
         </ul>
       </section>
