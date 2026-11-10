@@ -200,6 +200,31 @@ h1, h2 {
   color: #b3261e;
 }
 
+/* "Sorry, some layers couldn't load…" notice on the map, top left under the zoom buttons
+   (only appears when a data file fails; made by layerFailed() in app.js) */
+.map-alert {
+  max-width: 220px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 2px solid #b3261e;
+  border-radius: 6px;
+  color: #b3261e;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+/* A layer that failed to load stays in the layer switcher, greyed out, with no checkbox to tick */
+.leaflet-control-layers label:has(.layer-failed) {
+  pointer-events: none;
+}
+.leaflet-control-layers label:has(.layer-failed) input {
+  display: none;
+}
+.layer-failed {
+  color: #8a8a8a;
+  font-style: italic;
+}
+
 
 /* ---------- 3. Map key (legend) and sources ---------- */
 /* Map key under the map: a coloured mark and a name for each layer */
@@ -383,6 +408,30 @@ h1, h2 {
   background: var(--paper);
 }
 
+/* Folded switcher (small phones): the white paw from the gallery page with "Layers" under it,
+   instead of Leaflet's stacked-squares icon. Tap it to unfold the checkboxes.
+   Three classes so this beats Leaflet's own touch-screen and retina-screen rules. */
+.leaflet-container .leaflet-control-layers .leaflet-control-layers-toggle {
+  position: relative;
+  width: 54px;
+  height: 58px;
+  background: var(--paper) url("icons/18ba5d426eae90d75234a5df205081a8.gif") no-repeat center 4px;
+  background-size: 36px 36px;
+  border-radius: 14px;
+  image-rendering: pixelated;   /* keep the pixel-art paw crisp when shrunk */
+}
+.leaflet-container .leaflet-control-layers .leaflet-control-layers-toggle::after {
+  content: "Layers";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text);
+}
+
 
 /* ---------- 9. Small phones: smaller title and narrower popups ---------- */
 @media (max-width: 500px) {
@@ -408,8 +457,47 @@ h1, h2 {
   color: var(--text);
 }
 
+/* The title bar is the button that folds and unfolds the box:
+   folded, it's a thin strip "Suggested cat walks ▸"; open, a round ✕ sits in its top right corner */
+.walk-box summary {
+  list-style: none;        /* hide the browser's own triangle... */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.walk-box summary::-webkit-details-marker { display: none; }   /* ...in Safari too */
+.walk-box summary::after {
+  content: "▸";
+  color: var(--accent);
+}
+.walk-box[open] summary { margin-bottom: 8px; }
+
+/* The ✕, styled like the popups' close button */
+.walk-box[open] summary::after {
+  content: "✕";
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(31, 30, 26, 0.08);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 24px;
+  text-align: center;
+}
+.walk-box[open] summary:hover::after { background: rgba(31, 30, 26, 0.16); }
+
+/* Folded: the box shrinks to just the title strip */
+.walk-box:not([open]) {
+  width: auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
 .walk-box h2 {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 18px;
   color: var(--accent);
 }
@@ -427,14 +515,62 @@ h1, h2 {
   padding-left: 22px;
 }
 
+/* "My own spot…": the address box with its Find button on one line, and a small hint under it */
+.walk-box .custom-row {
+  display: flex;
+  gap: 6px;
+  margin: 2px 0 2px;
+}
+.walk-box .custom-row input {
+  flex: 1;
+  min-width: 0;   /* let the box shrink so the button always fits */
+  font: inherit;
+  padding: 2px 6px;
+}
+.walk-box .custom-row button {
+  font: inherit;
+  font-weight: 500;
+  padding: 2px 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.walk-box .custom-row button:disabled { opacity: 0.5; cursor: wait; }
+.walk-box .hint {
+  margin: 0 0 6px;
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
 /* The walk's colour in the map key: a dashed light pink line (matches showWalk() in app.js) */
 .swatch.walk {
   height: 0;
-  border-top: 4px dashed #de889d;
+  border-top: 4px dashed #cf3d62;
   vertical-align: 3px;
 }
 
-/* On small phones the box is narrower so the map still shows beside it */
+/* Phones and narrow windows (the one-column layout, where the map is 70vh tall):
+   the box starts folded (app.js), and when open it takes at most 30vh, under half the map,
+   with smaller text. It sits just above the OpenStreetMap credit so that stays readable. */
+@media (max-width: 800px) {
+  .walk-box {
+    max-height: 30vh;
+    padding: 8px 12px;
+    font-size: 14px;
+    margin-bottom: 24px !important;   /* above the map credit in the bottom right */
+  }
+  .walk-box h2 { font-size: 16px; }
+  .walk-box select { margin: 1px 0 4px; }
+  .walk-box p { margin: 4px 0; }
+}
+
+/* Small phones: the open box spans the bottom of the map as a short, wide strip
+   instead of a tall narrow column; folded, it is just the title */
 @media (max-width: 500px) {
-  .walk-box { width: 200px; max-height: 45vh; }
+  .walk-box[open] {
+    width: calc(100vw - 52px);   /* screen width minus the page and map edges */
+    box-sizing: border-box;
+  }
 }

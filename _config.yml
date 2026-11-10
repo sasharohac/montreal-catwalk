@@ -1,0 +1,8 @@
+# GitHub Pages settings.
+# Folders listed here stay in the repo but are NOT copied to the website,
+# which keeps each publish small and fast. The website only needs site/ and data/.
+exclude:
+  - photos_raw/              # full-size originals (~226 MB); the site uses the copies in site/photos/
+  - notebooks/               # Python pipelines that make the files in data/
+  - cache/
+  - site/backup-before-cleanup/

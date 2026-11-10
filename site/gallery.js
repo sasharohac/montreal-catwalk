@@ -102,7 +102,8 @@ fetch(DATA_URL)
       img.addEventListener("error", () => {
         const note = document.createElement("div");
         note.className = "missing";
-        note.textContent = `Photo not found: ${img.getAttribute("src")}`;
+        console.error(`Photo not found: site/${img.getAttribute("src")}. Run step 6 of photos_to_csv.ipynb.`);
+        note.textContent = "Sorry, this photo couldn't be loaded.";
         img.replaceWith(note);
       }, { once: true });
     });
@@ -116,13 +117,12 @@ fetch(DATA_URL)
       target.classList.add("highlight");
     }
   })
-  // If the data didn't load, turn the status line red and explain how to fix it
+  // If the data didn't load, turn the status line red and tell the reader; log the fix in the console
   .catch((err) => {
-    console.error(err);
+    console.error(`Couldn't load ${DATA_URL}. Run mvp_pipeline.ipynb to create it, then open this page with Live Server.`, err);
     status.className = "error";
     status.textContent =
-      `Couldn't load ${DATA_URL}. Run mvp_pipeline.ipynb to create it, ` +
-      "then open this page with Live Server.";
+      "Sorry, the cat photos couldn't be loaded. Try reloading the page in a minute.";
   });
 
 

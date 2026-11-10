@@ -138,7 +138,7 @@ My edge case is a ___starting point outside the walking network or with no mappe
 **Test 1**. 
    Type a starting point (maybe just, mont-royal metro ,  and laurier metro  and laurier park as options for now), in the starting box and choose 3km. 
    **Expected**: A route is drawn on the map from that point. A summary shows the walks length , and lists the cats, green alleys, fountains and gardens it will pass. 
-   **Result: passed, with one difference.** The start is picked from a menu, not typed. Métro Mont-Royal, 3 km, Cat walk draws a pink dashed loop from the metro and back. The summary says "3.0 km loop", then 24 cats, 7 m of green alleys, 0 community gardens and 2 water fountains. It gives how many of each, not their names.
+   **Result: passed, with one difference.** The start is picked from a menu, not typed. Métro Mont-Royal, 3 km, Cat walk draws a pink dashed loop from the metro and back. The summary says "3.0 km loop", then 24 cats, 7 m of green alleys, 0 community gardens and 2 water fountains. It gives how many of each, not their names. **I've since added an option to pick your own spot on the map, so my tests have changed slightly** 
 
 **Test 2**. I keep the same starting point, but switch it to  2km or 5km 
    **Expected**: The old route disappears and a new one is drawn each time. 
@@ -146,8 +146,40 @@ My edge case is a ___starting point outside the walking network or with no mappe
 
 **Test 3**. I type a starting point outsdie the walking network or far from nay mapped feature (like ottawa), 
    **Expected**: no route is drawn, and a message like "sorry no cats or green places iwthin 2km of this spot, try another adress" 
-   **Result: failed.** The start is a menu with only three choices, so there is no way to type "Ottawa" and no message appears. Next step: change the menu into a box you can type in, with the three starts as suggestions, and show the "sorry" message for anything else.
+   **Result: passed.** Since adding the option to create your own route, when you type in an adress that is either outside the scope of the map, or somewhere else in montreal that has <1 cat on the walk, an error message like this pops up: "Sorry, that spot is outside the area these walks cover. Try a spot closer to the Plateau or Mile End" 
+## Running tests again - lab 7 
+Test 1 : works great, picked mont-royal, 3km, as expected it drew a route and no errors in console. 
+Test 2: works, as expected the old route gets erased, a new one with the updated route is visible on the map. 
+Test 3: *"My own spot…"** option. The reader types an address (looked up with OpenStreetMap's Nominatim address search) or taps the map, picks 2, 3 or 5 km and a theme, and the page plans a loop from that spot.
 
+## Since adding option to pick your own walking route : 
+**Inspection:** the website can't run Python, so `walks_pipeline.ipynb` has a new **step 8** that exports the walking network to `data/walk_network.json` (13,372 street corners and 18,861 street pieces, 0.77 MB), and the page plans the loop itself with the same method as the notebook's step 5. No library was added (still only Leaflet). The ready-made walks still work the same way; their drawing code was only moved into a shared `drawWalk()` (line 489) so both kinds of walk use it. Everything new is section 11 at the end of `app.js`.
+- **Event:** choosing "My own spot…" in the menu (`walkForm` "change", line 515), pressing Find or Enter (`walkForm` "submit", line 863), or tapping the map (`map.on("click")`, line 894).
+- **Handler:** `setCustomStart()` (line 855) saves the spot, then `showCustomWalk()` (line 818) loads the network once and calls `planLoop()` (line 736), which snaps the spot to the nearest street corner, tries 120 loops and keeps the best one that passes at least one cat.
+- **Update:** `walkLayer.clearLayers()` removes the old route, and `drawWalk()` draws the new loop and writes the summary, or `walkSummary` shows a "sorry" message.
+
+**Test 3 again**: I type "Ottawa" as my starting point.
+   **Expected**: no route is drawn, and a message tells me to try somewhere closer.
+   **Result: passed.** No route, and the box says "Sorry, that spot is outside the area these walks cover. Try a spot closer to the Plateau or Mile End." Same for a tap in the Old Port, which is outside the walking network.
+
+**More checks of the new part:**
+- Typed address "4300 rue Saint-Denis", 2 km cat walk: 1.9 km loop from 4300 rue Saint-Denis and back, 18 cats.
+- Taps in the Plateau, Mile End, Parc La Fontaine and the east and south edges, every length and both themes (30 walks): every one drew a loop of about the right length that passes 1 to 26 cats. Each takes about 20 to 60 ms to plan. #yassssss!!!!
+- An address that doesn't exist ("zzqqxx nowhere 999"): "Sorry, I couldn't find 'zzqqxx nowhere 999'. Try a street address in Montréal, or tap the map."
+- A walk that passes no cats (forced by blocking the cat file): "Sorry, a 2 km walk from that spot doesn't pass any cats. Try a spot closer to the Plateau or Mile End."
+- The same spot twice gives the same walk. 
+
+## Pre-flight report (Lab 7)
+| Check | Result | What I did |
+| --- | --- | --- |
+| 1. Cold start | pass | In incognito I first got "Failed to load resource: the server responded with a status of 404 ()". It was one missing OpenStreetMap tile (`tile.openstreetmap.org/14/4842/5858.png`), not one of my files, and it was gone on refresh. Nothing to fix: known issue on OSM's side. |
+| 2. Read every label | pass | Passed with flying colours! No changes needed. |
+| 3. Ask twice | pass | Clicking one cat and then another closes the first popup. Same with the walks: picking a new one erases the old route. "My own spot" walks too: a new spot, length or theme replaces the old loop, and the same spot twice gives the same walk. No changes needed. |
+| 4. The edge | fault, now fixed | At first there was no way to type my own starting point (only a menu of three starts), so the edge from Test 3 couldn't be tried. I added "My own spot…": typing "Ottawa" or tapping outside the walking network now says "Sorry, that spot is outside the area these walks cover. Try a spot closer to the Plateau or Mile End.", and a walk that passes no cats says the same. Fixed in commit "added my own spot walks". |
+| 5. The data does not come | fault, now fixed | Blocking a GeoJSON in the Network tab made its layer silently disappear. Now a red notice appears on the map ("Sorry, some layers couldn't load: Communal gardens. Try reloading the page."), and the layer stays in the layer switcher, greyed out and marked "couldn't load". Error messages were also reworded for readers. Blocking the new `walk_network.json` says "Sorry, walks from your own spot couldn't be loaded. Try reloading the page, or pick one of the starts above." Fixed in commits "error messages update" and "Updated error messages for missing data". |
+| 6. On a phone (size view and my phone) | fault, now fixed | Looks great on my phone, except the legend was under all the text instead of right under the map frame, so I moved it. I also swapped the generic layers icon for the white paw with "Layers" under it. Fixed in commits "moved legend to below map frame" and "changed legend pop up & readme". |
+| 7. Mouse in my pocket | pass | Tab goes through every clickable button, including all of the cats and data points, which is useful. No changes needed. |
+| 8. Accessibility audit | pass | Lighthouse accessibility score: 100 (up from 96 on 10/21/26). |
 
    ## November 10th Updated AI disclosure 
    As of November 10th, before the testing session on Wednesday, my feature works (the suggested walks), however I think it's super important to mention that Claude majorly assisted me through this process. I performed vibe coding with Claude Opus 5.5 to finalize the suggested walks,  but in all honesty did not write most of hte lines and don't fully understand the coding logic behind the suggested walks / process. This is something I plan on educating myself about in the coming days, at it is not something we discussed in class. 
