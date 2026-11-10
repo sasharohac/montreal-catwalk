@@ -147,3 +147,7 @@ My edge case is a ___starting point outside the walking network or with no mappe
 **Test 3**. I type a starting point outsdie the walking network or far from nay mapped feature (like ottawa), 
    **Expected**: no route is drawn, and a message like "sorry no cats or green places iwthin 2km of this spot, try another adress" 
    **Result: failed.** The start is a menu with only three choices, so there is no way to type "Ottawa" and no message appears. Next step: change the menu into a box you can type in, with the three starts as suggestions, and show the "sorry" message for anything else.
+
+
+   ## November 10th Updated AI disclosure 
+   As of November 10th, before the testing session on Wednesday, my feature works (the suggested walks), however I think it's super important to mention that Claude majorly assisted me through this process. I performed vibe coding with Claude Opus 5.5 to finalize the suggested walks,  but in all honesty did not write most of hte lines and don't fully understand the coding logic behind the suggested walks / process. This is something I plan on educating myself about in the coming days, at it is not something we discussed in class. 

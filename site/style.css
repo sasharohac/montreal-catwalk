@@ -4,7 +4,7 @@
 
    Sections:
      1. Colours and font
-     2. Page layout and text
+     2. Site header, page layout and text
      3. Map key (legend) and sources
      4. The map
      5. Phone layout
@@ -51,24 +51,113 @@ h1, h2 {
   font-style: italic;
 }
 
-/* Two columns: the story on the left, a wider map on the right */
-.page {
-  display: grid;
-  grid-template-columns: minmax(280px, 1fr) 2fr;   /* story, then a wider map */
-  gap: 24px;
+/* Site header: name on the left, page links on the right; the same on every page */
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding: 14px 24px;
+  background: var(--paper);
+  box-shadow: 0 1px 8px rgba(31, 30, 26, 0.08);
+}
+
+.site-name {
+  font-size: 19px;
+  font-style: italic;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.site-nav a {
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  background: var(--butter);
+}
+
+/* The page you are on is highlighted in pink */
+.site-nav a[aria-current="page"] {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Map page: centred title, full-width map, then the key and sources */
+.map-page {
   max-width: 1400px;
   margin: 0 auto;
   padding: 16px;
 }
 
-/* Let both columns shrink to fit a narrow screen instead of growing to fit what's inside */
-.page > * {
-  min-width: 0;
+.map-title {
+  margin: 12px 0 4px;
+  text-align: center;
+  font-size: 44px;
+  font-weight: 300;   /* light */
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
 }
 
+.map-page #status {
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+/* Under the map: key on the left, sources on the right */
+.below-map {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 2fr;
+  gap: 24px;
+  margin-top: 24px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.below-map > * { min-width: 0; }
+
+.below-map h2 {
+  margin: 0 0 8px;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.below-map a { color: var(--accent); }
+
+.sources {
+  margin: 0;
+  padding-left: 20px;
+}
+
+/* About page: one readable column of text */
 .story {
   font-size: 17px;
   line-height: 1.5;
+}
+
+.story.about {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.story .small {
+  margin-top: 32px;
+  font-size: 15px;
+  color: var(--muted);
 }
 
 .story h1 {
@@ -113,7 +202,7 @@ h1, h2 {
 
 
 /* ---------- 3. Map key (legend) and sources ---------- */
-/* Map key under "What you can do here": a coloured mark and a name for each layer */
+/* Map key under the map: a coloured mark and a name for each layer */
 .legend {
   list-style: none;
   margin: 0;
@@ -165,13 +254,10 @@ h1, h2 {
 
 
 /* ---------- 4. The map ---------- */
-/* As tall as the window and stays in view while the story scrolls,
-   with rounded corners and a soft shadow so it looks like a card on the yellow page */
+/* Most of the window's height, with rounded corners and a soft shadow so it looks like a card on the yellow page */
 #map {
-  height: calc(100vh - 32px);   /* the map needs a height, or it is invisible */
+  height: calc(100vh - 200px);   /* the map needs a height, or it is invisible */
   min-height: 420px;
-  position: sticky;
-  top: 16px;
   border-radius: 14px;
   box-shadow: 0 2px 16px rgba(31, 30, 26, 0.15);
   background: var(--paper);
@@ -179,10 +265,10 @@ h1, h2 {
 
 
 /* ---------- 5. Phone layout ---------- */
-/* One column on a phone or narrow window: story, then map */
+/* Phone or narrow window: key and sources stack under the map */
 @media (max-width: 800px) {
-  .page { grid-template-columns: 1fr; }
-  #map { height: 70vh; position: static; }
+  .below-map { grid-template-columns: 1fr; }
+  #map { height: 70vh; }
 }
 
 
@@ -300,7 +386,9 @@ h1, h2 {
 
 /* ---------- 9. Small phones: smaller title and narrower popups ---------- */
 @media (max-width: 500px) {
-  .story h1 { font-size: 32px; }
+  .story h1, .map-title { font-size: 32px; }
+  .site-header { padding: 10px 16px; }
+  .site-nav a { padding: 6px 10px; font-size: 15px; }
   .leaflet-popup-content { width: 220px !important; }
 }
 

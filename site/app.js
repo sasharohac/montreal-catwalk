@@ -236,7 +236,7 @@ map.on("popupopen", (e) => {
 
 
 // ---------- 5. Load the cats (shown when the map opens) ----------
-// The status line under the story ("Loading cats…")
+// The status line under the page title ("Loading cats…")
 const status = document.getElementById("status");
 
 // Download the GeoJSON file; stop with an error if the server says it is missing
