@@ -59,8 +59,7 @@ h1, h2 {
   justify-content: space-between;
   gap: 8px 24px;
   padding: 14px 24px;
-  background: var(--paper);
-  box-shadow: 0 1px 8px rgba(31, 30, 26, 0.08);
+  background: transparent;   /* same colour as the page behind it, so it blends in */
 }
 
 .site-name {
@@ -85,7 +84,7 @@ h1, h2 {
 }
 
 .site-nav a:hover {
-  background: var(--butter);
+  background: rgba(168, 70, 95, 0.12);   /* a faint pink, visible on the yellow */
 }
 
 /* The page you are on is highlighted in pink */
