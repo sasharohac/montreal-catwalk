@@ -16,6 +16,7 @@
 /* Gallery page: scrolls normally, on the same off-white background as the map's cards */
 body.gallery-page {
   height: auto;
+  overflow-x: clip;   /* the paw pokes past the right edge: hide that bit instead of adding a sideways scroll */
   background: var(--paper);
 }
 
@@ -177,7 +178,7 @@ body.gallery-page {
   display: block;        /* no gap under the image, so the arm sits on the bottom edge */
   width: 140px;
   height: auto;
-  margin: 0 16px 0 auto; /* pushed to the right side */
+  margin: 0 -40px 0 auto; /* pushed to the right, partly off the edge of the window */
   pointer-events: none;  /* clicks pass through to the photos underneath */
   image-rendering: pixelated; /* keeps the pixel art crisp when scaled */
 }
@@ -186,7 +187,7 @@ body.gallery-page {
 /* ---------- 3. Phones: smaller title, two columns of smaller cards, smaller paw ---------- */
 @media (max-width: 500px) {
   .gallery-header h1 { font-size: 32px; }
-  .paw { width: 96px; }
+  .paw { width: 96px; margin-right: -28px; }
   .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .card figcaption { padding: 8px 10px 10px; font-size: 13px; }
 }
