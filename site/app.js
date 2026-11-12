@@ -105,14 +105,21 @@ function alleyStyle(feature) {
   };
 }
 
-// Fountains: small blue dots with a white outline, drawn above the alleys and below the cats
+// Fountains: gold dots with a dark outline, drawn above the alleys and below the cats.
+// Not blue, so they don't get mixed up with the map's blue STM and BIXI symbols (feedback from the test session).
 const fountainStyle = {
-  radius: 5,
-  fillColor: "#1e88e5",
+  radius: 6,
+  fillColor: "#ffb300",
   fillOpacity: 1,
-  color: "#ffffff",
-  weight: 1.5,
+  color: "#5d4037",
+  weight: 2,
 };
+
+// Fountain dots grow as you zoom in, so they don't look tiny next to the streets:
+// 6px at zoom 14 or less, then 2px more per zoom level, up to 14px
+function fountainRadius(zoom) {
+  return Math.min(14, Math.max(6, 6 + (zoom - 14) * 2));
+}
 
 // Gardens: green dots with a white outline, a little bigger than the fountains
 const gardenStyle = {
@@ -365,15 +372,18 @@ fetch(FOUNTAINS_URL)
     return response.json();
   })
   .then((data) => {
-    // Draw each fountain as a blue dot and attach its popup
+    // Draw each fountain as a gold dot, sized for the current zoom, and attach its popup
     walkStops.fountains = data.features.map((f) => f.geometry.coordinates);
     const fountains = L.geoJSON(data, {
-      pointToLayer: (feature, latlng) => L.circleMarker(latlng, fountainStyle),
+      pointToLayer: (feature, latlng) =>
+        L.circleMarker(latlng, { ...fountainStyle, radius: fountainRadius(map.getZoom()) }),
       onEachFeature: (feature, dot) => {
         dot.bindPopup(fountainPopupHtml(feature.properties), POPUP_OPTIONS);
       },
     });
     layerSwitcher.addOverlay(fountains, "Water fountains");
+    // Resize the dots every time the zoom changes
+    map.on("zoomend", () => fountains.setStyle({ radius: fountainRadius(map.getZoom()) }));
   })
   // If the fountains fail, the rest of the map still works: tell the reader under the status line, and log the fix
   .catch((err) => {

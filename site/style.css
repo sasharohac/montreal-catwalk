@@ -267,7 +267,7 @@ h1, h2 {
   margin: 0;
   padding-left: 22px;
 }
-.swatch.fountain { width: 10px; height: 10px; margin: 0 8px 0 2px; background: #1e88e5; }
+.swatch.fountain { width: 10px; height: 10px; margin: 0 8px 0 2px; background: #ffb300; border: 2px solid #5d4037; }
 .swatch.garden { background: #79b968; }
 .swatch.cool { background: #8e24aa; }
 
