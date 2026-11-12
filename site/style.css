@@ -279,8 +279,11 @@ h1, h2 {
 
 /* ---------- 4. The map ---------- */
 /* Most of the window's height, with rounded corners and a soft shadow so it looks like a card on the yellow page */
+/* Narrower than the page, with room on both sides: there, the mouse wheel scrolls the page instead of zooming the map */
 #map {
-  height: calc(100vh - 200px);   /* the map needs a height, or it is invisible */
+  width: 88%;
+  margin: 0 auto;
+  height: calc(100vh - 240px);   /* the map needs a height, or it is invisible */
   min-height: 420px;
   border-radius: 14px;
   box-shadow: 0 2px 16px rgba(31, 30, 26, 0.15);
@@ -292,7 +295,7 @@ h1, h2 {
 /* Phone or narrow window: key and sources stack under the map */
 @media (max-width: 800px) {
   .below-map { grid-template-columns: 1fr; }
-  #map { height: 70vh; }
+  #map { width: 100%; height: 70vh; }   /* phones scroll with a finger, so the map can use the full width */
 }
 
 
