@@ -183,3 +183,20 @@ Test 3: *"My own spot…"** option. The reader types an address (looked up with 
 
    ## November 10th Updated AI disclosure 
    As of November 10th, before the testing session on Wednesday, my feature works (the suggested walks), however I think it's super important to mention that Claude majorly assisted me through this process. I performed vibe coding with Claude Opus 5.5 to finalize the suggested walks,  but in all honesty did not write most of hte lines and don't fully understand the coding logic behind the suggested walks / process. This is something I plan on educating myself about in the coming days, at it is not something we discussed in class. 
+
+
+   ## Part 3: what I found, and one fix
+**Evidence**: 
+   Round 1: 
+      **Main problem identified**: scrolling on the page was not easy, would zoom in and out of map isntead of scrolling down to map key. 
+      **Severity**: 2, didn't prohibit her, but slowed her down. 
+      **My change**: Made my map frame slightly smalle so theres room on the side to properly scroll down with your cursor. 
+   Round 2: 
+      **Main problem identified**: 
+      Water fountain icon blended in with the stm / bixi stops, hard to find on map 
+      **Severity**: 2 , didn't prohibit but slowed him down. 
+      **My change** : Made the water fountain ia darker blue in the shape of a water droplet., and the same size when you zoom in so they don't disapear. 
+
+
+Recheck: [the same task, given to someone new, with no help.
+ Fixed means: they do it without hesitating at that spot]

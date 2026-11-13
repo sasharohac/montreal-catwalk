@@ -105,20 +105,32 @@ function alleyStyle(feature) {
   };
 }
 
-// Fountains: gold dots with a dark outline, drawn above the alleys and below the cats.
-// Not blue, so they don't get mixed up with the map's blue STM and BIXI symbols (feedback from the test session).
-const fountainStyle = {
-  radius: 6,
-  fillColor: "#ffb300",
-  fillOpacity: 1,
-  color: "#5d4037",
-  weight: 2,
-};
+// Fountains: dark navy water droplets with a white outline (the same drop as the map key in index.html).
+// The droplet shape keeps them apart from the map's small round or square STM and BIXI symbols
+// (feedback from the test session).
+const DROP_SVG =
+  '<svg viewBox="0 0 24 32" width="100%" height="100%" aria-hidden="true">' +
+  '<path d="M12 2 C12 2 3 14 3 21 a9 9 0 0 0 18 0 C21 14 12 2 12 2 Z" fill="#0d3b8c" stroke="#ffffff" stroke-width="2.5"/>' +
+  '<ellipse cx="8.5" cy="21" rx="2" ry="3.5" fill="#ffffff" opacity="0.5"/>' +   // little shine
+  "</svg>";
 
-// Fountain dots grow as you zoom in, so they don't look tiny next to the streets:
-// 6px at zoom 14 or less, then 2px more per zoom level, up to 14px
-function fountainRadius(zoom) {
-  return Math.min(14, Math.max(6, 6 + (zoom - 14) * 2));
+// Droplets grow as you zoom in, so they don't look tiny next to the streets:
+// 13px tall at zoom 14 or less, then 3px more per zoom level, up to 26px
+function fountainHeight(zoom) {
+  return Math.min(26, Math.max(13, 13 + (zoom - 14) * 3));
+}
+
+// The droplet icon at a given height; its round bottom sits on the fountain's location
+function fountainIcon(zoom) {
+  const h = fountainHeight(zoom);
+  const w = Math.round(h * 0.75);
+  return L.divIcon({
+    className: "fountain-icon",
+    html: DROP_SVG,
+    iconSize: [w, h],
+    iconAnchor: [w / 2, h * 0.66],
+    popupAnchor: [0, -h * 0.6],
+  });
 }
 
 // Gardens: green dots with a white outline, a little bigger than the fountains
@@ -372,18 +384,22 @@ fetch(FOUNTAINS_URL)
     return response.json();
   })
   .then((data) => {
-    // Draw each fountain as a gold dot, sized for the current zoom, and attach its popup
+    // Draw each fountain as a droplet, sized for the current zoom, and attach its popup.
+    // zIndexOffset keeps the droplets underneath the cat pins where they overlap.
     walkStops.fountains = data.features.map((f) => f.geometry.coordinates);
     const fountains = L.geoJSON(data, {
       pointToLayer: (feature, latlng) =>
-        L.circleMarker(latlng, { ...fountainStyle, radius: fountainRadius(map.getZoom()) }),
-      onEachFeature: (feature, dot) => {
-        dot.bindPopup(fountainPopupHtml(feature.properties), POPUP_OPTIONS);
+        L.marker(latlng, { icon: fountainIcon(map.getZoom()), zIndexOffset: -1000, alt: "Water fountain" }),
+      onEachFeature: (feature, drop) => {
+        drop.bindPopup(fountainPopupHtml(feature.properties), POPUP_OPTIONS);
       },
     });
     layerSwitcher.addOverlay(fountains, "Water fountains");
-    // Resize the dots every time the zoom changes
-    map.on("zoomend", () => fountains.setStyle({ radius: fountainRadius(map.getZoom()) }));
+    // Resize the droplets every time the zoom changes
+    map.on("zoomend", () => {
+      const icon = fountainIcon(map.getZoom());
+      fountains.eachLayer((drop) => drop.setIcon(icon));
+    });
   })
   // If the fountains fail, the rest of the map still works: tell the reader under the status line, and log the fix
   .catch((err) => {
