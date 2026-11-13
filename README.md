@@ -198,5 +198,5 @@ Test 3: *"My own spot…"** option. The reader types an address (looked up with 
       **My change** : Made the water fountain ia darker blue in the shape of a water droplet., and the same size when you zoom in so they don't disapear. 
 
 
-Recheck: [the same task, given to someone new, with no help.
- Fixed means: they do it without hesitating at that spot]
+Recheck: 
+Asked Destin to check on the waterfountain box and find the nearest water fountain from Mont-Royal, was able to do it no problem.
