@@ -2,8 +2,7 @@
 // app.js = BEHAVIOUR: what loads on the map, how it is drawn, and what the popups say.
 //
 // The Montréal CatWalk: every cat photo in data/cat_photos.geojson as a cat pin,
-// on top of Montréal's green alleys, coloured by how far each is from the nearest cat
-// (dark green = a cat close by). Drinking fountains, communal gardens and
+// on top of Montréal's green alleys. Drinking fountains, communal gardens and
 // free air-conditioned public places stay hidden until ticked in the layer switcher.
 // Click a cat to see its photo, date and coordinates; click anything else for its details.
 //
@@ -17,26 +16,25 @@
 //   7. Load the water fountains
 //   8. Load the communal gardens
 //   9. Load the free air-conditioned places
-//  10. Suggested walks: pick a start, a length and a theme
-//  11. "My own spot": plan a loop from an address or a tap on the map
+//  10. Suggested walks: pick a start, a length and the stops to include
+//  11. Planning the loop (from a fixed start, an address or a tap on the map)
 // ============================================================
 
 
 // ---------- 1. Settings ----------
 // Where each GeoJSON file lives (made by the Python notebooks) and where the map starts
 const DATA_URL = "../data/cat_photos.geojson";            // made by mvp_pipeline.ipynb
-const ALLEYS_URL = "../data/ruelles_cat_distance.geojson"; // made by ruelles_cat_distance.ipynb
+const ALLEYS_URL = "../data/ruelles_vertes.geojson";      // made by ruelles_pipeline.ipynb
 const FOUNTAINS_URL = "../data/water_fountains.geojson";  // made by fountains_pipeline.ipynb
 const GARDENS_URL = "../data/communal_gardens.geojson";   // made by gardens_pipeline.ipynb
 const COOL_URL = "../data/cool_places.geojson";           // made by ac_pipeline.ipynb
-const WALKS_URL = "../data/walks.geojson";                // made by walks_pipeline.ipynb
 const NETWORK_URL = "../data/walk_network.json";          // made by step 8 of walks_pipeline.ipynb
 const GEOCODE_URL = "https://nominatim.openstreetmap.org/search"; // OpenStreetMap's free address search
 const MONTREAL = [45.522, -73.59]; // roughly the Plateau / Mile End
 
-// Where each cat, garden and fountain is, as [longitude, latitude]. Filled in as each file loads,
-// and used to count what a "My own spot" walk passes (section 11).
-const walkStops = { cats: [], gardens: [], fountains: [] };
+// Every cat, garden, fountain and cool place, as GeoJSON features. Filled in as each file loads,
+// and used to plan walks through the stops the reader ticks (section 11).
+const walkStops = { cats: [], gardens: [], fountains: [], cool: [] };
 
 // Phones: true when the page is in its one-column layout (same 800px break as style.css section 5)
 function isPhone() {
@@ -82,28 +80,15 @@ const catIcon = L.icon({
   className: "cat-icon",   // lets style.css add a shadow
 });
 
-// Alleys: coloured by dist_m, the distance in metres to the nearest cat (from ruelles_cat_distance.ipynb).
-// Darkest green = a cat right here, palest = more than 1 km from any cat.
-// The breaks are in walking time (about 80 m a minute) and must match the map key in index.html.
-function alleyColour(dist) {
-  if (dist < 100) return "#006d2c";    // under 100 m: a cat right here
-  if (dist < 250) return "#31a354";    // 100 to 249 m: under 3 minutes' walk
-  if (dist < 500) return "#74c476";    // 250 to 499 m: under 6 minutes
-  if (dist < 1000) return "#bae4b3";   // 500 to 999 m: under 12 minutes
-  return "#edf8e9";                    // 1 km or more: far from any cat
-}
-
-// Leaflet calls this once per alley, so each one gets its own fill colour.
-// Semi-transparent so the street map shows through; the dark outline keeps the palest ones visible.
-function alleyStyle(feature) {
-  return {
-    pane: "alleys",
-    color: "#2e7d32",   // outline
-    weight: 1,
-    fillColor: alleyColour(feature.properties.dist_m),   // inside
-    fillOpacity: 0.8,
-  };
-}
+// Alleys: all one green (the same as .swatch.alley in style.css), semi-transparent so the
+// street map shows through, with a darker outline so the thin ones stay visible
+const alleyStyle = {
+  pane: "alleys",
+  color: "#2e7d32",     // outline
+  weight: 1,
+  fillColor: "#31a354", // inside
+  fillOpacity: 0.7,
+};
 
 // Fountains: dark navy water droplets with a white outline (the same drop as the map key in index.html).
 // The droplet shape keeps them apart from the map's small round or square STM and BIXI symbols
@@ -200,16 +185,12 @@ function formatDistance(m) {
   return m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1)} km`;
 }
 
-// Alley popup: how far the nearest cat is (with a link to meet it), how many cats are within 500 m,
-// then borough, year greened, type of greening, whether cars can use it, and its area. Blank values are left out.
+// Alley popup: borough, year greened, type of greening, whether cars can use it, and its area.
+// Blank values are left out.
 function alleyPopupHtml(p) {
-  const nearby = p.cats_500m === 1 ? "1 cat" : `${p.cats_500m} cats`;
   return `
     <div class="popup-text alley-popup">
       <h2>Ruelle verte</h2>
-      <p><strong>${p.dist_m === 0 ? "A cat was seen right here" : `Nearest cat: ${formatDistance(p.dist_m)} away`}</strong>
-        · <a href="#cat=${encodeURIComponent(p.nearest_cat)}">meet this cat</a></p>
-      <p>${nearby} within 500 m</p>
       <p>${escapeHtml(p.borough)}</p>
       ${p.year ? `<p>Greened in ${p.year}</p>` : ""}
       ${p.greening ? `<p>${escapeHtml(p.greening)}</p>` : ""}
@@ -307,7 +288,7 @@ fetch(DATA_URL)
     return response.json();
   })
   .then((data) => {
-    walkStops.cats = data.features.map((f) => f.geometry.coordinates);
+    walkStops.cats = data.features;
     // **COREACTION**Draw each cat as a cat pin and attach its popup with bind.popup!!!
     const layer = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.marker(latlng, { icon: catIcon }),// draw a cat pin at the photo's coordinates
@@ -326,7 +307,7 @@ fetch(DATA_URL)
 
     // If the address ends in #cat=IMG_1234, zoom in on that cat and open its popup.
     // This happens when we come from the gallery's "Show on map" link,
-    // and again whenever an alley's "meet this cat" link changes the address.
+    // and again whenever the address changes.
     function showWantedCat() {
       const wanted = new URLSearchParams(location.hash.slice(1)).get("cat");
       layer.eachLayer((marker) => {
@@ -362,7 +343,7 @@ fetch(ALLEYS_URL)
     return response.json();
   })
   .then((data) => {
-    // Draw each alley as a green shape (shade = distance to the nearest cat) and attach its popup
+    // Draw each alley as a green shape and attach its popup
     const alleys = L.geoJSON(data, {
       style: alleyStyle,
       onEachFeature: (feature, shape) => {
@@ -373,7 +354,7 @@ fetch(ALLEYS_URL)
   })
   // If the alleys fail, the cats still work: tell the reader under the status line, and log the fix
   .catch((err) => {
-    layerFailed("Green alleys", ALLEYS_URL, "Run ruelles_pipeline.ipynb, then ruelles_cat_distance.ipynb, to create it.", err);
+    layerFailed("Green alleys", ALLEYS_URL, "Run ruelles_pipeline.ipynb to create it.", err);
   });
 
 
@@ -386,7 +367,7 @@ fetch(FOUNTAINS_URL)
   .then((data) => {
     // Draw each fountain as a droplet, sized for the current zoom, and attach its popup.
     // zIndexOffset keeps the droplets underneath the cat pins where they overlap.
-    walkStops.fountains = data.features.map((f) => f.geometry.coordinates);
+    walkStops.fountains = data.features;
     const fountains = L.geoJSON(data, {
       pointToLayer: (feature, latlng) =>
         L.marker(latlng, { icon: fountainIcon(map.getZoom()), zIndexOffset: -1000, alt: "Water fountain" }),
@@ -415,7 +396,7 @@ fetch(GARDENS_URL)
   })
   .then((data) => {
     // Draw each garden as a green dot and attach its popup
-    walkStops.gardens = data.features.map((f) => f.geometry.coordinates);
+    walkStops.gardens = data.features;
     const gardens = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, gardenStyle),
       onEachFeature: (feature, dot) => {
@@ -438,6 +419,7 @@ fetch(COOL_URL)
   })
   .then((data) => {
     // Draw each cool place as a purple dot and attach its popup
+    walkStops.cool = data.features;
     const coolPlaces = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, coolStyle),
       onEachFeature: (feature, dot) => {
@@ -453,13 +435,13 @@ fetch(COOL_URL)
 
 
 // ---------- 10. Suggested walks (the box in the bottom left corner of the map) ----------
-// The walks are loops along the streets, planned in walks_pipeline.ipynb: one per start, length (2, 3 or 5 km)
-// and theme (cats: as many cats as possible; nature: as much green alley as possible).
-// Here the reader picks all three; we draw that loop and say what it passes.
+// The reader picks a start, a length (2, 3 or 5 km) and ticks every kind of stop the walk must pass:
+// cats, water fountains, nature (green alleys or community gardens) and free AC. The page plans a loop
+// along the streets through those stops (section 11), draws it and says what it passes.
 const walkForm = document.getElementById("walk-form");
 const walkSummary = document.getElementById("walk-summary");
 const walkLayer = L.layerGroup().addTo(map); // the drawn walks, emptied before each new choice
-let catWalks = [];   // every walk in the file, once it has loaded
+walkSummary.textContent = "Pick a starting point to see its walk.";
 
 const walkBox = document.getElementById("walk-box");
 
@@ -487,31 +469,64 @@ function plural(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
 
-// Runs whenever any of the three menus changes
+// The kinds of stop that are ticked, e.g. ["cats", "cool"]
+function tickedStops() {
+  return [...walkForm.querySelectorAll('input[name="stop"]:checked')].map((box) => box.value);
+}
+
+// Runs whenever the start, the length or a checkbox changes
 function showWalk() {
   walkLayer.clearLayers();   // remove the previous walk
-  const start = document.getElementById("walk-start").value;
+  const select = document.getElementById("walk-start");
+  const start = select.value;
   const km = Number(document.getElementById("walk-km").value);
-  const theme = document.getElementById("walk-theme").value;
   customStartBox.hidden = start !== "custom";   // the address box only shows for "My own spot…"
-  if (start === "custom") {
-    showCustomWalk(km, theme);                  // section 11
-    return;
-  }
   if (!start) {
     walkSummary.textContent = "Pick a starting point to see its walk.";
     return;
   }
-  const walk = catWalks.find((f) => f.properties.start === start && f.properties.km === km && f.properties.theme === theme);
-  if (!walk) {
-    walkSummary.textContent = `Sorry, there's no ${km} km ${theme} walk from ${start} yet. Try another length or theme.`;
+  if (start === "custom") {
+    if (!customStart) {
+      walkSummary.textContent = "Type an address and press Find, or tap the map where you want to start.";
+      return;
+    }
+    planWalk(customStart, km, tickedStops());   // section 11
     return;
   }
-  drawWalk(walk);
+  // A fixed start: its street corner is written on its <option> in index.html
+  const option = select.selectedOptions[0];
+  planWalk({ lat: Number(option.dataset.lat), lng: Number(option.dataset.lng), label: start }, km, tickedStops());
 }
 
-// Draws one walk (a GeoJSON line with start, length_km, cats, green_m, gardens and fountains)
-// and writes its summary. Used by the ready-made walks and by "My own spot" walks.
+// The stops a walk passes that aren't on the map already (fountains, gardens and cool places
+// stay hidden until ticked in the layer switcher), drawn with the walk so the reader can find them
+function drawPassedStops(walk) {
+  const stops = walk.stops;
+  stops.fountains.forEach((f) => {
+    const [lon, lat] = f.geometry.coordinates;
+    L.marker([lat, lon], { icon: fountainIcon(16), alt: "Water fountain" })
+      .bindPopup(fountainPopupHtml(f.properties), POPUP_OPTIONS).addTo(walkLayer);
+  });
+  stops.gardens.forEach((f) => {
+    const [lon, lat] = f.geometry.coordinates;
+    L.circleMarker([lat, lon], gardenStyle).bindPopup(gardenPopupHtml(f.properties), POPUP_OPTIONS).addTo(walkLayer);
+  });
+  stops.cool.forEach((f) => {
+    const [lon, lat] = f.geometry.coordinates;
+    L.circleMarker([lat, lon], coolStyle).bindPopup(coolPopupHtml(f.properties), POPUP_OPTIONS).addTo(walkLayer);
+  });
+}
+
+// What each kind of stop is called when the walk couldn't fit one in
+const STOP_NAMES = {
+  cats: "a cat",
+  fountains: "a water fountain",
+  nature: "a bit of nature",
+  cool: "a free AC place",
+};
+
+// Draws one walk (a GeoJSON line with start, length_km, cats, green_m, gardens, fountains, cool,
+// the ticked kinds and any it couldn't fit in) and writes its summary
 function drawWalk(walk) {
   // Draw the loop and a dot where it starts and ends
   const [lon, lat] = walk.geometry.coordinates[0];
@@ -524,57 +539,51 @@ function drawWalk(walk) {
     : { paddingTopLeft: [walkBox.offsetWidth + 30, 20], paddingBottomRight: [20, 20] };
   map.fitBounds(line.getBounds(), { ...boxRoom, maxZoom: 18 });
 
-  // Summary: length, then what the loop passes
+  drawPassedStops(walk);
+
+  // Summary: length, then what the loop passes (the ticked kinds in bold),
+  // then any ticked kind that didn't fit in a loop this long
   const p = walk.properties;
+  const wanted = (kind) => (p.kinds.includes(kind) ? ' class="wanted"' : "");
+  const missing = p.missing.map((kind) => STOP_NAMES[kind]);
   walkSummary.innerHTML = `
     <p><strong>${p.length_km.toFixed(1)} km loop</strong> from ${escapeHtml(p.start)} and back. It passes:</p>
     <ul>
-      <li>${plural(p.cats, "cat")}</li>
-      <li>${formatDistance(p.green_m)} of green alleys</li>
-      <li>${plural(p.gardens, "community garden")}</li>
-      <li>${plural(p.fountains, "water fountain")}</li>
-    </ul>`;
+      <li${wanted("cats")}>${plural(p.cats, "cat")}</li>
+      <li${wanted("fountains")}>${plural(p.fountains, "water fountain")}</li>
+      <li${wanted("nature")}>${formatDistance(p.green_m)} of green alleys</li>
+      <li${wanted("nature")}>${plural(p.gardens, "community garden")}</li>
+      <li${wanted("cool")}>${plural(p.cool, "free AC place")}</li>
+    </ul>
+    ${missing.length ? `<p class="walk-missing">Sorry, I couldn't fit ${new Intl.ListFormat("en", { type: "disjunction" }).format(missing)} into a loop this long from here. Try a longer walk or another start.</p>` : ""}`;
 }
 
-// Any of the three menus. (Typing in the address box also fires "change" when you leave it:
+// Any menu or checkbox. (Typing in the address box also fires "change" when you leave it:
 // ignore that, the walk is only planned when you press Find or Enter.)
 walkForm.addEventListener("change", (e) => {
   if (e.target.id !== "custom-address") showWalk();
 });
 
-fetch(WALKS_URL)
-  .then((response) => {
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
-  })
-  .then((data) => {
-    catWalks = data.features;
-    walkSummary.textContent = "Pick a starting point to see its walk.";
-  })
-  // If the walks fail, the rest of the map still works: say so in the box and log why
-  .catch((err) => {
-    layerFailed("Suggested walks", WALKS_URL, "Run walks_pipeline.ipynb to create it.", err, false); // not in the switcher
-    walkSummary.textContent = "Sorry, the suggested walks couldn't be loaded. Try reloading the page.";
-  });
 
-
-// ---------- 11. "My own spot": a walk from anywhere the reader chooses ----------
-// The ready-made walks above were planned in Python. Here the page plans a loop itself, from an
-// address the reader types or a spot they tap, with the same method as step 5 of walks_pipeline.ipynb:
+// ---------- 11. Planning the loop ----------
+// The page plans every walk itself, from a fixed start, an address the reader types or a spot they tap,
+// with the method of step 5 of walks_pipeline.ipynb, stretched to pass the ticked kinds of stop:
 //   1. snap the start to the nearest street corner of the walking network (data/walk_network.json);
-//   2. find the "ring": corners about a third of the walk's length away along the streets;
-//   3. try loops start → a → b → start through corners of the ring (cat walks favour corners next
-//      to a cat, nature walks favour gardens and green alleys), each leg the shortest route;
-//   4. keep the best loop within 15% of the chosen length that repeats at most a quarter of its streets.
-// If the spot is outside the network, or the best loop passes no cats, the reader is told to try a spot
-// closer to the Plateau or Mile End instead.
+//   2. for each ticked kind, list the corners within reach that are next to one (a cat, a fountain,
+//      a garden or green alley, a cool place), plus the "ring": corners about a third of the walk away;
+//   3. try loops start → stop → stop → … → start, one corner of each ticked kind (plus ring corners to
+//      make up the length), visited in order around the start, each leg the shortest route;
+//   4. keep loops within 15% of the chosen length that repeat at most a quarter of their streets, and of
+//      those the one that passes the most ticked kinds, then the most of them.
+// If a ticked kind can't fit, the walk is still shown and the summary says what's missing.
 
 const WALK_TOLERANCE = 0.15;  // a "3 km" walk can be 2.55 to 3.45 km (same as the notebook)
 const WALK_MAX_REPEAT = 0.25; // at most a quarter of a walk can go back over streets it already used
-const WALK_NEAR_M = 50;       // a cat, garden or fountain within 50 m of the route counts as "passed"
+const WALK_NEAR_M = 50;       // a cat, garden, fountain or cool place within 50 m of the route counts as "passed"
 const WALK_MAX_SNAP_M = 300;  // a start more than 300 m from any street corner is outside the network
-const RING_CORNERS = 12;      // how many "a" corners to try (each needs one route search)...
-const TRIES_PER_CORNER = 10;  // ...and how many "b" corners with each: 120 loops in all
+const NATURE_MIN_GREEN_M = 100; // "nature" is passed with a community garden or at least 100 m of green alley
+const POOL_SIZE = 8;          // corners to try for each ticked kind, and for the ring (each needs one route search)
+const WALK_TRIES = 160;       // loops to try
 
 const customStartBox = document.getElementById("custom-start");
 const customAddress = document.getElementById("custom-address");
@@ -691,7 +700,7 @@ function heapPop(heap) {
   return top;
 }
 
-// Random choices that are the same every time for the same spot, length and theme,
+// Random choices that are the same every time for the same spot, length and ticked stops,
 // so asking twice gives the same walk (like random.seed(464) in the notebook)
 function seededRandom(seed) {
   return () => {
@@ -705,28 +714,61 @@ function pick(list, random) {
   return list[Math.floor(random() * list.length)];
 }
 
-// The corner nearest each cat and each garden (worked out once per network and data)
+// Up to `n` different items from a list, picked at random
+function sample(list, n, random) {
+  const copy = list.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, n);
+}
+
+// A number made from a word, so each set of ticked stops gets its own random choices
+function hashText(text) {
+  return [...text].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 0);
+}
+
+// The corner nearest each cat, garden, fountain or cool place (worked out once per network and data).
+// Stops more than WALK_NEAR_M from any corner (outside the network) are left out.
 const stopCornerCache = new Map();
 function stopCorners(net, name) {
-  const points = walkStops[name];
+  const features = walkStops[name];
   const cached = stopCornerCache.get(name);
-  if (cached && cached.points === points) return cached.corners;
-  const corners = new Set(points.map((p) => nearestCorner(net, toXY(p)).corner));
-  stopCornerCache.set(name, { points, corners });
+  if (cached && cached.features === features) return cached.corners;
+  const corners = new Set();
+  for (const f of features) {
+    const snap = nearestCorner(net, toXY(f.geometry.coordinates));
+    if (snap.metres <= WALK_NEAR_M) corners.add(snap.corner);
+  }
+  stopCornerCache.set(name, { features, corners });
   return corners;
 }
 
-// How many of `points` ([lon, lat]) are within WALK_NEAR_M of the route line (a list of [x, y])
-function countNear(points, line, box) {
-  let count = 0;
-  for (const p of points) {
-    const [x, y] = toXY(p);
+// The corners next to each kind of stop the reader can tick. "nature" is any community garden
+// or either end of a street piece with some green alley along it.
+function kindCorners(net, kind) {
+  if (kind !== "nature") return stopCorners(net, kind);
+  if (!net.greenCorners) {
+    net.greenCorners = new Set();
+    net.pieces.forEach((p) => {
+      if (p.green >= 30) { net.greenCorners.add(p.u); net.greenCorners.add(p.v); }
+    });
+  }
+  return new Set([...stopCorners(net, "gardens"), ...net.greenCorners]);
+}
+
+// The features within WALK_NEAR_M of the route line (a list of [x, y])
+function nearStops(features, line, box) {
+  const near = [];
+  for (const f of features) {
+    const [x, y] = toXY(f.geometry.coordinates);
     if (x < box[0] || x > box[2] || y < box[1] || y > box[3]) continue;   // quick skip: nowhere near
     for (let i = 1; i < line.length; i++) {
-      if (distanceToSegment(x, y, line[i - 1], line[i]) <= WALK_NEAR_M) { count++; break; }
+      if (distanceToSegment(x, y, line[i - 1], line[i]) <= WALK_NEAR_M) { near.push(f); break; }
     }
   }
-  return count;
+  return near;
 }
 function distanceToSegment(x, y, [ax, ay], [bx, by]) {
   const dx = bx - ax, dy = by - ay;
@@ -758,71 +800,96 @@ function loopLine(net, startCorner, loop) {
   return coords;
 }
 
-// Plans the best loop from a spot. Returns { walk } or { problem: "outside" | "noloop" | "nocats" }.
-function planLoop(net, spot, km, theme) {
+// How good a loop is at the ticked kinds, once it passes as many of them as it can:
+// more cats, fountains, gardens and cool places, and more metres of green alley, all count
+function stopValue(s, kinds) {
+  if (!kinds.length) return s.stops.cats.length * 20 + s.green / 10;   // nothing ticked: a pleasant walk
+  let value = 0;
+  if (kinds.includes("cats")) value += s.stops.cats.length * 100;
+  if (kinds.includes("fountains")) value += s.stops.fountains.length * 50;
+  if (kinds.includes("nature")) value += s.green / 5 + s.stops.gardens.length * 150;
+  if (kinds.includes("cool")) value += s.stops.cool.length * 200;
+  return value;
+}
+
+// Plans the best loop from a spot through the ticked kinds of stop.
+// Returns { walk } or { problem: "outside" | "noloop" }.
+function planLoop(net, spot, km, kinds) {
   const target = km * 1000;
   const snap = nearestCorner(net, toXY([spot.lng, spot.lat]));
   if (snap.metres > WALK_MAX_SNAP_M) return { problem: "outside" };
   const start = snap.corner;
+  const random = seededRandom(Math.round(spot.lat * 1e5) * 31 + Math.round(spot.lng * 1e5) + km * 7 + hashText(kinds.join()));
 
-  // 1. The ring: corners about a third of the walk away (and a wider band to look for cats and gardens in)
+  // 1 and 2. Every corner within reach (under 0.45 × the walk away), the ring, and for each ticked kind
+  // a handful of corners within reach next to one
   const byLength = shortestRoutes(net, start, (p) => p.length, 0.45 * target);
-  const ring = [], wide = [];
-  for (const [n, d] of byLength.dist) {
-    if (d >= 0.22 * target && d <= 0.38 * target) ring.push(n);
-    if (d >= 0.15 * target && d <= 0.45 * target) wide.push(n);
-  }
+  const ring = [];
+  for (const [n, d] of byLength.dist) if (d >= 0.22 * target && d <= 0.38 * target) ring.push(n);
   if (ring.length < 2) return { problem: "noloop" };
-  const catCorners = stopCorners(net, "cats");
-  const gardenCorners = stopCorners(net, "gardens");
-  const ringCats = wide.filter((n) => catCorners.has(n));
-  const ringGardens = wide.filter((n) => gardenCorners.has(n));
+  const ringPool = sample(ring, POOL_SIZE, random);
+  const reachable = [...byLength.dist.keys()].filter((n) => n !== start);
+  const pools = {};
+  for (const kind of kinds) {
+    const corners = kindCorners(net, kind);
+    pools[kind] = sample(reachable.filter((n) => corners.has(n)), POOL_SIZE, random);
+  }
 
-  // Cat walks take the shortest streets; nature walks count green alley metres as cheaper, so routes
-  // lean into them (the notebook's nature_cost: length - 0.6 × green metres)
-  const cost = theme === "cats" ? (p) => p.length : (p) => p.length - 0.6 * p.green;
-  const fromStart = theme === "cats" ? byLength : shortestRoutes(net, start, cost, 0.45 * target);
-
-  // 2 and 3. Try loops start → a → b → start
-  const random = seededRandom(Math.round(spot.lat * 1e5) * 31 + Math.round(spot.lng * 1e5) + km * 7 + theme.length);
-  const pickCorner = (forA) => {
-    if (theme === "cats" && ringCats.length >= 2 && random() < 0.7) return pick(ringCats, random);
-    if (theme === "nature" && forA && ringGardens.length && random() < 0.5) return pick(ringGardens, random);
-    return pick(ring, random);
+  // Routes take the shortest streets; when nature is ticked, green alley metres count as cheaper so
+  // routes lean into them (the notebook's nature_cost: length - 0.6 × green metres)
+  const cost = kinds.includes("nature") ? (p) => p.length - 0.6 * p.green : (p) => p.length;
+  const fromStart = kinds.includes("nature") ? shortestRoutes(net, start, cost, 0.45 * target) : byLength;
+  const routesFrom = new Map();   // one route search per stop corner, reused by every loop through it
+  const routes = (corner) => {
+    if (!routesFrom.has(corner)) routesFrom.set(corner, shortestRoutes(net, corner, cost, 0.7 * target));
+    return routesFrom.get(corner);
   };
+  // Stops are visited in order around the start (by compass direction), so the loop doesn't zigzag
+  const [sx, sy] = net.xy[start];
+  const direction = (n) => Math.atan2(net.xy[n][1] - sy, net.xy[n][0] - sx);
+
+  // 3. Try loops start → stop → stop → … → start
   const candidates = [];
-  for (let t = 0; t < RING_CORNERS; t++) {
-    const a = pickCorner(true);
-    const fromA = shortestRoutes(net, a, cost, target);
-    const leg1 = traceRoute(net, fromStart, a);
-    for (let k = 0; k < TRIES_PER_CORNER; k++) {
-      const b = pickCorner(false);
-      if (b === a) continue;
-      const leg2 = traceRoute(net, fromA, b);
-      const leg3 = traceRoute(net, fromStart, b);
-      if (!leg1 || !leg2 || !leg3) continue;
-      const s = scoreLoop(net, [...leg1, ...leg2, ...leg3.slice().reverse()]);
-      // 4. Only loops of about the right length that don't double back too much
-      if (Math.abs(s.length - target) <= WALK_TOLERANCE * target && s.repeat <= WALK_MAX_REPEAT) candidates.push(s);
-    }
+  const tried = new Set();
+  for (let t = 0; t < WALK_TRIES; t++) {
+    const stops = new Set();
+    for (const kind of kinds) if (pools[kind].length) stops.add(pick(pools[kind], random));
+    const extra = Math.floor(random() * 3);   // 0, 1 or 2 ring corners to stretch the loop to length
+    for (let k = 0; k < extra + 6 && (k < extra || stops.size < 2); k++) stops.add(pick(ringPool, random));
+    if (stops.size < 2) continue;
+    const order = [...stops].sort((a, b) => direction(a) - direction(b));
+    const key = order.join();
+    if (tried.has(key)) continue;
+    tried.add(key);
+
+    const legs = [traceRoute(net, fromStart, order[0])];
+    for (let i = 1; i < order.length; i++) legs.push(traceRoute(net, routes(order[i - 1]), order[i]));
+    const back = traceRoute(net, fromStart, order[order.length - 1]);
+    if (legs.includes(null) || !back) continue;
+    const s = scoreLoop(net, [...legs.flat(), ...back.slice().reverse()]);
+    // 4. Only loops of about the right length that don't double back too much
+    if (Math.abs(s.length - target) <= WALK_TOLERANCE * target && s.repeat <= WALK_MAX_REPEAT) candidates.push(s);
   }
   if (!candidates.length) return { problem: "noloop" };
 
-  // Count what each good loop passes, then keep the best: one with at least one cat if there is one,
-  // then by the notebook's scores (cats: cats × 100 + green metres ÷ 10; nature: green metres + 300 × gardens)
+  // Find what each good loop passes, then keep the one that passes the most ticked kinds, then the best stopValue
   let best = null, bestValue = -Infinity;
   for (const s of candidates) {
     s.coords = loopLine(net, start, s.loop);
     const line = s.coords.map(toXY);
     const xs = line.map((p) => p[0]), ys = line.map((p) => p[1]);
     const box = [Math.min(...xs) - WALK_NEAR_M, Math.min(...ys) - WALK_NEAR_M, Math.max(...xs) + WALK_NEAR_M, Math.max(...ys) + WALK_NEAR_M];
-    s.cats = countNear(walkStops.cats, line, box);
-    s.gardens = countNear(walkStops.gardens, line, box);
-    s.fountains = countNear(walkStops.fountains, line, box);
-    const value = (s.cats > 0 ? 1e9 : 0) + (theme === "cats" ? s.cats * 100 + s.green / 10 : s.green + 300 * s.gardens);
+    s.stops = {};
+    for (const name of ["cats", "fountains", "gardens", "cool"]) s.stops[name] = nearStops(walkStops[name], line, box);
+    s.passed = {
+      cats: s.stops.cats.length > 0,
+      fountains: s.stops.fountains.length > 0,
+      nature: s.stops.gardens.length > 0 || s.green >= NATURE_MIN_GREEN_M,
+      cool: s.stops.cool.length > 0,
+    };
+    const value = kinds.filter((k) => s.passed[k]).length * 1e9 + stopValue(s, kinds);
     if (value > bestValue) { best = s; bestValue = value; }
   }
-  if (best.cats < 1) return { problem: "nocats" };
 
   return {
     walk: {
@@ -831,23 +898,23 @@ function planLoop(net, spot, km, theme) {
       properties: {
         start: spot.label || "your spot",
         length_km: best.length / 1000,
-        cats: best.cats,
+        cats: best.stops.cats.length,
         green_m: Math.round(best.green),
-        gardens: best.gardens,
-        fountains: best.fountains,
+        gardens: best.stops.gardens.length,
+        fountains: best.stops.fountains.length,
+        cool: best.stops.cool.length,
+        kinds,
+        missing: kinds.filter((k) => !best.passed[k]),
       },
+      stops: best.stops,   // the features passed, for drawPassedStops()
     },
   };
 }
 
-// Runs from showWalk() when "My own spot…" is chosen, and again when the length or theme changes
-function showCustomWalk(km, theme) {
-  if (!customStart) {
-    walkSummary.textContent = "Type an address and press Find, or tap the map where you want to start.";
-    return;
-  }
+// Plans a walk from `spot` ({ lat, lng, label }) through the ticked kinds and draws it.
+// Runs from showWalk() whenever the start, length or a checkbox changes.
+function planWalk(spot, km, kinds) {
   const thisPlan = ++planNumber;
-  const spot = customStart;
   // Mark the chosen spot straight away, so the reader sees where the walk will start
   const pin = L.circleMarker([spot.lat, spot.lng], { radius: 7, fillColor: "#e65100", fillOpacity: 1, color: "#ffffff", weight: 2 }).addTo(walkLayer);
   walkSummary.textContent = "Planning your walk…";
@@ -856,7 +923,7 @@ function showCustomWalk(km, theme) {
     .then((net) => new Promise((done) => setTimeout(() => done(net), 30)))   // let "Planning…" appear first
     .then((net) => {
       if (thisPlan !== planNumber) return;    // the reader has already asked for something else
-      const result = planLoop(net, spot, km, theme);
+      const result = planLoop(net, spot, km, kinds);
       if (result.walk) {
         walkLayer.clearLayers();
         drawWalk(result.walk);
@@ -865,15 +932,14 @@ function showCustomWalk(km, theme) {
       const sorry = {
         outside: "Sorry, that spot is outside the area these walks cover.",
         noloop: `Sorry, there's no ${km} km loop from that spot.`,
-        nocats: `Sorry, a ${km} km walk from that spot doesn't pass any cats.`,
       };
-      walkSummary.textContent = `${sorry[result.problem]} Try a spot closer to the Plateau or Mile End.`;
+      walkSummary.textContent = `${sorry[result.problem]} Try another length, or a spot closer to the Plateau or Mile End.`;
       if (result.problem !== "outside") map.panTo(pin.getLatLng());
     })
     .catch((err) => {
       console.error(`Couldn't load ${NETWORK_URL}. Run step 8 of walks_pipeline.ipynb to create it.`, err);
       if (thisPlan !== planNumber) return;
-      walkSummary.textContent = "Sorry, walks from your own spot couldn't be loaded. Try reloading the page, or pick one of the starts above.";
+      walkSummary.textContent = "Sorry, the walks couldn't be loaded. Try reloading the page.";
     });
 }
 

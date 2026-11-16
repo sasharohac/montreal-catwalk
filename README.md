@@ -17,7 +17,6 @@ GEOG 464, Assignment 2 (MVP).
    - `fountains_pipeline.ipynb` → `data/water_fountains.geojson`
    - `gardens_pipeline.ipynb` → `data/communal_gardens.geojson`
    - `ac_pipeline.ipynb` → `data/cool_places.geojson`
-   - `ruelles_cat_distance.ipynb` → `data/ruelles_cat_distance.geojson` (run this one last: it needs the cats and the alleys)
 3. **Open the map.** In VS Code, right-click `site/index.html` and choose **Open with Live Server**. (Opening the file directly won't work: browsers block `fetch` from local files.)
 
 To add new cats, put the photos in `photos_raw/` and re-run step 1. Names and descriptions typed into the CSV are kept.

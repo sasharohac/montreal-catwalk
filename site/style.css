@@ -253,20 +253,8 @@ h1, h2 {
 }
 
 .swatch.dot { border-radius: 50%; }   /* round instead of square */
-/* Alleys: one shade per distance class, darkest = closest to a cat (alleyColour() in app.js) */
-.swatch.alley { border: 1px solid #2e7d32; opacity: 0.8; }
-.swatch.alley.d1 { background: #006d2c; }
-.swatch.alley.d2 { background: #31a354; }
-.swatch.alley.d3 { background: #74c476; }
-.swatch.alley.d4 { background: #bae4b3; }
-.swatch.alley.d5 { background: #edf8e9; }
-
-/* The five alley classes, indented under "Green alleys" */
-.legend-classes {
-  list-style: none;
-  margin: 0;
-  padding-left: 22px;
-}
+/* Alleys: the same green as alleyStyle in app.js */
+.swatch.alley { border: 1px solid #2e7d32; background: #31a354; opacity: 0.7; }
 .swatch.fountain { width: 12px; height: 16px; margin: 0 7px 0 1px; vertical-align: -3px; }   /* droplet drawn in index.html */
 
 /* Fountain droplets on the map: no box or background behind the drawing, and a soft shadow like the cat pins */
@@ -519,10 +507,28 @@ h1, h2 {
   margin: 2px 0 6px;
 }
 
+/* "Stops to include": one checkbox per line, no border around the group */
+.walk-box .walk-stops {
+  border: none;
+  margin: 0 0 6px;
+  padding: 0;
+}
+.walk-box .walk-stops legend { padding: 0; }
+.walk-box .walk-stops label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.walk-box .walk-stops input { margin: 2px 0; accent-color: var(--accent); }
+
 .walk-box ul {
   margin: 6px 0 0;
   padding-left: 22px;
 }
+/* In a walk's summary: the kinds of stop the reader ticked, and a note when one didn't fit */
+.walk-box li.wanted { font-weight: 600; }
+.walk-box .walk-missing { color: var(--muted); font-size: 0.9em; }
 
 /* "My own spot…": the address box with its Find button on one line, and a small hint under it */
 .walk-box .custom-row {

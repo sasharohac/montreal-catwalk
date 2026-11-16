@@ -56,12 +56,12 @@
       <summary title="Show or hide the suggested walks"><h2>Suggested cat walks</h2></summary>
       <form id="walk-form">
         <label for="walk-start">Start at</label>
-        <!-- These values must match the "start" names in data/walks.geojson -->
+        <!-- data-lat / data-lng: the street corner each walk starts from (same corners as data/walks.geojson) -->
         <select id="walk-start">
           <option value="">Choose a start…</option>
-          <option value="Métro Mont-Royal">Métro Mont-Royal</option>
-          <option value="Métro Laurier">Métro Laurier</option>
-          <option value="Parc Laurier">Parc Laurier</option>
+          <option value="Métro Mont-Royal" data-lat="45.52408" data-lng="-73.582919">Métro Mont-Royal</option>
+          <option value="Métro Laurier" data-lat="45.527018" data-lng="-73.589323">Métro Laurier</option>
+          <option value="Parc Laurier" data-lat="45.532154" data-lng="-73.587681">Parc Laurier</option>
           <!-- Plans a walk from an address or a tapped spot (app.js section 11) -->
           <option value="custom">My own spot…</option>
         </select>
@@ -80,11 +80,15 @@
           <option value="3">3 km</option>
           <option value="5">5 km</option>
         </select>
-        <label for="walk-theme">Theme</label>
-        <select id="walk-theme">
-          <option value="cats" selected>Cat walk (most cats)</option>
-          <option value="nature">Nature walk (most green alleys)</option>
-        </select>
+        <!-- Tick every kind of stop the walk must pass (app.js section 11 plans a loop through them).
+             The values must match the STOP_KINDS names in app.js. -->
+        <fieldset class="walk-stops">
+          <legend>Stops to include</legend>
+          <label><input type="checkbox" name="stop" value="cats" checked> Cats</label>
+          <label><input type="checkbox" name="stop" value="fountains"> Water fountains</label>
+          <label><input type="checkbox" name="stop" value="nature"> Nature (green alleys, gardens)</label>
+          <label><input type="checkbox" name="stop" value="cool"> Free AC (cool places)</label>
+        </fieldset>
       </form>
       <!-- What the walk passes, or a "sorry" message; read aloud by screen readers when it changes -->
       <div id="walk-summary" aria-live="polite">Loading walks…</div>
@@ -97,16 +101,8 @@
         <!-- Every colour on the map also has a text label (the layer switcher uses the same names) -->
         <ul class="legend" aria-label="Map key">
           <li><img src="icons/cat.png" alt="" width="14" height="16"> Cats </li>
-          <li>Green alleys, by distance to the nearest cat:
-            <!-- These five colours and breaks must match alleyColour() in app.js -->
-            <ul class="legend-classes">
-              <li><span class="swatch alley d1"></span> under 100 m</li>
-              <li><span class="swatch alley d2"></span> 100 to 249 m (under 3 min walk)</li>
-              <li><span class="swatch alley d3"></span> 250 to 499 m (under 6 min)</li>
-              <li><span class="swatch alley d4"></span> 500 to 999 m (under 12 min)</li>
-              <li><span class="swatch alley d5"></span> 1 km or more</li>
-            </ul>
-          </li>
+          <!-- Same green as alleyStyle in app.js -->
+          <li><span class="swatch alley"></span> Green alleys</li>
           <!-- Same droplet as fountainIcon() in app.js -->
           <li><svg class="swatch fountain" viewBox="0 0 24 32" aria-hidden="true"><path d="M12 2 C12 2 3 14 3 21 a9 9 0 0 0 18 0 C21 14 12 2 12 2 Z" fill="#0d3b8c" stroke="#ffffff" stroke-width="2.5"/><ellipse cx="8.5" cy="21" rx="2" ry="3.5" fill="#ffffff" opacity="0.5"/></svg> Water fountains</li>
           <li><span class="swatch dot garden"></span> Communal gardens</li>
