@@ -115,9 +115,9 @@ const DROP_SVG =
   "</svg>";
 
 // Droplets grow as you zoom in, so they don't look tiny next to the streets:
-// 13px tall at zoom 14 or less, then 3px more per zoom level, up to 26px
+// 16px tall at zoom 14 or less, then 4px more per zoom level, up to 32px
 function fountainHeight(zoom) {
-  return Math.min(26, Math.max(13, 13 + (zoom - 14) * 3));
+  return Math.min(32, Math.max(16, 16 + (zoom - 14) * 4));
 }
 
 // The droplet icon at a given height; its round bottom sits on the fountain's location
