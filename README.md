@@ -74,14 +74,6 @@ A layer's colour is set in two places which is improtant to remember, if you wan
 
 What I changed: each city dataset was cut down to the columns the popups show, with short English column names. Values stay in French as the city wrote them. The alleys use the JSON download, because the CSV has no coordinates. The city updates the alleys dataset every autumn.
 
-### Computed layer: green alleys by distance to the nearest cat
-
-**How it was computed:** in `ruelles_cat_distance.ipynb`, the alleys and the cats are both converted to metres (MTM zone 8, `EPSG:2950`). Then `sjoin_nearest` measures the straight-line distance from each alley's edge to the closest cat photo, and a 500 m buffer around each alley counts how many cats fall inside it. These are straight-line distances, not walking distances. (All from the lab #5 notebook, just imported my own data)
-
-**Total check:** all 1,262 alley segments got a distance (1,262 of 1,262). The two measures agree: no alley under 500 m from its nearest cat has 0 cats within 500 m, and no alley over 500 m away has any.
-
-**What the colours mean:** darker green alleys are closer to a cat I photographed. The darkest are less than 100 m from one, and the palest are 1 km or more from any cat. The five classes are under 100 m, 100–249 m, 250–499 m, 500–999 m and 1 km or more, which is roughly a 3, 6 and 12 minute walk.
-
 ---
 
 ## Current state
@@ -102,7 +94,7 @@ What I changed: each city dataset was cut down to the columns the popups show, w
 
 ---
 ## After the demo
-- At my demo, Everything went pretty smoothly, just working on fully understanding and grasping each line taking it step by step. Also going to work on adding a gradient to the alleyways depending on how close they are to a reported cat, which is what I will accomplish in lab #5 today. 
+- At my demo, Everything went pretty smoothly, just working on fully understanding and grasping each line taking it step by step. 
 
 ## Suggestions from a classmate 
 - Leo reviewed my site, and he critiques the color gradient of the alleys in relation to the nearest cat, the green gradient is not super evident especially considering that the alleys are so thin. 
@@ -199,3 +191,16 @@ Test 3: *"My own spot…"** option. The reader types an address (looked up with 
 
 Recheck: 
 Asked Destin to check on the waterfountain box and find the nearest water fountain from Mont-Royal, was able to do it no problem.
+
+## Update: build your own walk (choose your stops)
+The Theme menu (cat walk / nature walk) is replaced by a **Stops to include** checklist: Cats, Water fountains, Nature (green alleys, gardens) and Free AC (cool places). The starts (Métro Mont-Royal, Métro Laurier, Parc Laurier, My own spot…) and the 2, 3 and 5 km lengths are the same. 
+
+**Inspection:** every walk, including the three fixed starts, is now planned in the page from `data/walk_network.json`, with the same method as "My own spot". The map no longer loads `data/walks.geojson`. The fixed starts' street corners are written on their menu options in `index.html` (`data-lat` / `data-lng`). No library was added (still only Leaflet).
+- **Event:** `walkForm.addEventListener("change", ...)` (`app.js` line 563), fired when the start, the length or any checkbox changes.
+- **Handler:** `showWalk()` (line 478) reads the start, the length and the ticked stops (`tickedStops()`, line 473), then `planWalk()` (line 916) calls `planLoop()` (line 817). It tries 160 loops through one stop of each ticked kind, visited in order around the start, and keeps the one within 15% of the length that passes the most ticked kinds.
+- **Update:** `walkLayer.clearLayers()` (line 479) removes the old route, and `drawWalk()` (line 530) draws the new loop, the fountains, gardens and AC places it passes (with their popups, even when those layers are off), and the summary, with the ticked kinds in bold. If a ticked kind doesn't fit, the walk is still drawn and the summary says, for example, "Sorry, I couldn't fit a free AC place into a loop this long from here. Try a longer walk or another start."
+
+**Checks:** all 3 starts × 2, 3 and 5 km × 6 combinations of ticks (54 walks) drew a loop that passes every ticked kind, each planned in under 0.11 s. Métro Mont-Royal, 2 km, cats only: 2.2 km loop, 22 cats. Starts near the edge of the network: a 2 km walk with everything ticked says what it couldn't fit, and a 5 km walk from the same spot usually fits everything.
+
+## Update: green alleys in one colour
+I removed the green alleys' distance-to-the-nearest-cat colours, and `ruelles_cat_distance.ipynb` with them, because the gradient didn't add much to the map (see Leo's comment above). The alleys are now one green, loaded straight from `data/ruelles_vertes.geojson`, and the map key has a single "Green alleys" entry. The alley popup no longer shows the nearest cat or the cats within 500 m.
