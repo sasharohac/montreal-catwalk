@@ -83,6 +83,7 @@ body.gallery-page {
 
 /* One card: square photo on top, date and "Show on map" underneath */
 .card {
+  position: relative;   /* so the "Submitted by" label can sit on top of the photo */
   margin: 0;
   background: var(--butter);
   border-radius: 14px;
@@ -94,6 +95,27 @@ body.gallery-page {
 /* Photos sent in by someone else (not "admin"): light orange instead of light yellow (gallery.js isCommunity) */
 .card.community {
   background: #fcd5a8;
+}
+
+/* "Submitted by …" on community photos: a small orange label over the top left corner of the photo.
+   pointer-events: none lets a click on it still open the photo underneath. */
+.card .submitted-by {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  max-width: calc(100% - 16px);
+  box-sizing: border-box;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #fcd5a8;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;   /* very long names end in "…" instead of spilling off the photo */
+  box-shadow: 0 1px 4px rgba(31, 30, 26, 0.2);
+  pointer-events: none;
 }
 
 /* Square thumbnails, cropped (not squashed); the fixed shape stops the page jumping as photos load.

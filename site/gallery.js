@@ -53,6 +53,7 @@ function cardHtml(p, date, index) {
     : "Date unknown";
   return `
     <figure class="card${isCommunity(p) ? " community" : ""}" id="${id}" data-index="${index}">
+      ${isCommunity(p) ? `<span class="submitted-by">Submitted by ${escapeHtml(p.submitted_by)}</span>` : ""}
       <img src="${escapeHtml(p.image)}" alt="${escapeHtml(hasName ? p.name : "Cat photo")}" loading="lazy">
       <figcaption>
         ${hasName ? `<strong>${escapeHtml(p.name)}</strong>` : ""}
@@ -152,6 +153,7 @@ function showPhoto(i) {
     hasName ? escapeHtml(p.name) : "",
     `<strong class="when">${escapeHtml(when)}</strong>`, // date in bold
     p.description ? escapeHtml(p.description) : "",
+    isCommunity(p) ? `Submitted by ${escapeHtml(p.submitted_by)}` : "",
   ].filter(Boolean).join(" · ");
   lbMap.href = `index.html#cat=${catId(p)}`;
 }
