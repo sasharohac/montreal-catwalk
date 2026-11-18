@@ -165,7 +165,7 @@ function catId(p) {
 }
 
 // Cat popup: photo (a link to it in the gallery), name (if it has a real one),
-// date, description (if any) and coordinates rounded to 5 decimals (about 1 m)
+// date, description (if any), who submitted it (if someone else did) and coordinates rounded to 5 decimals (about 1 m)
 function popupHtml(p) {
   const hasName = p.name && p.name !== "Cat sighting";
   return `
@@ -176,6 +176,7 @@ function popupHtml(p) {
       ${hasName ? `<h2>${escapeHtml(p.name)}</h2>` : ""}
       <p><strong class="when">${escapeHtml(formatDate(p.date))}</strong></p>
       ${p.description ? `<p>${escapeHtml(p.description)}</p>` : ""}
+      ${p.submitted_by ? `<p>Submitted by ${escapeHtml(p.submitted_by)}</p>` : ""}
       <p class="coords">${Number(p.lat).toFixed(5)}, ${Number(p.lon).toFixed(5)}</p>
     </div>`;
 }

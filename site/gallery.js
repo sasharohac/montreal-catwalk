@@ -37,7 +37,14 @@ function catId(p) {
   return (p.photo || "").replace(/\.[^.]+$/, "").replace(/[^A-Za-z0-9_-]/g, "_");
 }
 
+// True for photos sent in by someone else (submitted_by is a name, not "admin" or blank)
+function isCommunity(p) {
+  const by = (p.submitted_by || "").trim().toLowerCase();
+  return by !== "" && by !== "admin";
+}
+
 // Build the HTML for one photo card. "index" is its place in the sorted list, used by the lightbox.
+// Community photos get the "community" class, which gives them a light orange caption (gallery.css).
 function cardHtml(p, date, index) {
   const id = catId(p);
   const hasName = p.name && p.name !== "Cat sighting";
@@ -45,7 +52,7 @@ function cardHtml(p, date, index) {
     ? date.toLocaleString("en-CA", { day: "numeric", month: "long", hour: "numeric", minute: "2-digit" })
     : "Date unknown";
   return `
-    <figure class="card" id="${id}" data-index="${index}">
+    <figure class="card${isCommunity(p) ? " community" : ""}" id="${id}" data-index="${index}">
       <img src="${escapeHtml(p.image)}" alt="${escapeHtml(hasName ? p.name : "Cat photo")}" loading="lazy">
       <figcaption>
         ${hasName ? `<strong>${escapeHtml(p.name)}</strong>` : ""}

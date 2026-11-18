@@ -91,6 +91,11 @@ body.gallery-page {
   scroll-margin-top: 80px;
 }
 
+/* Photos sent in by someone else (not "admin"): light orange instead of light yellow (gallery.js isCommunity) */
+.card.community {
+  background: #fcd5a8;
+}
+
 /* Square thumbnails, cropped (not squashed); the fixed shape stops the page jumping as photos load.
    They can be clicked to expand them, so the cursor becomes a magnifying glass. */
 .card img {
