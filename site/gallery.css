@@ -51,6 +51,9 @@ body.gallery-page {
   color: var(--muted);
 }
 
+/* The "Add your own cat" button (styled in style.css), with a little room above it */
+.gallery-header .add-cat { margin-top: 12px; }
+
 .gallery-header p.error {
   color: #b3261e;
 }

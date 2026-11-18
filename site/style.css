@@ -111,9 +111,24 @@ h1, h2 {
 }
 
 .map-page #status {
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   text-align: center;
 }
+
+/* "Add your own cat": a pink pill button linking to the Google Form (map and gallery pages) */
+.add-cat { margin: 0 0 16px; }
+.map-page .add-cat { text-align: center; }
+.add-cat-button {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+}
+.add-cat-button:hover,
+.add-cat-button:focus-visible { background: #8e3a50; color: #fff; }
 
 /* Under the map: key on the left, sources on the right */
 .below-map {
