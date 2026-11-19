@@ -300,6 +300,16 @@ h1, h2 {
   background: var(--paper);
 }
 
+/* A pink cat paw instead of the mouse cursor on the map, also over cats, alleys and other dots you can click.
+   (Leaflet's own rules still apply on top: a closed fist while dragging the map, and the normal
+   arrow over the walk box, the layer switcher and popups.) "16 16" puts the click point in the middle
+   of the paw; if the image can't load, the browser falls back to its usual hand. The picture is
+   icons/cat_paw_cursor.png (32 × 32, see icons/cat_paw.png for the large version). */
+.leaflet-grab,
+.leaflet-interactive {
+  cursor: url("icons/cat_paw_cursor.png") 16 16, pointer;
+}
+
 
 /* ---------- 5. Phone layout ---------- */
 /* Phone or narrow window: key and sources stack under the map */
