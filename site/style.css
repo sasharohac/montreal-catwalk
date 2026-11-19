@@ -545,6 +545,25 @@ h1, h2 {
 .walk-box li.wanted { font-weight: 600; }
 .walk-box .walk-missing { color: var(--muted); font-size: 0.9em; }
 
+/* "Take me there" and "Start in Street View" under a walk's summary (app.js, section 12):
+   two pink buttons side by side, wrapping onto two lines in a narrow box */
+.walk-box .walk-go {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 4px;
+}
+.walk-box .walk-go a {
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+}
+.walk-box .walk-go a + a { background: var(--paper); color: var(--accent); border: 1px solid var(--accent); }
+.walk-box .walk-go a:hover { text-decoration: underline; }
+
 /* "My own spot…": the address box with its Find button on one line, and a small hint under it */
 .walk-box .custom-row {
   display: flex;

@@ -18,6 +18,7 @@
 //   9. Load the free air-conditioned places
 //  10. Suggested walks: pick a start, a length and the stops to include
 //  11. Planning the loop (from a fixed start, an address or a tap on the map)
+//  12. "Take me there": the walk as Google Maps directions and Street View links
 // ============================================================
 
 
@@ -556,7 +557,12 @@ function drawWalk(walk) {
       <li${wanted("nature")}>${plural(p.gardens, "community garden")}</li>
       <li${wanted("cool")}>${plural(p.cool, "free AC place")}</li>
     </ul>
-    ${missing.length ? `<p class="walk-missing">Sorry, I couldn't fit ${new Intl.ListFormat("en", { type: "disjunction" }).format(missing)} into a loop this long from here. Try a longer walk or another start.</p>` : ""}`;
+    ${missing.length ? `<p class="walk-missing">Sorry, I couldn't fit ${new Intl.ListFormat("en", { type: "disjunction" }).format(missing)} into a loop this long from here. Try a longer walk or another start.</p>` : ""}
+    <p class="walk-go">
+      <a href="${escapeHtml(directionsUrl(walk))}" target="_blank" rel="noopener">Take me there</a>
+      <a href="${escapeHtml(streetViewUrl(walk))}" target="_blank" rel="noopener">Start in Street View</a>
+    </p>
+    <p class="hint">Opens Google Maps in a new tab, with turn-by-turn directions on a phone. Google picks its own streets between the points, so it can differ a little from the pink line.</p>`;
 }
 
 // Any menu or checkbox. (Typing in the address box also fires "change" when you leave it:
@@ -908,6 +914,7 @@ function planLoop(net, spot, km, kinds) {
         missing: kinds.filter((k) => !best.passed[k]),
       },
       stops: best.stops,   // the features passed, for drawPassedStops()
+      alleys: greenStretches(net, start, best.loop),   // for the "Take me there" link (section 12)
     },
   };
 }
@@ -989,3 +996,114 @@ map.on("click", (e) => {
   map.closePopup();   // tapping an alley or a dot also opens its popup: close it, the reader meant "start here"
   setCustomStart(e.latlng.lat, e.latlng.lng, null);
 });
+
+
+// ---------- 12. "Take me there": the walk in Google Maps ----------
+// Two links under each walk's summary:
+//   - "Take me there" opens Google Maps walking directions for the loop (start → waypoints → start).
+//     On a phone that's the Maps app, with turn-by-turn directions.
+//   - "Start in Street View" opens Street View at the start, facing the way the walk sets off.
+// Google takes at most 9 waypoints in a link and picks its own streets between them, so the
+// waypoints are chosen to pin the route to the pink line: first the middle of the longest green
+// alleys the walk goes through (Google might otherwise take the street next to them), then the
+// points where the loop bends the most away from a straight line.
+
+const GOOGLE_MAX_WAYPOINTS = 9;  // Google Maps' limit for a directions link
+const ALLEY_WAYPOINTS = 3;       // at most this many of them go to green alleys
+const ALLEY_MIN_M = 60;          // shorter stretches of green alley aren't worth a waypoint
+const WAYPOINT_MIN_BEND_M = 25;  // stop adding waypoints once the line strays less than this from them
+
+// The stretches of green alley a loop walks through, longest first: for each, its middle point
+// ([lon, lat]), where that falls in the loop's line (an index into loopLine()), and its length.
+// A street piece counts as green alley when more than half of it is.
+function greenStretches(net, startCorner, loop) {
+  const stretches = [];
+  let current = null;
+  let index = 0;   // where each piece starts in the loop's line
+  for (const i of loop) {
+    const { length, green, bends } = net.pieces[i];
+    if (green > length / 2) {
+      if (!current) { current = { pieces: [], metres: 0 }; stretches.push(current); }
+      current.pieces.push({ i, index, length });
+      current.metres += length;
+    } else {
+      current = null;
+    }
+    index += bends.length / 2 + 1;
+  }
+  return stretches
+    .filter((s) => s.metres >= ALLEY_MIN_M)
+    .map((s) => {
+      // The piece halfway along the stretch, and the middle of that piece
+      let walked = 0;
+      const middle = s.pieces.find((p) => (walked += p.length) >= s.metres / 2);
+      const { u, v, bends } = net.pieces[middle.i];
+      const point = bends.length
+        ? [bends[2 * Math.floor(bends.length / 4)], bends[2 * Math.floor(bends.length / 4) + 1]]
+        : [(net.nodes[u][0] + net.nodes[v][0]) / 2, (net.nodes[u][1] + net.nodes[v][1]) / 2];
+      return { point, index: middle.index, metres: s.metres };
+    })
+    .sort((a, b) => b.metres - a.metres);
+}
+
+// Up to GOOGLE_MAX_WAYPOINTS points ([lon, lat]) along the loop, in walking order
+function walkWaypoints(walk) {
+  const coords = walk.geometry.coordinates;
+  const xy = coords.map(toXY);
+  const last = coords.length - 1;
+  const chosen = new Map([[0, coords[0]], [last, coords[last]]]);   // line index → point
+
+  // 1. The middle of the longest green alleys
+  for (const alley of (walk.alleys || []).slice(0, ALLEY_WAYPOINTS)) {
+    if (alley.index > 0 && alley.index < last && !chosen.has(alley.index)) chosen.set(alley.index, alley.point);
+  }
+
+  // 2. The sharpest bends: add the point of the line furthest from the waypoints chosen so far
+  //    (like Douglas-Peucker line simplification), until there are enough or the line is close to them
+  while (chosen.size - 2 < GOOGLE_MAX_WAYPOINTS) {
+    const kept = [...chosen.keys()].sort((a, b) => a - b);
+    let far = -1, farM = WAYPOINT_MIN_BEND_M;
+    for (let k = 1; k < kept.length; k++) {
+      const [a, b] = [kept[k - 1], kept[k]];
+      for (let i = a + 1; i < b; i++) {
+        const metres = distanceToSegment(xy[i][0], xy[i][1], xy[a], xy[b]);
+        if (metres > farM) { far = i; farM = metres; }
+      }
+    }
+    if (far < 0) break;
+    chosen.set(far, coords[far]);
+  }
+
+  return [...chosen.keys()].sort((a, b) => a - b).slice(1, -1).map((i) => chosen.get(i));
+}
+
+// "lat,lng" for Google, from a [lon, lat] point
+const googlePoint = ([lon, lat]) => `${lat.toFixed(6)},${lon.toFixed(6)}`;
+
+// Google Maps walking directions from the start, through the waypoints and back to the start
+function directionsUrl(walk) {
+  const start = googlePoint(walk.geometry.coordinates[0]);
+  const params = new URLSearchParams({
+    api: "1",
+    origin: start,
+    destination: start,
+    travelmode: "walking",
+    waypoints: walkWaypoints(walk).map(googlePoint).join("|"),
+  });
+  return `https://www.google.com/maps/dir/?${params}`;
+}
+
+// Google Street View at the start, facing the first ~30 m of the walk
+function streetViewUrl(walk) {
+  const coords = walk.geometry.coordinates;
+  const [sx, sy] = toXY(coords[0]);
+  const ahead = coords.map(toXY).find(([x, y]) => Math.hypot(x - sx, y - sy) >= 30) || toXY(coords[1]);
+  const heading = (Math.atan2(ahead[0] - sx, ahead[1] - sy) * 180 / Math.PI + 360) % 360;   // 0 = north
+  const params = new URLSearchParams({
+    api: "1",
+    map_action: "pano",
+    viewpoint: googlePoint(coords[0]),
+    heading: Math.round(heading),
+  });
+  return `https://www.google.com/maps/@?${params}`;
+}
