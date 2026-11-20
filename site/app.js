@@ -19,6 +19,7 @@
 //  10. Suggested walks: pick a start, a length and the stops to include
 //  11. Planning the loop (from a fixed start, an address or a tap on the map)
 //  12. "Take me there": the walk as Google Maps directions and Street View links
+//  13. My cats: the reader's own list of cats to visit, ticked off as they meet them (remember.js)
 // ============================================================
 
 
@@ -250,7 +251,14 @@ map.on("popupopen", (e) => {
     note.textContent = "Sorry, this cat's photo couldn't be loaded.";
     img.replaceWith(note);
   }, { once: true });
-  img.addEventListener("load", () => e.popup.update(), { once: true }); // resize popup to fit the photo
+  // Resize the popup to fit the photo once it has loaded. Not with e.popup.update(): that redraws the
+  // popup's content and removes the "Cats to visit" / "Mark as visited" buttons remember.js added.
+  // These three are the resize steps of update() without the redraw.
+  img.addEventListener("load", () => {
+    e.popup._updateLayout();
+    e.popup._updatePosition();
+    e.popup._adjustPan();
+  }, { once: true });
 });
 
 
@@ -299,6 +307,9 @@ fetch(DATA_URL)
       },
     }).addTo(map);
     layerSwitcher.addOverlay(layer, "Cats");
+
+    // "My cats": the cats this reader saved, each with a tick for the ones they've met (section 13)
+    setUpMyCats(layer);
 
     // Show how many cats were loaded ("1 cat" vs "N cats")
     const count = data.features.length;
@@ -914,7 +925,7 @@ function planLoop(net, spot, km, kinds) {
         missing: kinds.filter((k) => !best.passed[k]),
       },
       stops: best.stops,   // the features passed, for drawPassedStops()
-      alleys: greenStretches(net, start, best.loop),   // for the "Take me there" link (section 12)
+      alleys: greenStretches(net, best.loop),   // for the "Take me there" link (section 12)
     },
   };
 }
@@ -1016,7 +1027,7 @@ const WAYPOINT_MIN_BEND_M = 25;  // stop adding waypoints once the line strays l
 // The stretches of green alley a loop walks through, longest first: for each, its middle point
 // ([lon, lat]), where that falls in the loop's line (an index into loopLine()), and its length.
 // A street piece counts as green alley when more than half of it is.
-function greenStretches(net, startCorner, loop) {
+function greenStretches(net, loop) {
   const stretches = [];
   let current = null;
   let index = 0;   // where each piece starts in the loop's line
@@ -1106,4 +1117,94 @@ function streetViewUrl(walk) {
     heading: Math.round(heading),
   });
   return `https://www.google.com/maps/@?${params}`;
+}
+
+
+// ---------- 13. My cats (the folding box in the top right of the map) ----------
+// The map remembers two things for each reader, in their own browser (remember.js, Lab 9):
+//   - the cats they saved to visit ("♡ Save to My cats" in a cat's popup), and
+//   - the cats they've met ("🐾 Mark as visited" in the popup, or the tick box in this list).
+// Both are kept by rememberMarks() in remember.js, which also adds the two popup buttons.
+// This box shows every cat in either one: not-yet-met cats first, met ones underneath with a paw.
+// Click a name to fly to that cat; ✕ takes it off the list (and forgets you met it).
+// Folded, the box is one line, "My cats · 2 of 5 met"; whether it's open is remembered too.
+
+function setUpMyCats(catLayer) {
+  // Every cat pin, by its photo's file name (the id rememberMarks uses)
+  const pins = {};
+  catLayer.eachLayer((pin) => { pins[pin.feature.properties.photo] = pin; });
+
+  // The box: a <details> like the walk box, so its title folds and unfolds it
+  const box = L.DomUtil.create("details", "my-cats");
+  box.innerHTML = `
+    <summary><h2>My cats</h2><span class="my-cats-count"></span></summary>
+    <p class="hint my-cats-empty">Open a cat and press <strong>♡ Save to My cats</strong> to add it here.</p>
+    <ul class="my-cats-list"></ul>`;
+  L.DomEvent.disableClickPropagation(box);
+  L.DomEvent.disableScrollPropagation(box);
+  const MyCatsBox = L.Control.extend({ onAdd: () => box });
+  new MyCatsBox({ position: "topright" }).addTo(map);
+
+  // Open or folded as the reader left it (folded the first time on a phone, where the map is small)
+  const openKey = geog464StorageKey("my-cats-open");
+  box.open = geog464Load(openKey, !isPhone());
+  box.addEventListener("toggle", () => geog464Save(openKey, box.open));
+
+  // The two lists remember.js keeps. panel: false = no panels of its own, this box shows them instead;
+  // onChange = redraw this box whenever a popup button or a tick changes one of them.
+  const saved = rememberMarks(map, catLayer, { idField: "photo", nameField: "name", title: "My cats", panel: false, onChange: () => draw() });
+  const met = rememberMarks(map, catLayer, { idField: "photo", nameField: "name", mode: "progress", panel: false, onChange: () => draw() });
+
+  const count = box.querySelector(".my-cats-count");
+  const empty = box.querySelector(".my-cats-empty");
+  const list = box.querySelector(".my-cats-list");
+  const catNumber = (id) => Number((pins[id].feature.properties.name.match(/\d+/) || [0])[0]);   // "Cat #12" → 12
+
+  function draw() {
+    // Every cat that's saved or met (and still on the map): not met first, then by number
+    const ids = [...new Set([...saved.marked, ...met.marked])].filter((id) => pins[id]);
+    ids.sort((a, b) => met.has(a) - met.has(b) || catNumber(a) - catNumber(b));
+    const metCount = ids.filter((id) => met.has(id)).length;
+    count.textContent = ids.length ? `${metCount} of ${ids.length} met` : "";
+    empty.hidden = ids.length > 0;
+
+    list.textContent = "";
+    for (const id of ids) {
+      const name = pins[id].feature.properties.name || "Cat";
+      const li = document.createElement("li");
+      li.classList.toggle("met", met.has(id));
+
+      // Tick box: met this cat or not
+      const tick = document.createElement("input");
+      tick.type = "checkbox";
+      tick.checked = met.has(id);
+      tick.setAttribute("aria-label", `I've met ${name}`);
+      tick.addEventListener("change", () => met.toggle(id));
+
+      // The name: fly to the cat and open its popup
+      const link = document.createElement("a");
+      link.href = "#";
+      link.textContent = name;
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        map.setView(pins[id].getLatLng(), Math.max(map.getZoom(), 17));
+        pins[id].openPopup();
+      });
+
+      // ✕: off the list altogether
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "my-cats-remove";
+      remove.textContent = "✕";
+      remove.setAttribute("aria-label", `Remove ${name} from My cats`);
+      remove.addEventListener("click", () => {
+        if (saved.has(id)) saved.toggle(id);
+        if (met.has(id)) met.toggle(id);
+      });
+
+      li.append(tick, link, remove);
+      list.append(li);
+    }
+  }
+  draw();
 }

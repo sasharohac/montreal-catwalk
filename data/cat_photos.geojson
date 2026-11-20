@@ -16,7 +16,7 @@
         "date": "2023-02-27 15:32",
         "lat": 45.532258,
         "lon": -73.566331,
-        "name": "",
+        "name": "Cat #1",
         "category": "Cat",
         "description": "",
         "submitted_by": "Shy F"
@@ -37,7 +37,7 @@
         "date": "2024-05-15 14:24",
         "lat": 45.520292,
         "lon": -73.580367,
-        "name": "",
+        "name": "Cat #2",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -58,7 +58,7 @@
         "date": "2024-05-25 13:45",
         "lat": 45.522014,
         "lon": -73.581261,
-        "name": "",
+        "name": "Cat #3",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -79,7 +79,7 @@
         "date": "2024-06-09 10:50",
         "lat": 45.52195,
         "lon": -73.581153,
-        "name": "",
+        "name": "Cat #4",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -100,7 +100,7 @@
         "date": "2024-06-30 19:37",
         "lat": 45.520656,
         "lon": -73.5813,
-        "name": "",
+        "name": "Cat #5",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -121,7 +121,7 @@
         "date": "2024-06-30 20:03",
         "lat": 45.521992,
         "lon": -73.581506,
-        "name": "",
+        "name": "Cat #6",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -142,7 +142,7 @@
         "date": "2024-07-01 19:48",
         "lat": 45.524917,
         "lon": -73.586931,
-        "name": "",
+        "name": "Cat #7",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -163,7 +163,7 @@
         "date": "2024-07-17 20:23",
         "lat": 45.525611,
         "lon": -73.57785,
-        "name": "",
+        "name": "Cat #8",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -184,7 +184,7 @@
         "date": "2024-07-17 20:26",
         "lat": 45.525364,
         "lon": -73.578331,
-        "name": "",
+        "name": "Cat #9",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -205,7 +205,7 @@
         "date": "2024-07-17 20:40",
         "lat": 45.520381,
         "lon": -73.573172,
-        "name": "",
+        "name": "Cat #10",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -226,7 +226,7 @@
         "date": "2024-07-17 20:48",
         "lat": 45.51855,
         "lon": -73.573647,
-        "name": "",
+        "name": "Cat #11",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -247,7 +247,7 @@
         "date": "2024-08-06 19:53",
         "lat": 45.520694,
         "lon": -73.581222,
-        "name": "",
+        "name": "Cat #12",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -268,7 +268,7 @@
         "date": "2024-08-14 13:43",
         "lat": 45.525039,
         "lon": -73.593314,
-        "name": "",
+        "name": "Cat #13",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -289,7 +289,7 @@
         "date": "2024-08-18 13:44",
         "lat": 45.524719,
         "lon": -73.600167,
-        "name": "",
+        "name": "Cat #14",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -310,7 +310,7 @@
         "date": "2024-08-26 17:27",
         "lat": 45.519133,
         "lon": -73.58255,
-        "name": "",
+        "name": "Cat #15",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -331,7 +331,7 @@
         "date": "2024-09-02 11:40",
         "lat": 45.521042,
         "lon": -73.575692,
-        "name": "",
+        "name": "Cat #16",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -352,7 +352,7 @@
         "date": "2024-09-22 14:52",
         "lat": 45.520875,
         "lon": -73.585197,
-        "name": "",
+        "name": "Cat #17",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -373,7 +373,7 @@
         "date": "2024-10-05 12:59",
         "lat": 45.520153,
         "lon": -73.583428,
-        "name": "",
+        "name": "Cat #18",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -394,7 +394,7 @@
         "date": "2024-10-18 11:44",
         "lat": 45.520664,
         "lon": -73.574006,
-        "name": "",
+        "name": "Cat #19",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -415,7 +415,7 @@
         "date": "2024-10-25 12:52",
         "lat": 45.523647,
         "lon": -73.588128,
-        "name": "",
+        "name": "Cat #20",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -436,7 +436,7 @@
         "date": "2024-11-01 11:50",
         "lat": 45.524044,
         "lon": -73.585892,
-        "name": "",
+        "name": "Cat #21",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -457,7 +457,7 @@
         "date": "2025-03-11 18:37",
         "lat": 45.521253,
         "lon": -73.581794,
-        "name": "",
+        "name": "Cat #22",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -478,7 +478,7 @@
         "date": "2025-03-13 09:44",
         "lat": 45.521992,
         "lon": -73.581017,
-        "name": "",
+        "name": "Cat #23",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -499,7 +499,7 @@
         "date": "2025-04-02 11:01",
         "lat": 45.525683,
         "lon": -73.578025,
-        "name": "",
+        "name": "Cat #24",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -520,7 +520,7 @@
         "date": "2025-04-02 11:05",
         "lat": 45.525586,
         "lon": -73.577903,
-        "name": "",
+        "name": "Cat #25",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -541,7 +541,7 @@
         "date": "2025-04-03 15:21",
         "lat": 45.523722,
         "lon": -73.584892,
-        "name": "",
+        "name": "Cat #26",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -562,7 +562,7 @@
         "date": "2025-05-10 17:17",
         "lat": 45.518781,
         "lon": -73.579178,
-        "name": "",
+        "name": "Cat #27",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -583,7 +583,7 @@
         "date": "2025-05-12 19:15",
         "lat": 45.518569,
         "lon": -73.577919,
-        "name": "",
+        "name": "Cat #28",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -604,7 +604,7 @@
         "date": "2025-05-20 14:15",
         "lat": 45.522481,
         "lon": -73.582183,
-        "name": "",
+        "name": "Cat #29",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -625,7 +625,7 @@
         "date": "2025-05-20 15:03",
         "lat": 45.516961,
         "lon": -73.584708,
-        "name": "",
+        "name": "Cat #30",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -646,7 +646,7 @@
         "date": "2025-05-21 13:37",
         "lat": 45.525581,
         "lon": -73.577836,
-        "name": "",
+        "name": "Cat #31",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -667,7 +667,7 @@
         "date": "2025-05-21 14:58",
         "lat": 45.525833,
         "lon": -73.578583,
-        "name": "",
+        "name": "Cat #32",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -688,7 +688,7 @@
         "date": "2025-05-21 15:49",
         "lat": 45.518806,
         "lon": -73.579108,
-        "name": "",
+        "name": "Cat #33",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -709,7 +709,7 @@
         "date": "2025-05-25 13:22",
         "lat": 45.520242,
         "lon": -73.588136,
-        "name": "",
+        "name": "Cat #34",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -730,7 +730,7 @@
         "date": "2025-05-28 10:35",
         "lat": 45.529961,
         "lon": -73.576247,
-        "name": "",
+        "name": "Cat #35",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -751,7 +751,7 @@
         "date": "2025-06-07 15:46",
         "lat": 45.521267,
         "lon": -73.581903,
-        "name": "",
+        "name": "Cat #36",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -772,7 +772,7 @@
         "date": "2025-06-14 15:19",
         "lat": 45.517483,
         "lon": -73.577606,
-        "name": "",
+        "name": "Cat #37",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -793,7 +793,7 @@
         "date": "2025-06-21 15:40",
         "lat": 45.519078,
         "lon": -73.577781,
-        "name": "",
+        "name": "Cat #38",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -814,7 +814,7 @@
         "date": "2025-06-24 20:43",
         "lat": 45.522511,
         "lon": -73.582161,
-        "name": "",
+        "name": "Cat #39",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -835,7 +835,7 @@
         "date": "2025-06-24 20:47",
         "lat": 45.522481,
         "lon": -73.582183,
-        "name": "",
+        "name": "Cat #40",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -856,7 +856,7 @@
         "date": "2025-06-24 20:52",
         "lat": 45.523297,
         "lon": -73.578972,
-        "name": "",
+        "name": "Cat #41",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -877,7 +877,7 @@
         "date": "2025-06-24 20:53",
         "lat": 45.523319,
         "lon": -73.579033,
-        "name": "",
+        "name": "Cat #42",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -898,7 +898,7 @@
         "date": "2025-07-01 20:55",
         "lat": 45.520206,
         "lon": -73.580772,
-        "name": "",
+        "name": "Cat #43",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -919,7 +919,7 @@
         "date": "2025-07-02 13:13",
         "lat": 45.520603,
         "lon": -73.580986,
-        "name": "",
+        "name": "Cat #44",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -940,7 +940,7 @@
         "date": "2025-07-03 20:55",
         "lat": 45.517625,
         "lon": -73.572053,
-        "name": "",
+        "name": "Cat #45",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -961,7 +961,7 @@
         "date": "2025-07-09 12:30",
         "lat": 45.521961,
         "lon": -73.581092,
-        "name": "",
+        "name": "Cat #46",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -982,7 +982,7 @@
         "date": "2025-07-09 12:38",
         "lat": 45.518903,
         "lon": -73.577225,
-        "name": "",
+        "name": "Cat #47",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1003,7 +1003,7 @@
         "date": "2025-07-10 15:53",
         "lat": 45.519417,
         "lon": -73.578431,
-        "name": "",
+        "name": "Cat #48",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1024,7 +1024,7 @@
         "date": "2025-07-27 13:05",
         "lat": 45.522872,
         "lon": -73.597594,
-        "name": "",
+        "name": "Cat #49",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1045,7 +1045,7 @@
         "date": "2025-07-27 13:48",
         "lat": 45.523711,
         "lon": -73.584847,
-        "name": "",
+        "name": "Cat #50",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1066,7 +1066,7 @@
         "date": "2025-07-30 15:48",
         "lat": 45.517789,
         "lon": -73.586556,
-        "name": "",
+        "name": "Cat #51",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1087,7 +1087,7 @@
         "date": "2025-08-05 11:16",
         "lat": 45.522867,
         "lon": -73.582961,
-        "name": "",
+        "name": "Cat #52",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1108,7 +1108,7 @@
         "date": "2025-08-05 12:15",
         "lat": 45.517569,
         "lon": -73.570703,
-        "name": "",
+        "name": "Cat #53",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1129,7 +1129,7 @@
         "date": "2025-08-06 12:05",
         "lat": 45.519322,
         "lon": -73.576881,
-        "name": "",
+        "name": "Cat #54",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1150,7 +1150,7 @@
         "date": "2025-08-12 15:44",
         "lat": 45.523625,
         "lon": -73.598892,
-        "name": "",
+        "name": "Cat #55",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1171,7 +1171,7 @@
         "date": "2025-08-12 16:27",
         "lat": 45.521969,
         "lon": -73.581092,
-        "name": "",
+        "name": "Cat #56",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1192,7 +1192,7 @@
         "date": "2025-08-14 16:39",
         "lat": 45.515361,
         "lon": -73.580789,
-        "name": "",
+        "name": "Cat #57",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1213,7 +1213,7 @@
         "date": "2025-08-18 14:11",
         "lat": 45.519414,
         "lon": -73.578475,
-        "name": "",
+        "name": "Cat #58",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1234,7 +1234,7 @@
         "date": "2025-08-19 11:39",
         "lat": 45.526558,
         "lon": -73.579933,
-        "name": "",
+        "name": "Cat #59",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1255,7 +1255,7 @@
         "date": "2025-08-26 15:28",
         "lat": 45.521806,
         "lon": -73.580733,
-        "name": "",
+        "name": "Cat #60",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1276,7 +1276,7 @@
         "date": "2025-08-31 14:51",
         "lat": 45.518514,
         "lon": -73.580078,
-        "name": "",
+        "name": "Cat #61",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1297,7 +1297,7 @@
         "date": "2025-09-07 11:54",
         "lat": 45.520306,
         "lon": -73.573028,
-        "name": "",
+        "name": "Cat #62",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1318,7 +1318,7 @@
         "date": "2025-09-12 10:43",
         "lat": 45.517792,
         "lon": -73.570428,
-        "name": "",
+        "name": "Cat #63",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1339,7 +1339,7 @@
         "date": "2025-09-15 11:59",
         "lat": 45.521275,
         "lon": -73.582589,
-        "name": "",
+        "name": "Cat #64",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1360,7 +1360,7 @@
         "date": "2025-09-26 15:46",
         "lat": 45.517697,
         "lon": -73.586328,
-        "name": "",
+        "name": "Cat #65",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1381,7 +1381,7 @@
         "date": "2025-09-26 15:54",
         "lat": 45.516025,
         "lon": -73.582664,
-        "name": "",
+        "name": "Cat #66",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1402,7 +1402,7 @@
         "date": "2025-09-26 15:55",
         "lat": 45.515728,
         "lon": -73.581964,
-        "name": "",
+        "name": "Cat #67",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1423,7 +1423,7 @@
         "date": "2025-09-29 14:11",
         "lat": 45.520942,
         "lon": -73.581169,
-        "name": "",
+        "name": "Cat #68",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1444,7 +1444,7 @@
         "date": "2025-10-27 15:13",
         "lat": 45.520672,
         "lon": -73.581069,
-        "name": "",
+        "name": "Cat #69",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1465,7 +1465,7 @@
         "date": "2025-10-28 17:10",
         "lat": 45.518444,
         "lon": -73.574692,
-        "name": "",
+        "name": "Cat #70",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1486,7 +1486,7 @@
         "date": "2025-11-24 18:25",
         "lat": 45.517608,
         "lon": -73.572067,
-        "name": "",
+        "name": "Cat #71",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1507,7 +1507,7 @@
         "date": "2026-04-02 18:27",
         "lat": 45.517789,
         "lon": -73.570244,
-        "name": "",
+        "name": "Cat #72",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1528,7 +1528,7 @@
         "date": "2026-04-26 15:50",
         "lat": 45.516781,
         "lon": -73.576789,
-        "name": "",
+        "name": "Cat #73",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1549,7 +1549,7 @@
         "date": "2026-04-29 17:51",
         "lat": 45.537972,
         "lon": -73.610261,
-        "name": "",
+        "name": "Cat #74",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1570,7 +1570,7 @@
         "date": "2026-04-30 13:18",
         "lat": 45.535586,
         "lon": -73.562303,
-        "name": "",
+        "name": "Cat #75",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1591,7 +1591,7 @@
         "date": "2026-04-30 18:38",
         "lat": 45.519767,
         "lon": -73.582506,
-        "name": "",
+        "name": "Cat #76",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1612,7 +1612,7 @@
         "date": "2026-05-01 11:57",
         "lat": 45.518836,
         "lon": -73.577256,
-        "name": "",
+        "name": "Cat #77",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1633,7 +1633,7 @@
         "date": "2026-05-12 16:48",
         "lat": 45.517617,
         "lon": -73.570647,
-        "name": "",
+        "name": "Cat #78",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1654,7 +1654,7 @@
         "date": "2026-05-18 14:54",
         "lat": 45.525936,
         "lon": -73.5961,
-        "name": "",
+        "name": "Cat #79",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1675,7 +1675,7 @@
         "date": "2026-05-18 16:11",
         "lat": 45.519725,
         "lon": -73.591492,
-        "name": "",
+        "name": "Cat #80",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1696,7 +1696,7 @@
         "date": "2026-05-19 18:41",
         "lat": 45.516761,
         "lon": -73.576814,
-        "name": "",
+        "name": "Cat #81",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1717,7 +1717,7 @@
         "date": "2026-05-23 17:16",
         "lat": 45.520503,
         "lon": -73.580047,
-        "name": "",
+        "name": "Cat #82",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1738,7 +1738,7 @@
         "date": "2026-05-24 16:45",
         "lat": 45.515889,
         "lon": -73.581978,
-        "name": "",
+        "name": "Cat #83",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1759,7 +1759,7 @@
         "date": "2026-05-25 19:41",
         "lat": 45.521081,
         "lon": -73.581239,
-        "name": "",
+        "name": "Cat #84",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1780,7 +1780,7 @@
         "date": "2026-05-28 20:07",
         "lat": 45.516261,
         "lon": -73.575714,
-        "name": "",
+        "name": "Cat #85",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1801,7 +1801,7 @@
         "date": "2026-06-01 17:38",
         "lat": 45.518856,
         "lon": -73.579344,
-        "name": "",
+        "name": "Cat #86",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1822,7 +1822,7 @@
         "date": "2026-06-01 17:51",
         "lat": 45.521175,
         "lon": -73.58175,
-        "name": "",
+        "name": "Cat #87",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1843,7 +1843,7 @@
         "date": "2026-06-01 18:10",
         "lat": 45.523247,
         "lon": -73.579011,
-        "name": "",
+        "name": "Cat #88",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1864,7 +1864,7 @@
         "date": "2026-06-01 18:21",
         "lat": 45.520789,
         "lon": -73.574197,
-        "name": "",
+        "name": "Cat #89",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1885,7 +1885,7 @@
         "date": "2026-06-01 18:34",
         "lat": 45.518119,
         "lon": -73.577514,
-        "name": "",
+        "name": "Cat #90",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1906,7 +1906,7 @@
         "date": "2026-06-05 14:24",
         "lat": 45.526097,
         "lon": -73.578194,
-        "name": "",
+        "name": "Cat #91",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1927,7 +1927,7 @@
         "date": "2026-06-05 18:47",
         "lat": 45.522653,
         "lon": -73.582567,
-        "name": "",
+        "name": "Cat #92",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1948,7 +1948,7 @@
         "date": "2026-06-06 18:39",
         "lat": 45.516331,
         "lon": -73.575889,
-        "name": "",
+        "name": "Cat #93",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1969,7 +1969,7 @@
         "date": "2026-06-15 15:13",
         "lat": 45.524453,
         "lon": -73.592094,
-        "name": "",
+        "name": "Cat #94",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -1990,7 +1990,7 @@
         "date": "2026-06-28 17:18",
         "lat": 45.516,
         "lon": -73.582939,
-        "name": "",
+        "name": "Cat #95",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2011,7 +2011,7 @@
         "date": "2026-07-13 17:45",
         "lat": 45.519386,
         "lon": -73.57685,
-        "name": "",
+        "name": "Cat #97",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2032,7 +2032,7 @@
         "date": "2026-07-13 17:45",
         "lat": 45.519383,
         "lon": -73.57685,
-        "name": "",
+        "name": "Cat #96",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2053,7 +2053,7 @@
         "date": "2026-07-17 19:52",
         "lat": 45.521206,
         "lon": -73.589828,
-        "name": "",
+        "name": "Cat #98",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2074,7 +2074,7 @@
         "date": "2026-07-17 19:53",
         "lat": 45.521192,
         "lon": -73.589767,
-        "name": "",
+        "name": "Cat #99",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2095,7 +2095,7 @@
         "date": "2026-07-17 20:02",
         "lat": 45.522994,
         "lon": -73.594575,
-        "name": "",
+        "name": "Cat #100",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2116,7 +2116,7 @@
         "date": "2026-08-15 19:12",
         "lat": 45.523925,
         "lon": -73.593103,
-        "name": "",
+        "name": "Cat #101",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2137,7 +2137,7 @@
         "date": "2026-08-25 12:50",
         "lat": 45.474289,
         "lon": -73.586556,
-        "name": "",
+        "name": "Cat #102",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2158,7 +2158,7 @@
         "date": "2026-09-05 15:59",
         "lat": 45.52475,
         "lon": -73.598342,
-        "name": "",
+        "name": "Cat #103",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2179,7 +2179,7 @@
         "date": "2026-09-07 13:45",
         "lat": 45.521167,
         "lon": -73.575111,
-        "name": "",
+        "name": "Cat #104",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2200,7 +2200,7 @@
         "date": "2026-09-14 12:04",
         "lat": 45.525417,
         "lon": -73.604356,
-        "name": "",
+        "name": "Cat #105",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2221,7 +2221,7 @@
         "date": "2026-09-26 16:55",
         "lat": 45.523422,
         "lon": -73.588272,
-        "name": "",
+        "name": "Cat #106",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2242,7 +2242,7 @@
         "date": "2026-09-26 19:24",
         "lat": 45.529969,
         "lon": -73.586731,
-        "name": "",
+        "name": "Cat #107",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2263,7 +2263,7 @@
         "date": "2026-09-29 17:39",
         "lat": 45.518883,
         "lon": -73.601006,
-        "name": "",
+        "name": "Cat #108",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2284,7 +2284,7 @@
         "date": "2026-10-07 17:25",
         "lat": 45.516858,
         "lon": -73.576125,
-        "name": "",
+        "name": "Cat #109",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2305,7 +2305,7 @@
         "date": "2026-10-19 12:12",
         "lat": 45.521767,
         "lon": -73.601503,
-        "name": "",
+        "name": "Cat #110",
         "category": "Cat",
         "description": "Friendly cat always outside Mordecai Richler Library, nice place to take a pause, read a book, meet this friend",
         "submitted_by": "admin"
@@ -2326,7 +2326,7 @@
         "date": "2026-10-19 13:26",
         "lat": 45.516772,
         "lon": -73.584253,
-        "name": "",
+        "name": "Cat #111",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2347,7 +2347,7 @@
         "date": "2026-10-19 16:31",
         "lat": 45.517608,
         "lon": -73.577508,
-        "name": "",
+        "name": "Cat #112",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2368,7 +2368,7 @@
         "date": "2026-10-22 16:37",
         "lat": 45.5227,
         "lon": -73.6126,
-        "name": "",
+        "name": "Cat #113",
         "category": "Cat",
         "description": "",
         "submitted_by": "MonkeyLuvr"
@@ -2389,7 +2389,7 @@
         "date": "2026-10-26 13:34",
         "lat": 45.524414,
         "lon": -73.597375,
-        "name": "",
+        "name": "Cat #114",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2410,7 +2410,7 @@
         "date": "2026-10-27 15:41",
         "lat": 45.523208,
         "lon": -73.572594,
-        "name": "",
+        "name": "Cat #115",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2431,7 +2431,7 @@
         "date": "2026-11-03 08:15",
         "lat": 45.516603,
         "lon": -73.572311,
-        "name": "",
+        "name": "Cat #116",
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
@@ -2452,7 +2452,7 @@
         "date": "2026-11-12 11:09",
         "lat": 45.474319,
         "lon": -73.6173,
-        "name": "",
+        "name": "Cat #117",
         "category": "Cat",
         "description": "",
         "submitted_by": "Anonymous"
