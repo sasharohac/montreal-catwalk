@@ -9,6 +9,7 @@
 //   2. Helpers and card content
 //   3. Load the photos and build the gallery
 //   4. Lightbox: the big view of one photo
+//   5. ♡ Save: the same "My cats" list as on the map (remember.js)
 // ============================================================
 
 
@@ -55,6 +56,8 @@ function cardHtml(p, date, index) {
     <figure class="card${isCommunity(p) ? " community" : ""}" id="${id}" data-index="${index}">
       ${isCommunity(p) ? `<span class="submitted-by">Submitted by ${escapeHtml(p.submitted_by)}</span>` : ""}
       <img src="${escapeHtml(p.image)}" alt="${escapeHtml(hasName ? p.name : "Cat photo")}" loading="lazy">
+      <button class="save-link save-heart" type="button" data-photo="${escapeHtml(p.photo)}"
+              aria-label="Save ${escapeHtml(hasName ? p.name : "this cat")} to My cats"></button>
       <figcaption>
         ${hasName ? `<strong>${escapeHtml(p.name)}</strong>` : ""}
         <strong class="when">${escapeHtml(when)}</strong>
@@ -117,6 +120,7 @@ fetch(DATA_URL)
     });
 
     status.textContent = `${photos.length} cat photos, newest first`;
+    showSaved();   // fill in each card's ♡ Save button (section 5)
 
     // d) If we came from the map (gallery.html#IMG_1234), scroll to that photo and highlight it
     const target = location.hash && document.getElementById(location.hash.slice(1));
@@ -156,6 +160,8 @@ function showPhoto(i) {
     isCommunity(p) ? `Submitted by ${escapeHtml(p.submitted_by)}` : "",
   ].filter(Boolean).join(" · ");
   lbMap.href = `index.html#cat=${catId(p)}`;
+  lbSave.dataset.photo = p.photo;   // the ♡ Save button is now for this photo
+  showSaved();
 }
 
 // Clicking a thumbnail or its "Expand" link opens the lightbox on that photo
@@ -179,4 +185,56 @@ lightbox.addEventListener("keydown", (e) => {
 // Clicking the dark area around the photo closes it
 lightbox.addEventListener("click", (e) => {
   if (e.target === lightbox) lightbox.close();
+});
+
+
+// ---------- 5. ♡ Save: the same "My cats" list as on the map ----------
+// Each card and the big view have a ♡ Save button. A saved cat goes in My cats on the map page,
+// where the reader can tick it off once they've met it, or plan a walk to it.
+// The list lives in the reader's own browser (localStorage), under the same name the map's
+// rememberMarks() uses, so both pages share it. geog464StorageKey, geog464Load and geog464Save
+// come from remember.js, loaded just before this file.
+const SAVED_KEY = geog464StorageKey("favourites");
+const lbSave = document.getElementById("lb-save");
+
+// The saved photos' file names, read fresh each time (the map may have changed them in another tab)
+function savedPhotos() {
+  const list = geog464Load(SAVED_KEY, []);
+  return Array.isArray(list) ? list : [];
+}
+
+// Show every ♡ Save button as saved or not. On the cards it's just a heart on the photo
+// (its aria-label says what it does); in the big view it has words too.
+function showSaved() {
+  const saved = savedPhotos();
+  document.querySelectorAll(".save-link").forEach((button) => {
+    const on = saved.includes(button.dataset.photo);
+    if (button.classList.contains("save-heart")) button.textContent = on ? "♥" : "♡";
+    else button.textContent = on ? "♥ Saved" : "♡ Save";
+    button.classList.toggle("is-on", on);
+    button.setAttribute("aria-pressed", on);   // read out as "Save, toggle button, pressed"
+  });
+}
+
+// Save the photo, or take it off the list if it's already saved
+function toggleSaved(photo) {
+  const saved = savedPhotos();
+  const next = saved.includes(photo) ? saved.filter((x) => x !== photo) : saved.concat([photo]);
+  if (!geog464Save(SAVED_KEY, next)) {
+    status.textContent = "Sorry, this browser wouldn't save it (a private window, maybe?).";
+    return;
+  }
+  showSaved();
+}
+
+// A click on any card's ♡ Save, or the big view's
+gallery.addEventListener("click", (e) => {
+  const button = e.target.closest(".save-link");
+  if (button) toggleSaved(button.dataset.photo);
+});
+lbSave.addEventListener("click", () => toggleSaved(lbSave.dataset.photo));
+
+// The map, open in another tab, saved or removed a cat: show it here straight away
+window.addEventListener("storage", (e) => {
+  if (e.key === SAVED_KEY) showSaved();
 });

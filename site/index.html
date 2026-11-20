@@ -87,6 +87,13 @@
         <fieldset class="walk-stops">
           <legend>Stops to include</legend>
           <label><input type="checkbox" name="stop" value="cats" checked> Cats</label>
+          <!-- Which cats: every cat, or only the ones in My cats the reader hasn't met yet (app.js, sections 10 and 13).
+               Switched off while Cats isn't ticked. -->
+          <fieldset id="which-cats" class="which-cats">
+            <legend class="visually-hidden">Which cats</legend>
+            <label><input type="radio" name="which-cats" value="all" checked> All cats</label>
+            <label><input type="radio" name="which-cats" value="mine"> My cats <span class="which-cats-note">(saved, not met yet)</span></label>
+          </fieldset>
           <label><input type="checkbox" name="stop" value="fountains"> Water fountains</label>
           <label><input type="checkbox" name="stop" value="nature"> Nature (green alleys, gardens)</label>
           <label><input type="checkbox" name="stop" value="cool"> Free AC (cool places)</label>
@@ -103,6 +110,9 @@
         <!-- Every colour on the map also has a text label (the layer switcher uses the same names) -->
         <ul class="legend" aria-label="Map key">
           <li><img src="icons/cat.png" alt="" width="14" height="16"> Cats </li>
+          <!-- The cats in the reader's own My cats list (app.js, section 13) -->
+          <li><img src="icons/cat_mine.png" alt="" width="14" height="16"> My cats: to visit</li>
+          <li><img src="icons/cat_met.png" alt="" width="14" height="16"> My cats: met</li>
           <!-- Same green as alleyStyle in app.js -->
           <li><span class="swatch alley"></span> Green alleys</li>
           <!-- Same droplet as fountainIcon() in app.js -->

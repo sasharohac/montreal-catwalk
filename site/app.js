@@ -36,7 +36,7 @@ const MONTREAL = [45.522, -73.59]; // roughly the Plateau / Mile End
 
 // Every cat, garden, fountain and cool place, as GeoJSON features. Filled in as each file loads,
 // and used to plan walks through the stops the reader ticks (section 11).
-const walkStops = { cats: [], gardens: [], fountains: [], cool: [] };
+const walkStops = { cats: [], gardens: [], fountains: [], cool: [], mycats: [] };   // mycats: set by showWalk() (section 10)
 
 // Phones: true when the page is in its one-column layout (same 800px break as style.css section 5)
 function isPhone() {
@@ -81,6 +81,10 @@ const catIcon = L.icon({
   popupAnchor: [0, -35],   // popups open just above the cat's head
   className: "cat-icon",   // lets style.css add a shadow
 });
+// The same cat in the reader's My cats list (section 13): dark pink to visit (the walk's pink),
+// light pink once met. Taken off the list, a cat goes back to orange.
+const myCatIcon = L.icon({ ...catIcon.options, iconUrl: "icons/cat_mine.png" });
+const metCatIcon = L.icon({ ...catIcon.options, iconUrl: "icons/cat_met.png" });
 
 // Alleys: all one green (the same as .swatch.alley in style.css), semi-transparent so the
 // street map shows through, with a darker outline so the thin ones stay visible
@@ -482,9 +486,12 @@ function plural(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
 
-// The kinds of stop that are ticked, e.g. ["cats", "cool"]
+// The kinds of stop that are ticked, e.g. ["cats", "cool"].
+// With "My cats" chosen under Cats, "cats" becomes "mycats": the walk then aims for the reader's own cats.
 function tickedStops() {
-  return [...walkForm.querySelectorAll('input[name="stop"]:checked')].map((box) => box.value);
+  const mine = walkForm.querySelector('input[name="which-cats"]:checked').value === "mine";
+  return [...walkForm.querySelectorAll('input[name="stop"]:checked')]
+    .map((box) => (box.value === "cats" && mine ? "mycats" : box.value));
 }
 
 // Runs whenever the start, the length or a checkbox changes
@@ -494,9 +501,21 @@ function showWalk() {
   const start = select.value;
   const km = Number(document.getElementById("walk-km").value);
   customStartBox.hidden = start !== "custom";   // the address box only shows for "My own spot…"
+  // "All cats / My cats" only matters while Cats is ticked
+  document.getElementById("which-cats").disabled = !walkForm.querySelector('input[name="stop"][value="cats"]').checked;
   if (!start) {
     walkSummary.textContent = "Pick a starting point to see its walk.";
     return;
+  }
+  // A walk to the reader's own cats: the cats in My cats they haven't met yet (section 13)
+  if (tickedStops().includes("mycats")) {
+    walkStops.mycats = myCatsToVisit();
+    if (!walkStops.mycats.length) {
+      walkSummary.innerHTML = myCats && myCats.saved.marked.length
+        ? "You've met every cat in My cats! Save a few more with <strong>♡ Save to My cats</strong> in a cat's popup or in the gallery."
+        : "My cats is empty. Save the cats you'd like to meet with <strong>♡ Save to My cats</strong> in a cat's popup or in the gallery, then plan a walk to them here.";
+      return;
+    }
   }
   if (start === "custom") {
     if (!customStart) {
@@ -515,6 +534,11 @@ function showWalk() {
 // stay hidden until ticked in the layer switcher), drawn with the walk so the reader can find them
 function drawPassedStops(walk) {
   const stops = walk.stops;
+  // The reader's own cats on the walk: a pink ring round each pin (it doesn't take the pin's clicks)
+  (stops.mycats || []).forEach((f) => {
+    const [lon, lat] = f.geometry.coordinates;
+    L.circleMarker([lat, lon], { radius: 22, color: "#cf3d62", weight: 3, fill: false, interactive: false }).addTo(walkLayer);
+  });
   stops.fountains.forEach((f) => {
     const [lon, lat] = f.geometry.coordinates;
     L.marker([lat, lon], { icon: fountainIcon(16), alt: "Water fountain" })
@@ -533,6 +557,7 @@ function drawPassedStops(walk) {
 // What each kind of stop is called when the walk couldn't fit one in
 const STOP_NAMES = {
   cats: "a cat",
+  mycats: "any of your cats",
   fountains: "a water fountain",
   nature: "a bit of nature",
   cool: "a free AC place",
@@ -562,13 +587,15 @@ function drawWalk(walk) {
   walkSummary.innerHTML = `
     <p><strong>${p.length_km.toFixed(1)} km loop</strong> from ${escapeHtml(p.start)} and back. It passes:</p>
     <ul>
-      <li${wanted("cats")}>${plural(p.cats, "cat")}</li>
+      ${p.kinds.includes("mycats") ? `<li class="wanted">${p.mycats.length} of your ${plural(p.mycatsTotal, "cat")} to visit${p.mycats.length ? `: ${p.mycats.map(escapeHtml).join(", ")}` : ""}</li>` : ""}
+      <li${wanted("cats")}>${plural(p.cats, "cat")}${p.kinds.includes("mycats") ? " in all" : ""}</li>
       <li${wanted("fountains")}>${plural(p.fountains, "water fountain")}</li>
       <li${wanted("nature")}>${formatDistance(p.green_m)} of green alleys</li>
       <li${wanted("nature")}>${plural(p.gardens, "community garden")}</li>
       <li${wanted("cool")}>${plural(p.cool, "free AC place")}</li>
     </ul>
     ${missing.length ? `<p class="walk-missing">Sorry, I couldn't fit ${new Intl.ListFormat("en", { type: "disjunction" }).format(missing)} into a loop this long from here. Try a longer walk or another start.</p>` : ""}
+    ${p.kinds.includes("mycats") && p.mycats.length && p.mycats.length < p.mycatsTotal ? `<p class="walk-missing">Your other cats are too far apart for one loop this long from here. Try a longer walk, or a start closer to them.</p>` : ""}
     <p class="walk-go">
       <a href="${escapeHtml(directionsUrl(walk))}" target="_blank" rel="noopener">Take me there</a>
       <a href="${escapeHtml(streetViewUrl(walk))}" target="_blank" rel="noopener">Start in Street View</a>
@@ -598,6 +625,8 @@ walkForm.addEventListener("change", (e) => {
 const WALK_TOLERANCE = 0.15;  // a "3 km" walk can be 2.55 to 3.45 km (same as the notebook)
 const WALK_MAX_REPEAT = 0.25; // at most a quarter of a walk can go back over streets it already used
 const WALK_NEAR_M = 50;       // a cat, garden, fountain or cool place within 50 m of the route counts as "passed"
+const MY_CATS_NEAR_M = 100;   // ...but one of the reader's own cats counts up to 100 m away (a short detour): a third of
+                              // the cats were photographed in yards, lanes and parks over 50 m from the walking network
 const WALK_MAX_SNAP_M = 300;  // a start more than 300 m from any street corner is outside the network
 const NATURE_MIN_GREEN_M = 100; // "nature" is passed with a community garden or at least 100 m of green alley
 const POOL_SIZE = 8;          // corners to try for each ticked kind, and for the ring (each needs one route search)
@@ -748,16 +777,17 @@ function hashText(text) {
 }
 
 // The corner nearest each cat, garden, fountain or cool place (worked out once per network and data).
-// Stops more than WALK_NEAR_M from any corner (outside the network) are left out.
+// Stops more than WALK_NEAR_M (MY_CATS_NEAR_M for the reader's own cats) from any corner are left out.
 const stopCornerCache = new Map();
 function stopCorners(net, name) {
   const features = walkStops[name];
   const cached = stopCornerCache.get(name);
   if (cached && cached.features === features) return cached.corners;
   const corners = new Set();
+  const nearM = name === "mycats" ? MY_CATS_NEAR_M : WALK_NEAR_M;
   for (const f of features) {
     const snap = nearestCorner(net, toXY(f.geometry.coordinates));
-    if (snap.metres <= WALK_NEAR_M) corners.add(snap.corner);
+    if (snap.metres <= nearM) corners.add(snap.corner);
   }
   stopCornerCache.set(name, { features, corners });
   return corners;
@@ -776,14 +806,15 @@ function kindCorners(net, kind) {
   return new Set([...stopCorners(net, "gardens"), ...net.greenCorners]);
 }
 
-// The features within WALK_NEAR_M of the route line (a list of [x, y])
-function nearStops(features, line, box) {
+// The features within nearM (WALK_NEAR_M unless told otherwise) of the route line (a list of [x, y]).
+// box = the line's bounding box, widened by nearM.
+function nearStops(features, line, box, nearM = WALK_NEAR_M) {
   const near = [];
   for (const f of features) {
     const [x, y] = toXY(f.geometry.coordinates);
     if (x < box[0] || x > box[2] || y < box[1] || y > box[3]) continue;   // quick skip: nowhere near
     for (let i = 1; i < line.length; i++) {
-      if (distanceToSegment(x, y, line[i - 1], line[i]) <= WALK_NEAR_M) { near.push(f); break; }
+      if (distanceToSegment(x, y, line[i - 1], line[i]) <= nearM) { near.push(f); break; }
     }
   }
   return near;
@@ -824,6 +855,7 @@ function stopValue(s, kinds) {
   if (!kinds.length) return s.stops.cats.length * 20 + s.green / 10;   // nothing ticked: a pleasant walk
   let value = 0;
   if (kinds.includes("cats")) value += s.stops.cats.length * 100;
+  if (kinds.includes("mycats")) value += s.stops.mycats.length * 1000 + s.stops.cats.length * 10;   // each of your cats counts most
   if (kinds.includes("fountains")) value += s.stops.fountains.length * 50;
   if (kinds.includes("nature")) value += s.green / 5 + s.stops.gardens.length * 150;
   if (kinds.includes("cool")) value += s.stops.cool.length * 200;
@@ -837,7 +869,9 @@ function planLoop(net, spot, km, kinds) {
   const snap = nearestCorner(net, toXY([spot.lng, spot.lat]));
   if (snap.metres > WALK_MAX_SNAP_M) return { problem: "outside" };
   const start = snap.corner;
-  const random = seededRandom(Math.round(spot.lat * 1e5) * 31 + Math.round(spot.lng * 1e5) + km * 7 + hashText(kinds.join()));
+  // (with My cats, which cats are in it counts too, so a different list gives a different walk)
+  const mine = kinds.includes("mycats") ? walkStops.mycats.map((f) => f.properties.photo).join() : "";
+  const random = seededRandom(Math.round(spot.lat * 1e5) * 31 + Math.round(spot.lng * 1e5) + km * 7 + hashText(kinds.join() + mine));
 
   // 1 and 2. Every corner within reach (under 0.45 × the walk away), the ring, and for each ticked kind
   // a handful of corners within reach next to one
@@ -871,7 +905,16 @@ function planLoop(net, spot, km, kinds) {
   const tried = new Set();
   for (let t = 0; t < WALK_TRIES; t++) {
     const stops = new Set();
-    for (const kind of kinds) if (pools[kind].length) stops.add(pick(pools[kind], random));
+    for (const kind of kinds) {
+      if (!pools[kind].length) continue;
+      if (kind === "mycats") {
+        // The reader's own cats: aim for several at once (1 to 5 of them, a different mix each try)
+        const k = 1 + Math.floor(random() * Math.min(pools.mycats.length, 5));
+        sample(pools.mycats, k, random).forEach((n) => stops.add(n));
+      } else {
+        stops.add(pick(pools[kind], random));
+      }
+    }
     const extra = Math.floor(random() * 3);   // 0, 1 or 2 ring corners to stretch the loop to length
     for (let k = 0; k < extra + 6 && (k < extra || stops.size < 2); k++) stops.add(pick(ringPool, random));
     if (stops.size < 2) continue;
@@ -899,8 +942,11 @@ function planLoop(net, spot, km, kinds) {
     const box = [Math.min(...xs) - WALK_NEAR_M, Math.min(...ys) - WALK_NEAR_M, Math.max(...xs) + WALK_NEAR_M, Math.max(...ys) + WALK_NEAR_M];
     s.stops = {};
     for (const name of ["cats", "fountains", "gardens", "cool"]) s.stops[name] = nearStops(walkStops[name], line, box);
+    const wideBox = [box[0] - MY_CATS_NEAR_M, box[1] - MY_CATS_NEAR_M, box[2] + MY_CATS_NEAR_M, box[3] + MY_CATS_NEAR_M];
+    s.stops.mycats = kinds.includes("mycats") ? nearStops(walkStops.mycats, line, wideBox, MY_CATS_NEAR_M) : [];
     s.passed = {
       cats: s.stops.cats.length > 0,
+      mycats: s.stops.mycats.length > 0,
       fountains: s.stops.fountains.length > 0,
       nature: s.stops.gardens.length > 0 || s.green >= NATURE_MIN_GREEN_M,
       cool: s.stops.cool.length > 0,
@@ -921,6 +967,8 @@ function planLoop(net, spot, km, kinds) {
         gardens: best.stops.gardens.length,
         fountains: best.stops.fountains.length,
         cool: best.stops.cool.length,
+        mycats: best.stops.mycats.map((f) => f.properties.name || "a cat"),   // names of your cats it passes
+        mycatsTotal: walkStops.mycats.length,
         kinds,
         missing: kinds.filter((k) => !best.passed[k]),
       },
@@ -1128,6 +1176,16 @@ function streetViewUrl(walk) {
 // This box shows every cat in either one: not-yet-met cats first, met ones underneath with a paw.
 // Click a name to fly to that cat; ✕ takes it off the list (and forgets you met it).
 // Folded, the box is one line, "My cats · 2 of 5 met"; whether it's open is remembered too.
+// The gallery's ♡ Save buttons write to the same list, and a walk can be planned to these cats
+// ("My cats" under Cats in the walk box, sections 10 and 11).
+
+let myCats = null;   // { saved, met }: the two lists from rememberMarks(), once the cats have loaded
+
+// The cats in My cats the reader hasn't met yet (the GeoJSON features), for a walk to them
+function myCatsToVisit() {
+  if (!myCats) return [];
+  return walkStops.cats.filter((f) => myCats.saved.has(f.properties.photo) && !myCats.met.has(f.properties.photo));
+}
 
 function setUpMyCats(catLayer) {
   // Every cat pin, by its photo's file name (the id rememberMarks uses)
@@ -1161,6 +1219,12 @@ function setUpMyCats(catLayer) {
   const catNumber = (id) => Number((pins[id].feature.properties.name.match(/\d+/) || [0])[0]);   // "Cat #12" → 12
 
   function draw() {
+    // Each pin's colour: light pink if met, dark pink if saved to visit, otherwise the usual orange
+    for (const [id, pin] of Object.entries(pins)) {
+      const icon = met.has(id) ? metCatIcon : saved.has(id) ? myCatIcon : catIcon;
+      if (pin.options.icon !== icon) pin.setIcon(icon);   // only redraw the pins that changed
+    }
+
     // Every cat that's saved or met (and still on the map): not met first, then by number
     const ids = [...new Set([...saved.marked, ...met.marked])].filter((id) => pins[id]);
     ids.sort((a, b) => met.has(a) - met.has(b) || catNumber(a) - catNumber(b));
@@ -1207,4 +1271,5 @@ function setUpMyCats(catLayer) {
     }
   }
   draw();
+  myCats = { saved, met };
 }

@@ -31,6 +31,8 @@
      panel      false = don't draw the panel (default true)
      onChange   a function called with the marked ids whenever the reader marks or unmarks one
    and the object it returns also has toggle(id) and has(id), to mark or check one from app.js.
+   Each change starts from what's saved at that moment, and a change made in another tab (the
+   gallery's ♡ Save buttons write to the same list) shows up straight away.
    Every changed line is marked CHANGED.
 */
 
@@ -143,13 +145,26 @@ function rememberMarks(map, layer, options) {
   }
 
   function toggle(id) {
+    marked = geog464Load(key, marked); if (!Array.isArray(marked)) marked = [];   // CHANGED: start from what's saved now (the gallery may have added some)
     const before = marked;
     marked = marked.includes(id) ? marked.filter((x) => x !== id) : marked.concat([id]);
     if (!geog464Save(key, marked)) { marked = before; alertBox("This browser would not save it (private window?)"); }
-    drawPanel();
-    document.querySelectorAll("." + btnClass).forEach((b) => b.geog464Set && b.geog464Set());   // CHANGED: an open popup's button follows along
-    if (o.onChange) o.onChange(marked.slice());                                                   // CHANGED: tell app.js
+    changed();
   }
+
+  // CHANGED: after any change, redraw the panel, update an open popup's button and tell app.js
+  function changed() {
+    drawPanel();
+    document.querySelectorAll("." + btnClass).forEach((b) => b.geog464Set && b.geog464Set());
+    if (o.onChange) o.onChange(marked.slice());
+  }
+
+  // CHANGED: another tab of this site (the gallery, say) changed this list: pick it up straight away
+  window.addEventListener("storage", (e) => {
+    if (e.key !== key) return;
+    marked = geog464Load(key, []); if (!Array.isArray(marked)) marked = [];
+    changed();
+  });
 
   function alertBox(text) {
     if (panel) panel.querySelector('[role="status"]').textContent = text;

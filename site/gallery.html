@@ -36,6 +36,7 @@
   <header class="gallery-header">
     <h1>CatMap Gallery</h1>
     <p id="status">Loading cats…</p>
+    <p class="save-hint">Tap the <strong>♡</strong> on the cats you'd like to meet: they go in <strong>My cats</strong> on the <a href="index.html">map</a>, where you can plan a walk to them.</p>
     <!-- Same Google Form link as on the map page -->
     <p class="add-cat"><a class="add-cat-button" href="https://forms.gle/oSW4TNBTUBnWSwwc8" target="_blank" rel="noopener">🐈 Add your own cat</a></p>
   </header>
@@ -56,12 +57,16 @@
       <figcaption>
         <span id="lb-caption"></span>
         <a id="lb-map" class="map-link" href="index.html">Show on map →</a>
+        <!-- ♡ Save: gallery.js sets which photo it's for and its words -->
+        <button id="lb-save" class="save-link" type="button"></button>
       </figcaption>
     </figure>
     <button class="lb-button lb-next" type="button" aria-label="Next photo">→</button>
   </dialog>
 
-  <!-- Script last, so everything above already exists when it runs -->
+  <!-- Scripts last, so everything above already exists when they run.
+       remember.js first: gallery.js uses its save/load helpers for the ♡ Save buttons (same list as My cats on the map) -->
+  <script src="remember.js"></script>
   <script src="gallery.js"></script>
 </body>
 </html>
