@@ -177,6 +177,11 @@ Test 3: *"My own spot…"** option. The reader types an address (looked up with 
 
 
    ## Part 3: what I found, and one fix
+
+![Water fountain marker after the fix: a dark blue droplet that stands out from the Bixi and STM icons](readme_images/fountain_after.png)
+
+![Water fountain marker before the fix: a small blue dot that blends in with the basemap's Bixi and STM icons](readme_images/fountain_before.png)
+
 **Evidence**: 
    Round 1: 
       **Main problem identified**: scrolling on the page was not easy, would zoom in and out of map isntead of scrolling down to map key. 
