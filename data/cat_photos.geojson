@@ -2064,6 +2064,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -73.808516,
+          45.5041036
+        ]
+      },
+      "properties": {
+        "photo": "20260621_173124 - Lukas Kramosch.jpg",
+        "image": "photos/20260621_173124 - Lukas Kramosch.jpg",
+        "date": "2026-06-21 17:31",
+        "lat": 45.504104,
+        "lon": -73.808516,
+        "name": "",
+        "category": "Cat",
+        "description": "He got an infection, and since he didn't have an owner, I brought him to the SPCA so he could get treated. Hopefully, he's with a loving family now. 😢",
+        "submitted_by": "LK"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -73.582939,
           45.516
         ]

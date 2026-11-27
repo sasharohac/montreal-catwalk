@@ -21,11 +21,9 @@ body.landing {
   background: var(--cream);
 }
 
-.landing h1,
-.landing .big,
-.landing .cat-name,
-.landing .why-quote,
-.landing .tile-label {
+/* The serif is only for the hero title and the "no car" badge.
+   Everything else uses the site font (var(--font) from style.css). */
+.landing .hero-text h1 {
   font-family: var(--serif);
   font-weight: 400;
 }
