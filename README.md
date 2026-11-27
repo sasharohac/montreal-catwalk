@@ -85,6 +85,8 @@ What I changed: each city dataset was cut down to the columns the popups show, w
 
 **Not in this iteration:** suggested walking routes. `walks_pipeline.ipynb` already builds 18 loops (3 starting points in the Plateau × 2, 3 and 5 km × a cat theme and a nature theme) into `data/walks.geojson`, but they are not on the page yet, because it needs some tweaking / i dont fully understand what it does yet lol .
 
+<img src="readme_images/cat_figurine.jpg" alt="Two porcelain cat figurines" width="45"> <img src="readme_images/pink_blob.png" alt="Pink blob shape" width="45">
+
 **Next working state:** the walks appear on the map. You choose a start, a length and a theme, and that walk is drawn with its distance and the number of cats, metres of green alley, gardens and fountains it passes. I'll know it works when all  combinations draw correctly. 
 
 **Known limitations**
