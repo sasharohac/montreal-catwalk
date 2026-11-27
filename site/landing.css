@@ -1,8 +1,19 @@
 /* ============================================================
    landing.css = PRESENTATION of the landing page (index.html) only.
-   Builds on style.css (colours, header). Sections:
-     1. Extra colours and the heading font
-     2. Top strip and hero photo
+
+   WHY A SEPARATE FILE: style.css is shared by every page (map, gallery, about).
+   Putting the landing page's looks here means changing the landing page can't
+   break the map, and style.css stays shorter. This file is loaded AFTER
+   style.css, so it can reuse style.css's colours (var(--pink), var(--butter),
+   var(--accent), var(--font), ...) and override them when needed.
+
+   THE LOOK: an editorial magazine-cover feel (big photo, large serif title,
+   soft cream panel, rounded pill buttons) in the site's own pink and butter
+   yellow, so it feels like the same website as the map.
+
+   Sections:
+     1. Extra colours, the heading font and the pill buttons
+     2. Top strip and hero photo (and the pink badge)
      3. Cream panel and cat row
      4. "Why" block
      5. Footer
@@ -10,25 +21,40 @@
    ============================================================ */
 
 
-/* ---------- 1. Extra colours and the heading font ---------- */
+/* ---------- 1. Extra colours, the heading font and the pill buttons ---------- */
+
+/* Colours only this page needs. They are kept as variables (--name) so each one
+   is set in one place and can be changed everywhere at once. */
 :root {
-  --cream: #f6f1e4;   /* panel background */
-  --ink: #3a2a2e;     /* deep plum-brown for big headings */
+  --cream: #f6f1e4;   /* panel background: warmer and softer than plain white */
+  --ink: #3a2a2e;     /* deep plum-brown for headings: softer than black, goes with the pink */
+  /* Fallback fonts in order: if Instrument Serif hasn't loaded (offline, slow
+     connection), Georgia or Times is used, so the title is still a serif */
   --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
 }
 
+/* Cream behind the whole page, so there is no white gap around the panel */
 body.landing {
   background: var(--cream);
 }
 
-/* The serif is only for the hero title and the "no car" badge.
-   Everything else uses the site font (var(--font) from style.css). */
+/* The serif is only for the hero title and the "no car" badge (.badge-big below).
+   Everything else uses the site font (var(--font) from style.css, i.e. Helvetica).
+   WHY: the serif used to be on every heading of the page (cat names, the gallery
+   tile, the "why" text) and it no longer matched the rest of the site. Keeping it
+   on just these two makes them stand out and keeps the rest consistent with the
+   map and the gallery.
+   font-weight 400: Instrument Serif only comes in regular weight; without this
+   the browser would fake a bold version for the <h1>, which looks smudged. */
 .landing .hero-text h1 {
   font-family: var(--serif);
   font-weight: 400;
 }
 
-/* Butter-yellow pill buttons, like the reference */
+/* Butter-yellow pill buttons, like the reference design.
+   The fully rounded shape (border-radius 999px) and small uppercase letters make
+   them read clearly as buttons without being loud.
+   They are used for "Open the map", "See all cats" and "About this map". */
 .pill {
   display: inline-block;
   padding: 12px 44px;
@@ -37,17 +63,24 @@ body.landing {
   color: var(--ink);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.08em;   /* spaced-out capitals are easier to read at small sizes */
   text-transform: uppercase;
   text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s, transform 0.2s;   /* smooth change on hover */
 }
+/* On hover (mouse) or keyboard focus (Tab key): lighter colour and a 1px lift,
+   so the button clearly reacts. :focus-visible means keyboard users get the same
+   feedback as mouse users. */
 .pill:hover,
 .pill:focus-visible { background: #fff3dc; transform: translateY(-1px); }
+/* Smaller version for the gallery tile, which has less room */
 .pill-small { padding: 10px 24px; }
 
 
 /* ---------- 2. Top strip and hero photo ---------- */
+
+/* Thin pink band at the very top with the tagline: the site's pink as the
+   first colour you see, the same pink as the header on the other pages */
 .top-strip {
   margin: 0;
   padding: 6px 16px;
@@ -58,43 +91,63 @@ body.landing {
   letter-spacing: 0.02em;
 }
 
+/* The full-screen photo section */
 .hero {
-  position: relative;
+  position: relative;   /* so the badge can be placed relative to this box */
+  /* 100svh = the full height of the screen. "svh" (small viewport height) is used
+     instead of "vh" because on phones "vh" includes the area behind the address bar,
+     which would push the bottom of the hero off screen. */
   min-height: 100svh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column;   /* header on top, then the text block fills the rest */
   color: #fff;
-  /* --hero-photo is set by the script in index.html's <head>.
-     The dark fades top and bottom keep the white text readable on any photo. */
+  /* Three background layers, drawn top to bottom:
+     1. A dark see-through gradient: darker at the top (behind the header and title)
+        and slightly at the bottom, clear in the middle so the cat stays bright.
+        WHY: the photo changes on every visit, and some are very light. The fade
+        keeps the white text readable on ANY photo, so no photo needs special handling.
+     2. The photo itself. --hero-photo is set by the script in index.html's <head>.
+        "cover" fills the whole area without stretching; "center 55%" keeps the
+        middle of the photo (where the cat usually is) in view when the edges get cropped.
+     3. A dark grey-green fallback colour, shown while the photo loads or if it fails,
+        so the white text is never on a white background. */
   background:
     linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.25) 100%),
     var(--hero-photo, none) center 55% / cover no-repeat,
     #3a3a33;
 }
 
-/* Header sits on the photo: white text instead of pink */
+/* The header sits on the photo here, so its text is white instead of the usual pink
+   (pink would be hard to read on a busy photo). The hover highlight is a faint
+   white instead of a coloured one, for the same reason. */
 .hero-header .site-name,
 .hero-header .site-nav a { color: #fff; }
 .hero-header .site-nav a:hover { background: rgba(255,255,255,0.18); }
 
-/* Pink cat-head badge, top right of the photo (where the stickers used to be) */
+/* Pink cat-head badge ("no car needed"), top right of the photo (where the stickers used to be).
+   position: absolute takes it out of the normal layout and pins it to the corner of .hero.
+   The slight 6° tilt and soft shadow make it look like a sticker stuck on the photo. */
 .badge {
   position: absolute;
   right: 36px;
-  top: 96px;
-  z-index: 2;
+  top: 96px;              /* below the header, so it doesn't cover the links */
+  z-index: 2;             /* drawn above the photo and the text */
   width: 150px;
-  height: auto;
+  height: auto;           /* keeps the icon's proportions */
   transform: rotate(6deg);
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));   /* follows the cat-head shape, unlike box-shadow */
 }
-/* Text sizes are in the SVG's units (the badge is ~6.5× smaller on screen) */
-.badge text { fill: var(--accent); }
+/* Text sizes are in the SVG's units, not screen pixels: the SVG is 972 units wide
+   but shown at 150px, so everything is about 6.5× smaller on screen
+   (200 units ≈ 31px, 80 units ≈ 12px). That is why these numbers look so big. */
+.badge text { fill: var(--accent); }   /* "fill" is the SVG word for text colour */
+/* "no car": the same serif as the title, in italics, so the badge matches the headline */
 .badge-big {
   font-family: var(--serif);
   font-style: italic;
   font-size: 200px;
 }
+/* "NEEDED": small spaced-out capitals in the site font, like a label under the big words */
 .badge-small {
   font-family: var(--font);
   font-size: 80px;
@@ -102,6 +155,10 @@ body.landing {
   letter-spacing: 12px;
 }
 
+/* The block holding the title and the "Open the map" button.
+   flex: 1 makes it fill the rest of the hero below the header; its contents are
+   centred side to side and placed in the upper part of the photo (12% of the
+   screen height down), so the lower part of the photo (usually the cat) stays clear. */
 .hero-text {
   flex: 1;
   display: flex;
@@ -112,27 +169,40 @@ body.landing {
   text-align: center;
 }
 
+/* The "Slow Down. Meet a Cat." title.
+   clamp(44px, 7vw, 96px): grows with the window width (7% of it), but never below
+   44px on phones or above 96px on big screens. One rule works for every size, with
+   no extra media query. */
 .hero-text h1 {
   margin: 0 0 28px;
   font-size: clamp(44px, 7vw, 96px);
-  line-height: 1;
-  letter-spacing: -0.01em;
+  line-height: 1;               /* tight lines, since the title can wrap onto two lines */
+  letter-spacing: -0.01em;      /* slightly tighter, which suits big display text */
   font-style: normal;
   color: #fff;
-  text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+  text-shadow: 0 2px 24px rgba(0,0,0,0.35);   /* soft glow for extra readability on light photos */
 }
+/* "Cat" in italics, for emphasis */
 .hero-text h1 em { font-style: italic; }
 
 
 /* ---------- 3. Cream panel and cat row ---------- */
+
+/* The cream panel. margin-top: -48px pulls it up so it overlaps the bottom of the
+   photo, and its rounded top corners show the photo behind them. This looks like a
+   card sliding up over the photo and invites scrolling down.
+   position: relative keeps it drawn above the photo where they overlap. */
 .panel {
   position: relative;
   margin-top: -48px;               /* slides up over the bottom of the photo */
   padding: 56px 28px 72px;
   background: var(--cream);
-  border-radius: 40px 40px 0 0;
+  border-radius: 40px 40px 0 0;    /* round only the top corners */
 }
 
+/* NOT USED AT THE MOMENT: this was the style of the "Fewer Cars, More Cats." heading,
+   which was removed from index.html. It is kept in case a large heading is added
+   back to the panel; delete it if not. */
 .big {
   margin: 0;
   font-size: clamp(36px, 4.5vw, 58px);
@@ -140,44 +210,64 @@ body.landing {
   font-style: normal;
   color: var(--ink);
 }
+/* "A few of the cats waiting for you on the map." */
 .sub { margin: 8px 0 28px; font-size: 15px; }
 
-/* Horizontal row: scrolls sideways if there isn't room */
+/* The row of cats: the gallery tile + 4 cat cards in one horizontal line.
+   A grid with grid-auto-flow: column puts every card in a new column instead of wrapping.
+   Each column is at least 220px wide and they share any extra space equally (1fr).
+   If the screen is too narrow for all of them, the row scrolls sideways
+   (overflow-x: auto) instead of squashing the photos.
+   scroll-snap makes a sideways swipe stop neatly at the start of a card, which
+   feels natural on phones. */
 .cat-row {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(220px, 1fr);
   gap: 14px;
   overflow-x: auto;
-  padding-bottom: 8px;
+  padding-bottom: 8px;      /* room for the scrollbar so it doesn't touch the cards */
   scroll-snap-type: x mandatory;
 }
 
+/* One cat card (built by landing.js): photo on top, name and "Find on the map" under it.
+   The whole card is one link, so it is easy to click or tap anywhere on it. */
 .cat-card {
   display: flex;
   flex-direction: column;
   color: var(--text);
-  text-decoration: none;
-  scroll-snap-align: start;
+  text-decoration: none;    /* no underline on the card's text */
+  scroll-snap-align: start; /* the edge that scroll-snap stops at */
 }
+/* The photo frame. A fixed shape (aspect-ratio, slightly taller than square) means
+   every card is the same size, whatever shape the original photo is, so the row
+   looks tidy. The light green-grey background shows while a photo loads. */
 .cat-img {
   display: block;
   aspect-ratio: 4 / 4.4;
-  overflow: hidden;
+  overflow: hidden;         /* hides the zoomed edges of the photo on hover */
   border-radius: 6px;
   background: #d9dccd;
 }
+/* object-fit: cover fills the frame without stretching, cropping the edges instead */
 .cat-img img {
   width: 100%; height: 100%;
   object-fit: cover;
-  display: block;
+  display: block;           /* removes the small gap browsers leave under images */
   transition: transform 0.4s;
 }
+/* Small zoom on hover: a gentle sign that the card is clickable */
 .cat-card:hover .cat-img img { transform: scale(1.04); }
+/* The cat's name, in the site font, in the dark ink colour */
 .cat-name { margin-top: 10px; font-size: 26px; line-height: 1.1; color: var(--ink); }
+/* "Find on the map →", smaller and greyed out so the name stands out more */
 .cat-meta { font-size: 13px; color: var(--muted); }
 
-/* First tile: links to the gallery */
+/* First tile: links to the gallery. It is written in index.html (not by landing.js),
+   so the row is never empty, even if the cat data fails to load.
+   Same shape as the photo cards so it fits in the row, but butter yellow so it
+   stands out as a button rather than a cat. "space-between" puts the label at the
+   top and the "See all cats" button at the bottom. */
 .gallery-tile {
   aspect-ratio: 4 / 4.4;
   justify-content: space-between;
@@ -186,6 +276,7 @@ body.landing {
   border-radius: 6px;
   background: var(--butter);
 }
+/* "The gallery": top-left of the tile, in pink italics */
 .tile-label {
   align-self: flex-start;
   font-size: 30px;
@@ -195,13 +286,18 @@ body.landing {
 
 
 /* ---------- 4. "Why" block ---------- */
+
+/* Two equal columns side by side: the text on the left, a photo on the right.
+   Pairing the explanation with a photo keeps the page visual even in its one
+   text-heavy part. On phones the columns stack (see section 6). */
 .why {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin-top: 80px;
+  margin-top: 80px;   /* a clear break after the cat row */
 }
 
+/* The yellow text box. The flex settings centre its contents both ways. */
 .why-text {
   display: flex;
   flex-direction: column;
@@ -212,6 +308,8 @@ body.landing {
   border-radius: 6px;
   text-align: center;
 }
+/* "THE QUIETEST WALK IN MONTRÉAL": a small uppercase label above the text
+   (called an "eyebrow" in design), which introduces the paragraph */
 .eyebrow {
   margin: 0 0 20px;
   font-size: 12px;
@@ -219,6 +317,10 @@ body.landing {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+/* The main paragraph, set large like a quote.
+   max-width: 30ch keeps each line to about 30 characters (ch = width of a "0"),
+   so the lines stay short and easy to read instead of stretching across the box.
+   clamp() scales the text with the window, as for the title. */
 .why-quote {
   margin: 0 0 28px;
   max-width: 30ch;
@@ -227,6 +329,10 @@ body.landing {
   color: var(--ink);
 }
 
+/* The second photo. It is a background image (set by landing.js) rather than an
+   <img>, so "cover" can crop it to fill the box at any height.
+   min-height gives it a size even though it has nothing inside it.
+   The beige colour shows while the photo loads. */
 .why-photo {
   position: relative;
   min-height: 460px;
@@ -236,6 +342,8 @@ body.landing {
 
 
 /* ---------- 5. Footer ---------- */
+/* Quiet and small: grey text with pink links, so it is there when needed but
+   doesn't compete with the page above it */
 .landing-footer {
   padding: 28px 16px 40px;
   text-align: center;
@@ -246,11 +354,20 @@ body.landing {
 
 
 /* ---------- 6. Phones ---------- */
+/* Everything in here applies only when the window is 760px wide or less
+   (phones and narrow windows). WHY: a lot of people will open the site on their
+   phone, maybe while out walking, so the page has to work on a small screen. */
 @media (max-width: 760px) {
+  /* Title a bit lower, since the header takes up more of a small screen */
   .hero-text { padding-top: 16vh; }
+  /* Smaller badge, moved to the bottom right so it doesn't cover the title */
   .badge { width: 104px; right: 16px; top: auto; bottom: 80px; }
+  /* Less padding and smaller rounded corners: phone screens need the space */
   .panel { padding: 40px 16px 56px; border-radius: 28px 28px 0 0; }
+  /* Each card takes 72% of the screen width, so the next card peeks in at the edge.
+     That hint shows people they can swipe sideways for more. */
   .cat-row { grid-auto-columns: 72%; }
+  /* Text and photo stacked (one column) instead of side by side */
   .why { grid-template-columns: 1fr; margin-top: 56px; }
   .why-text { padding: 40px 20px; }
   .why-photo { min-height: 320px; }

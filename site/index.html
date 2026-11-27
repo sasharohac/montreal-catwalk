@@ -3,31 +3,81 @@
 
 <!-- ============================================================
      index.html = STRUCTURE of the landing page: the first thing a visitor sees.
-     A big cat photo (a different one on each visit), then a row of cats from the map,
-     then a short "why" block. Looks come from style.css + landing.css; landing.js picks the photos.
+
+     WHY A LANDING PAGE: at the November 25th consultation, the main suggestion was to
+     add a front page before the map. Before this, the site opened straight onto the map
+     (now map.html), which is a lot to take in with no introduction. This page sets
+     the mood first (slow down, meet a cat, no car needed) and then sends people to the
+     map, the gallery or the "About" page.
+
+     HOW THE PAGE IS BUILT, top to bottom:
+       0. A thin pink strip with the tagline
+       1. HERO: a full-screen cat photo (a different one on each visit) with the
+          site header, the headline, an "Open the map" button and a pink badge
+       2. PANEL: a cream panel that slides up over the bottom of the photo, with a
+          row of 4 random cats from the map data plus a tile linking to the gallery
+       3. WHY: a yellow text block explaining the idea behind the map, beside a
+          second photo
+       4. FOOTER: links to every page plus the form for sending in your own cat
+
+     WHICH FILE DOES WHAT (same split as the other pages of the site):
+       - index.html  = what is on the page (this file)
+       - style.css   = shared colours, fonts and header, used by every page
+       - landing.css = looks that only this page needs
+       - landing.js  = picks the second photo and fills in the cat row
      ============================================================ -->
 
 <head>
   <meta charset="utf-8">
+  <!-- Makes phones use their real width instead of zooming out on a desktop-sized page -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Montréal CatWalk</title>
 
-  <!-- Tab icon: the orange cat emoji, drawn in a tiny SVG image -->
+  <!-- Tab icon: the orange cat emoji, drawn in a tiny SVG image.
+       Written straight into the page (a "data:" link), so there is no extra icon file to manage.
+       Same icon as the other pages, so the site feels like one thing. -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐈</text></svg>">
 
-  <!-- Instrument Serif: the tall, narrow serif used for the big headings on this page only -->
+  <!-- Instrument Serif: a tall, narrow serif font from Google Fonts.
+       It is used for only two things on this page: the "Slow Down. Meet a Cat." title
+       and the "no car" words on the badge. Everything else uses the site's usual font
+       (Helvetica, set in style.css) so the landing page matches the map and the gallery.
+       Using the serif in just two places makes those two lines stand out.
+       The two "preconnect" lines let the browser start connecting to Google early,
+       so the font arrives sooner and the title doesn't change font after it appears. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 
+  <!-- style.css first (shared look), then landing.css, which can override it for this page -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="landing.css">
 
-  <!-- Pick the hero photo BEFORE the page draws, so it never flashes a different one first.
-       The list of photos lives in landing.js (HERO_PHOTOS); this tiny copy only needs the names. -->
+  <!-- PICK THE HERO PHOTO before the page is drawn.
+       WHY HERE AND NOT IN landing.js: landing.js loads at the bottom of the page, after
+       everything is already drawn. If it chose the photo, you would briefly see an
+       empty dark background, then the photo popping in. Running this tiny script
+       in the <head> means the photo is chosen before anything appears.
+
+       HOW IT WORKS:
+         - `photos` is the list of photo names in site/landing/ (without ".jpg").
+           The full-size originals are in site/icons/ (not uploaded, see .gitignore);
+           the files in site/landing/ are smaller web copies (2400px wide, about 1 MB,
+           location data removed) so the page loads fast.
+         - It remembers the last photo shown (localStorage, which is saved in the
+           visitor's own browser), and leaves it out of the draw, so a refresh always
+           shows a NEW photo instead of sometimes repeating the same one.
+         - The "try { } catch" parts stop the page from breaking if the browser blocks
+           localStorage (for example in some private windows); it then just picks at random.
+         - The chosen name goes to window.HERO_PICK, so landing.js can avoid using the
+           same photo again in the "why" block further down.
+         - The photo is passed to the CSS as the variable --hero-photo (see .hero in landing.css).
+
+       TO ADD A PHOTO: put a web copy in site/landing/, then add its name to this list
+       AND to HERO_PHOTOS at the top of landing.js (the two lists must match). -->
   <script>
     (function () {
-      var photos = ["IMG_0161", "IMG_0350", "IMG_2108", "IMG_3633", "IMG_4294", "IMG_4311", "IMG_4312", "IMG_5354", "IMG_5381", "IMG_5382", "IMG_9350"];
+      var photos = ["IMG_0161", "IMG_0350", "IMG_2108", "IMG_3098", "IMG_3151", "IMG_3633", "IMG_4294", "IMG_4311", "IMG_4312", "IMG_5354", "IMG_5381", "IMG_5382", "IMG_9350"];
       // Remember the last photo shown, so a refresh always gives a NEW one
       var last = null;
       try { last = localStorage.getItem("catwalk-hero"); } catch (e) {}
@@ -40,12 +90,20 @@
   </script>
 </head>
 
+<!-- class="landing" lets landing.css style this page only (cream background, etc.)
+     without changing the other pages, which share style.css -->
 <body class="landing">
-  <!-- Thin strip across the very top -->
+  <!-- 0. Thin pink strip across the very top: a one-line summary of the project,
+          readable before you even look at the photo -->
   <p class="top-strip">Montréal's quieter, greener corners, one cat at a time</p>
 
-  <!-- 1. HERO: full-screen photo with the header and headline on top of it -->
+  <!-- 1. HERO: full-screen photo with the header and headline on top of it.
+          A big photo was chosen over text because the project is about the cats
+          themselves: the first thing you see is a real cat from the map. -->
   <section class="hero">
+    <!-- Same header as the other pages (site name + links), so the navigation is
+         always in the same place. "hero-header" turns its text white so it shows up
+         on the photo (on the other pages it is pink on a light background). -->
     <header class="site-header hero-header">
       <a class="site-name" href="index.html">The Montréal CatWalk</a>
       <nav class="site-nav" aria-label="Pages">
@@ -55,14 +113,23 @@
       </nav>
     </header>
 
+    <!-- The headline and the main button.
+         "Slow Down. Meet a Cat." sums up the idea: walking slowly through the city
+         and noticing what lives there. <em> puts "Cat" in italics for emphasis.
+         The button goes straight to the map, since the map is the main point of the site. -->
     <div class="hero-text">
       <h1>Slow Down. Meet a <em>Cat</em>.</h1>
       <a class="pill" href="map.html">Open the map</a>
     </div>
 
     <!-- Pink cat-head badge on the right: the icon (icons/sasha_logo_crisp.png) with the words drawn on top.
-         It's an SVG, so the words always sit in the same spot on the shape at any size.
-         The numbers are in the icon's own pixels (972 × 1020); move a word by changing its x / y. -->
+         WHY: it says "no car needed", the car-free, walking side of the project, as a
+         playful sticker instead of another line of text.
+         WHY AN SVG: with the words in an SVG on top of the picture, they always sit in the
+         same spot on the cat head, at any screen size. Words baked into the PNG would
+         be blurry when scaled, and words placed with CSS would drift off the shape.
+         The numbers are in the icon's own pixels (972 × 1020); move a word by changing its x / y.
+         role="img" + aria-label: a screen reader reads it as one picture called "No car needed". -->
     <svg class="badge" viewBox="0 0 972 1020" role="img" aria-label="No car needed">
       <image href="icons/sasha_logo_crisp.png" width="972" height="1020"/>
       <text class="badge-big" x="490" y="590" text-anchor="middle">no car</text>
@@ -70,11 +137,19 @@
     </svg>
   </section>
 
-  <!-- 2. Cream panel that slides up over the photo -->
+  <!-- 2. Cream panel that slides up over the photo (the overlap is set in landing.css).
+          The rounded top edge and the overlap make it feel like a card sliding over the
+          photo, which leads the eye down the page.
+          (A "Fewer Cars, More Cats." heading used to be here; it was removed because it
+          repeated the badge and didn't add much.) -->
   <main class="panel">
     <p class="sub">A few of the cats waiting for you on the map.</p>
 
-    <!-- landing.js fills this row with cats from data/cat_photos.geojson -->
+    <!-- CAT ROW: a preview of the map's content, so visitors see real cats right away.
+         The gallery tile below is written here in the HTML, so the row is never empty.
+         landing.js then adds 4 random cats after it from data/cat_photos.geojson (the same
+         file the map uses), so new cats show up here automatically, with no page edits.
+         Each cat links to map.html#cat=..., which opens the map on that cat's popup. -->
     <div class="cat-row" id="cat-row">
       <a class="cat-card gallery-tile" href="gallery.html">
         <span class="tile-label">The gallery</span>
@@ -82,7 +157,11 @@
       </a>
     </div>
 
-    <!-- 3. Why: blue text block beside a second photo -->
+    <!-- 3. WHY: yellow text block beside a second photo.
+            Explains in a few sentences what the map is for (quiet places, green alleys,
+            gardens, water fountains and cool places in a heat wave), for visitors
+            who want to know more before opening the map. The photo is chosen by
+            landing.js and is always different from the hero photo. -->
     <section class="why">
       <div class="why-text">
         <p class="eyebrow">The quietest walk in Montréal</p>
@@ -93,11 +172,16 @@
     </section>
   </main>
 
+  <!-- 4. FOOTER: all the pages again, plus the Google Form where anyone can send in
+          their own cat photo (how other people's cats, like Lukas's and Kasey's, get on the map).
+          target="_blank" opens the form in a new tab so visitors don't lose the site;
+          rel="noopener" is the safe way to do that (the form's tab can't control this page). -->
   <footer class="landing-footer">
     <a href="map.html">Map</a> · <a href="gallery.html">Gallery</a> · <a href="about.html">About</a> ·
     <a href="https://forms.gle/oSW4TNBTUBnWSwwc8" target="_blank" rel="noopener">Add your own cat</a>
   </footer>
 
+  <!-- Loaded last, so the elements it fills in (#why-photo, #cat-row) already exist -->
   <script src="landing.js"></script>
 </body>
 </html>

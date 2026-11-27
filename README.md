@@ -1,16 +1,16 @@
 # The Montréal CatWalk
 
-A web map that leads you to Montréal's quieter, greener corners one cat at a time. Every pin is a cat I photographed around the city. Around them you can switch on green alleys, community gardens, drinking fountains and free air-conditioned places, and plan a short walk from one cat to the next.
+A web map that leads you to Montréal's quieter, greener corners one cat at a time. Every pin is a cat photographed around the city: most are mine, and some were sent in by other people through the "Add your own cat" form. Around them you can switch on green alleys, community gardens, drinking fountains and free air-conditioned places, and plan a short walk from one cat to the next.
 
 **This map is for**\ Montrealers who need a break from the noise and want a short nature walk close to home, with no car or trip to the mountain required.
 
 **What you can do here:** find a cat near you and click it to meet them. Then switch on the other layers and plan a wandering walk from cat to cat.
 
-GEOG 464, Assignment 2 (MVP).
+GEOG 464, Assignment 4 (final version). Started as the Assignment 2 MVP.
 ## How to run it
 
 1. **Make the cat data.** In `notebooks/`, run these top to bottom:
-   - `photos_to_csv.ipynb`: reads the location and date from each photo in `photos_raw/`, writes `data/cat_photos.csv`, and makes web-ready JPEGs in `site/photos/`.
+   - `photos2_to_csv.ipynb`: reads the location and date from each photo in `photos_raw/`, writes `data/cat_photos.csv`, and makes web-ready JPEGs in `site/photos/`. Names, descriptions, `submitted_by`, and a typed location and date for photos that have none (like film scans) are kept when you re-run it.
    - `mvp_pipeline.ipynb`: turns `data/cat_photos.csv` into `data/cat_photos.geojson`.
 2. **Make the other layers.** Run each of these once (any order):
    - `ruelles_pipeline.ipynb` → `data/ruelles_vertes.geojson`
@@ -34,22 +34,27 @@ pip install pandas pillow pillow-heif geopandas osmnx scipy
 ## What each file does
 
 ```
-geog464-starter/
-  photos_raw/          original phone photos (in HEIC FORMAT) (not published: they contain GPS data)
-  data/                CSV and GeoJSON files made by the notebooks....
+montreal-catwalk/
+  photos_raw/          original photos (mostly iPhone HEIC, plus JPEGs sent in by others) (not published: they contain GPS data)
+  data/                CSV and GeoJSON files made by the notebooks, plus walk_network.json for the walks
   notebooks/           Python pipelines, one per layer
+  readme_images/       pictures used in this README
   site/
-    index.html         landing page: a random cat photo each visit, links into the site
+    index.html         landing page: a different full-screen cat photo each visit, links into the site
     landing.css        landing page styles
-    landing/           web copies of the landing photos (resized from icons/IMG_*.JPG)
+    landing.js         landing page: picks the second photo and fills the row of 4 random cats
+    landing/           web copies of the 13 landing photos (my film photos)
     map.html           map page: the words and the order they appear in
-    style.css          colours, fonts, layout and map size (shared by both pages)
-    app.js             loads each layer, draws it, and builds the popups
-    gallery.html       photo gallery page, photos in a larger format . 
+    about.html         "About this map" page: who it's for, why it matters, how to use it
+    style.css          colours, fonts, layout and map size (shared by every page)
+    app.js             loads each layer, draws it, builds the popups, plans the walks, My cats
+    remember.js        saves My cats and the cats you've met in your browser (from class, Lab 9)
+    gallery.html       photo gallery page, photos in a larger format
     gallery.css        gallery layout and the full-screen photo view
     gallery.js         builds the gallery, grouped by month, newest first
-    icons/             cat pin and the gallery's paw animation
+    icons/             cat pins (normal, saved, met), the logo and the gallery's paw animation
     photos/            web copies of the photos (metadata removed)
+    backup-before-cleanup/  old copies of the site files, kept just in case (not used by the site)
 ```
 
 | I want to... | Open |
@@ -79,7 +84,7 @@ What I changed: each city dataset was cut down to the columns the popups show, w
 
 ---
 
-## Current state
+## Current state (A2 MVP, kept as a record — see "Current state (A4)" at the bottom)
 
 **Working:** 73 cats on the map (2 of 75 photos have no location and are skipped cause they were taken in ottawa, did this on purpose to check make sure the notebook properly filters it out. ), with popups showing the photo, date and coordinates. Green alleys show by default; fountains, gardens and cool places can be switched on in the layer switcher. The gallery links to each cat on the map and back.
 
@@ -91,7 +96,7 @@ What I changed: each city dataset was cut down to the columns the popups show, w
 - The cats are my own sightings, so they cluster where I walk (Plateau and Mile End), not where cats actually are. cats are not statues. 
 - A pin marks where I saw a cat, not where it lives.
 
-## **AI Disclosure##
+## AI Disclosure
 - **Lane:** Blue  
 - To get where i got to today with my MVP,, I used Claude AI tool with Opus 5.5. It certainly guided me pretty heavily throughout this process, in all honesty, since I do not have a ton of experience with pyton, let alone with image metadata. I used it mainly at the beginning with converting my HEIC iphone images, extracting the metadata and with help displaying it on my map, since this is a bit of a different pipeline that we covered in class. From the beginning i could visualize the pipleine step by step, and used Claude in VS code to help me move from step to step, especially with what to prioritize, etc. An example of a question I asked claude : "How could I make the map zoom in to general cluster of all my cat points and not the whole island of Montreal...?". , it would spit out an answer and I would look it through, approve / deny it, run it , visualize how it looks in my map, and then adjust the code as fit. 
 
@@ -106,7 +111,7 @@ Going forward, I'm not sure if i want this  feature on my final map because it d
 
 ## Test evidence
 
-- [ ] Lighthouse accessibility score: **[96]** on [10/21/26]. haven't fixed anything yet. 
+- [x] Lighthouse accessibility score: **[96]** on [10/21/26]. haven't fixed anything yet. **Update:** 100 at the Lab 7 pre-flight check (see below).
 - [x] Every map colour has a text label in the map key.
 - [x] Body text is at least 16 px; one `h1`, then `h2`s.
 - [x] Checked on a narrow window: the map moves below the story.
@@ -180,8 +185,7 @@ Test 3: *"My own spot…"** option. The reader types an address (looked up with 
 
 
    ## Part 3: what I found, and one fix
-
-![Water fountain marker after the fix: a dark blue droplet that stands out from the Bixi and STM icons](readme_images/fountain_after.png)
+   ![Water fountain marker after the fix: a dark blue droplet that stands out from the Bixi and STM icons](readme_images/fountain_after.png)
 
 ![Water fountain marker before the fix: a small blue dot that blends in with the basemap's Bixi and STM icons](readme_images/fountain_before.png)
 
@@ -204,14 +208,14 @@ Asked Destin to check on the waterfountain box and find the nearest water founta
 The Theme menu (cat walk / nature walk) is replaced by a **Stops to include** checklist: Cats, Water fountains, Nature (green alleys, gardens) and Free AC (cool places). The starts (Métro Mont-Royal, Métro Laurier, Parc Laurier, My own spot…) and the 2, 3 and 5 km lengths are the same. 
 
 **Inspection:** every walk, including the three fixed starts, is now planned in the page from `data/walk_network.json`, with the same method as "My own spot". The map no longer loads `data/walks.geojson`. The fixed starts' street corners are written on their menu options in `map.html` (`data-lat` / `data-lng`). No library was added (still only Leaflet).
-- **Event:** `walkForm.addEventListener("change", ...)` (`app.js` line 563), fired when the start, the length or any checkbox changes.
-- **Handler:** `showWalk()` (line 478) reads the start, the length and the ticked stops (`tickedStops()`, line 473), then `planWalk()` (line 916) calls `planLoop()` (line 817). It tries 160 loops through one stop of each ticked kind, visited in order around the start, and keeps the one within 15% of the length that passes the most ticked kinds.
-- **Update:** `walkLayer.clearLayers()` (line 479) removes the old route, and `drawWalk()` (line 530) draws the new loop, the fountains, gardens and AC places it passes (with their popups, even when those layers are off), and the summary, with the ticked kinds in bold. If a ticked kind doesn't fit, the walk is still drawn and the summary says, for example, "Sorry, I couldn't fit a free AC place into a loop this long from here. Try a longer walk or another start."
+- **Event:** `walkForm.addEventListener("change", ...)` (`app.js` line 610), fired when the start, the length or any checkbox changes.
+- **Handler:** `showWalk()` (line 498) reads the start, the length and the ticked stops (`tickedStops()`, line 491), then `planWalk()` (line 985) calls `planLoop()` (line 869). It tries 160 loops through one stop of each ticked kind, visited in order around the start, and keeps the one within 15% of the length that passes the most ticked kinds.
+- **Update:** `walkLayer.clearLayers()` (line 499) removes the old route, and `drawWalk()` (line 570) draws the new loop, the fountains, gardens and AC places it passes (with their popups, even when those layers are off), and the summary, with the ticked kinds in bold. If a ticked kind doesn't fit, the walk is still drawn and the summary says, for example, "Sorry, I couldn't fit a free AC place into a loop this long from here. Try a longer walk or another start."
 
 **Checks:** all 3 starts × 2, 3 and 5 km × 6 combinations of ticks (54 walks) drew a loop that passes every ticked kind, each planned in under 0.11 s. Métro Mont-Royal, 2 km, cats only: 2.2 km loop, 22 cats. Starts near the edge of the network: a 2 km walk with everything ticked says what it couldn't fit, and a 5 km walk from the same spot usually fits everything.
 
 ## Update: "Take me there" button
-I added a **Take me there** button under every walk's summary, so you can actually go on the walk. It opens the loop as walking directions in Google Maps in a new tab, and on a phone that opens the Maps app with turn-by-turn directions. Next to it there's a **Start in Street View** button that opens Street View at the start of the walk, facing the way the walk sets off.
+I added a **Take me there** button under every walk's summary, so you can actually go on the walk (not very clear from the site itself, no need to reinvent the wheel, i think a link to google maps, an app everyone is comfortable with, suffices. It opens the loop as walking directions in Google Maps in a new tab, and on a phone that opens the Maps app with turn-by-turn directions. Next to it there's a **Start in Street View** button that opens Street View at the start of the walk, facing the way the walk sets off.
 
 **How I did it:** no API key or new library, the buttons are just Google Maps links that `app.js` builds for each walk (section 12, line 1062).
 - `directionsUrl()` (line 1145) makes a Google Maps directions link (`google.com/maps/dir/?api=1`) with the start as both the origin and the destination, `travelmode=walking`, and points along the loop as waypoints.
@@ -231,7 +235,27 @@ I removed the green alleys' distance-to-the-nearest-cat colours, and `ruelles_ca
 
 ## Lab November 27th 
 - focusing on adding a landing page 
-- wanted it to be a main photo (~8 of my best film photos of montreal cats, to give them a splotlight on the website since the map is all iphone photos as film ones have no location :((()))) these photos suffle through every time you reopen/refresh the page 
+- wanted it to be a main photo (13 of my best film photos of montreal cats, to give them a splotlight on the website since the map is all iphone photos as film ones have no location :((()))) these photos suffle through every time you reopen/refresh the page 
 - Used a logo I created from a picture of two ceramic cats my grandmother had (lol) 
-
+- used a fancier font for the title, and stuck with my helvetica for the rest to keep it consistent 
+- when you scroll down on the landing page, a butter yellow page slides up with a link to the gallery, and featured photos from the gallery that alternate as well. 
 <img src="readme_images/cat_figurine.jpg" alt="Two porcelain cat figurines" width="45"> <img src="readme_images/pink_blob.png" alt="Pink blob shape" width="45">
+
+## Current state (A4)
+**Working:**
+- **Landing page** (`index.html`): a different full-screen film photo of a Montréal cat on every visit (never the same one twice in a row), the title, an "Open the map" button, then a panel with 4 random cats from the map and a link to the gallery, a "why" section beside a second photo, and a footer with every page and the "Add your own cat" form.
+- **Map** (`map.html`): 125 cats, 12 of them sent in by other people through the Google Form (their name shows as "submitted by"). Popups show the photo, date and coordinates. Green alleys show by default; water fountains (dark blue droplets), community gardens and free AC places can be switched on in the layer switcher. If a layer can't load, a red notice says which one.
+- **Build your own walk:** pick a start (Métro Mont-Royal, Métro Laurier, Parc Laurier, or "My own spot" by typing an address or tapping the map), a length (2, 3 or 5 km) and the stops to include (cats, water fountains, nature, free AC). The page plans the loop itself and draws it with a summary of what it passes. A spot outside the walking network gets a "sorry" message instead.
+- **Take me there:** opens the walk as walking directions in Google Maps, plus a Street View button for the start.
+- **My cats:** save cats from a popup or the gallery and mark the ones you've met. The list stays saved in your browser, and a walk can be planned through the saved cats you haven't met yet.
+- **Gallery** (`gallery.html`): every cat photo, grouped by month, newest first, with a full-screen view and links to and from the map.
+- **About page** (`about.html`): who the map is for, why it matters and how to use it.
+
+**Still to do before the A4 presentation:** polishing and finalizing (from the November 25th consultation).
+
+**Known limitations**
+- Most cats are my own sightings, so they cluster where I walk (Plateau and Mile End), not where cats actually are, and a pin marks where a cat was seen, not where it lives.
+- Walks only cover the area of the walking network (around the Plateau and Mile End).
+- Google Maps picks its own streets between the walk's points, so "Take me there" can differ a little from the pink line.
+- My cats is saved in one browser only: it doesn't follow you to another device.
+
