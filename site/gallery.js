@@ -63,7 +63,7 @@ function cardHtml(p, date, index) {
         <strong class="when">${escapeHtml(when)}</strong>
         ${p.description ? escapeHtml(p.description) : ""}
         <span class="card-links">
-          <a class="map-link" href="index.html#cat=${id}">Show on map →</a>
+          <a class="map-link" href="map.html#cat=${id}">Show on map →</a>
           <button class="expand-link" type="button">Expand ⤢</button>
         </span>
       </figcaption>
@@ -159,7 +159,7 @@ function showPhoto(i) {
     p.description ? escapeHtml(p.description) : "",
     isCommunity(p) ? `Submitted by ${escapeHtml(p.submitted_by)}` : "",
   ].filter(Boolean).join(" · ");
-  lbMap.href = `index.html#cat=${catId(p)}`;
+  lbMap.href = `map.html#cat=${catId(p)}`;
   lbSave.dataset.photo = p.photo;   // the ♡ Save button is now for this photo
   showSaved();
 }

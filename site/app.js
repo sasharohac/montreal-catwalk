@@ -96,7 +96,7 @@ const alleyStyle = {
   fillOpacity: 0.7,
 };
 
-// Fountains: dark navy water droplets with a white outline (the same drop as the map key in index.html).
+// Fountains: dark navy water droplets with a white outline (the same drop as the map key in map.html).
 // The droplet shape keeps them apart from the map's small round or square STM and BIXI symbols
 // (feedback from the test session).
 const DROP_SVG =
@@ -525,7 +525,7 @@ function showWalk() {
     planWalk(customStart, km, tickedStops());   // section 11
     return;
   }
-  // A fixed start: its street corner is written on its <option> in index.html
+  // A fixed start: its street corner is written on its <option> in map.html
   const option = select.selectedOptions[0];
   planWalk({ lat: Number(option.dataset.lat), lng: Number(option.dataset.lng), label: start }, km, tickedStops());
 }

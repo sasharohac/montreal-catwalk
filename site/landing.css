@@ -1,0 +1,260 @@
+/* ============================================================
+   landing.css = PRESENTATION of the landing page (index.html) only.
+   Builds on style.css (colours, header). Sections:
+     1. Extra colours and the heading font
+     2. Top strip and hero photo
+     3. Cream panel and cat row
+     4. "Why" block
+     5. Footer
+     6. Phones
+   ============================================================ */
+
+
+/* ---------- 1. Extra colours and the heading font ---------- */
+:root {
+  --cream: #f6f1e4;   /* panel background */
+  --sky: #c6d6ec;     /* soft blue block */
+  --ink: #3a2a2e;     /* deep plum-brown for big headings */
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+}
+
+body.landing {
+  background: var(--cream);
+}
+
+.landing h1,
+.landing .big,
+.landing .cat-name,
+.landing .why-quote,
+.landing .tile-label {
+  font-family: var(--serif);
+  font-weight: 400;
+}
+
+/* Butter-yellow pill buttons, like the reference */
+.pill {
+  display: inline-block;
+  padding: 12px 44px;
+  border-radius: 999px;
+  background: var(--butter);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+.pill:hover,
+.pill:focus-visible { background: #fff3dc; transform: translateY(-1px); }
+.pill-small { padding: 10px 24px; }
+
+
+/* ---------- 2. Top strip and hero photo ---------- */
+.top-strip {
+  margin: 0;
+  padding: 6px 16px;
+  background: var(--pink);
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  /* --hero-photo is set by the script in index.html's <head>.
+     The dark fades top and bottom keep the white text readable on any photo. */
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.25) 100%),
+    var(--hero-photo, none) center 55% / cover no-repeat,
+    #3a3a33;
+}
+
+/* Header sits on the photo: white text instead of pink */
+.hero-header .site-name,
+.hero-header .site-nav a { color: #fff; }
+.hero-header .site-nav a:hover { background: rgba(255,255,255,0.18); }
+
+/* Pink cat-head badge, top right of the photo (where the stickers used to be) */
+.badge {
+  position: absolute;
+  right: 36px;
+  top: 96px;
+  z-index: 2;
+  width: 150px;
+  height: auto;
+  transform: rotate(6deg);
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
+}
+/* Text sizes are in the SVG's units (the badge is ~6.5× smaller on screen) */
+.badge text { fill: var(--accent); }
+.badge-big {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 200px;
+}
+.badge-small {
+  font-family: var(--font);
+  font-size: 80px;
+  font-weight: 600;
+  letter-spacing: 12px;
+}
+
+.hero-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12vh 16px 0;
+  text-align: center;
+}
+
+.hero-text h1 {
+  margin: 0 0 28px;
+  font-size: clamp(44px, 7vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-style: normal;
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+}
+.hero-text h1 em { font-style: italic; }
+
+
+/* ---------- 3. Cream panel and cat row ---------- */
+.panel {
+  position: relative;
+  margin-top: -48px;               /* slides up over the bottom of the photo */
+  padding: 56px 28px 72px;
+  background: var(--cream);
+  border-radius: 40px 40px 0 0;
+}
+
+.big {
+  margin: 0;
+  font-size: clamp(36px, 4.5vw, 58px);
+  line-height: 1.05;
+  font-style: normal;
+  color: var(--ink);
+}
+.sub { margin: 8px 0 28px; font-size: 15px; }
+
+/* Horizontal row: scrolls sideways if there isn't room */
+.cat-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 1fr);
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+}
+
+.cat-card {
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+.cat-img {
+  display: block;
+  aspect-ratio: 4 / 4.4;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #d9dccd;
+}
+.cat-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+.cat-card:hover .cat-img img { transform: scale(1.04); }
+.cat-name { margin-top: 10px; font-size: 26px; line-height: 1.1; color: var(--ink); }
+.cat-meta { font-size: 13px; color: var(--muted); }
+
+/* First tile: links to the gallery */
+.gallery-tile {
+  aspect-ratio: 4 / 4.4;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  border-radius: 6px;
+  background: var(--butter);
+}
+.tile-label {
+  align-self: flex-start;
+  font-size: 30px;
+  color: var(--accent);
+  font-style: italic;
+}
+
+
+/* ---------- 4. "Why" block ---------- */
+.why {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 80px;
+}
+
+.why-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 40px;
+  background: var(--sky);
+  border-radius: 6px;
+  text-align: center;
+}
+.eyebrow {
+  margin: 0 0 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.why-quote {
+  margin: 0 0 28px;
+  max-width: 30ch;
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.why-photo {
+  position: relative;
+  min-height: 460px;
+  border-radius: 6px;
+  background: #cfcabb center / cover no-repeat;   /* landing.js sets the photo */
+}
+
+
+/* ---------- 5. Footer ---------- */
+.landing-footer {
+  padding: 28px 16px 40px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+}
+.landing-footer a { color: var(--accent); }
+
+
+/* ---------- 6. Phones ---------- */
+@media (max-width: 760px) {
+  .hero-text { padding-top: 16vh; }
+  .badge { width: 104px; right: 16px; top: auto; bottom: 80px; }
+  .panel { padding: 40px 16px 56px; border-radius: 28px 28px 0 0; }
+  .cat-row { grid-auto-columns: 72%; }
+  .why { grid-template-columns: 1fr; margin-top: 56px; }
+  .why-text { padding: 40px 20px; }
+  .why-photo { min-height: 320px; }
+}

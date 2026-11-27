@@ -9,3 +9,8 @@ __pycache__/
 *.pyc
 
 photos_raw/
+# Photos taken off the map (originals contain GPS data)
+photos_removed/
+
+# Full-size originals of the landing photos (the site uses the copies in site/landing/)
+site/icons/IMG_*.JPG

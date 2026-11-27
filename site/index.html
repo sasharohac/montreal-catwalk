@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     index.html = STRUCTURE of the landing page: the first thing a visitor sees.
+     A big cat photo (a different one on each visit), then a row of cats from the map,
+     then a short "why" block. Looks come from style.css + landing.css; landing.js picks the photos.
+     ============================================================ -->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Montréal CatWalk</title>
+
+  <!-- Tab icon: the orange cat emoji, drawn in a tiny SVG image -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐈</text></svg>">
+
+  <!-- Instrument Serif: the tall, narrow serif used for the big headings on this page only -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="landing.css">
+
+  <!-- Pick the hero photo BEFORE the page draws, so it never flashes a different one first.
+       The list of photos lives in landing.js (HERO_PHOTOS); this tiny copy only needs the names. -->
+  <script>
+    (function () {
+      var photos = ["IMG_0161", "IMG_0350", "IMG_2108", "IMG_3633", "IMG_4294", "IMG_4311", "IMG_4312"];
+      // Remember the last photo shown, so a refresh always gives a NEW one
+      var last = null;
+      try { last = localStorage.getItem("catwalk-hero"); } catch (e) {}
+      var choices = photos.filter(function (p) { return p !== last; });
+      var pick = choices[Math.floor(Math.random() * choices.length)];
+      try { localStorage.setItem("catwalk-hero", pick); } catch (e) {}
+      window.HERO_PICK = pick;
+      document.documentElement.style.setProperty("--hero-photo", "url('landing/" + pick + ".jpg')");
+    })();
+  </script>
+</head>
+
+<body class="landing">
+  <!-- Thin strip across the very top -->
+  <p class="top-strip">Montréal's quieter, greener corners, one cat at a time</p>
+
+  <!-- 1. HERO: full-screen photo with the header and headline on top of it -->
+  <section class="hero">
+    <header class="site-header hero-header">
+      <a class="site-name" href="index.html">The Montréal CatWalk</a>
+      <nav class="site-nav" aria-label="Pages">
+        <a href="map.html">Map</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="about.html">About this map</a>
+      </nav>
+    </header>
+
+    <div class="hero-text">
+      <h1>Slow Down. Meet a <em>Cat</em>.</h1>
+      <a class="pill" href="map.html">Open the map</a>
+    </div>
+
+    <!-- Pink cat-head badge on the right: the icon (icons/sasha_logo_crisp.png) with the words drawn on top.
+         It's an SVG, so the words always sit in the same spot on the shape at any size.
+         The numbers are in the icon's own pixels (972 × 1020); move a word by changing its x / y. -->
+    <svg class="badge" viewBox="0 0 972 1020" role="img" aria-label="No car needed">
+      <image href="icons/sasha_logo_crisp.png" width="972" height="1020"/>
+      <text class="badge-big" x="490" y="590" text-anchor="middle">no car</text>
+      <text class="badge-small" x="490" y="700" text-anchor="middle">NEEDED</text>
+    </svg>
+  </section>
+
+  <!-- 2. Cream panel that slides up over the photo -->
+  <main class="panel">
+    <h2 class="big">Fewer Cars, More Cats.</h2>
+    <p class="sub">A few of the cats waiting for you on the map.</p>
+
+    <!-- landing.js fills this row with cats from data/cat_photos.geojson -->
+    <div class="cat-row" id="cat-row">
+      <a class="cat-card gallery-tile" href="gallery.html">
+        <span class="tile-label">The gallery</span>
+        <span class="pill pill-small">See all cats</span>
+      </a>
+    </div>
+
+    <!-- 3. Why: blue text block beside a second photo -->
+    <section class="why">
+      <div class="why-text">
+        <p class="eyebrow">The quietest walk in Montréal</p>
+        <p class="why-quote">Between the traffic and the noise, Montréal has hidden places where the non-human world takes over. This map leads you to them one cat at a time, through green alleys and gardens, with somewhere to drink and cool down when the city gets too hot.</p>
+        <a class="pill" href="about.html">About this map</a>
+      </div>
+      <div class="why-photo" id="why-photo"></div>
+    </section>
+  </main>
+
+  <footer class="landing-footer">
+    <a href="map.html">Map</a> · <a href="gallery.html">Gallery</a> · <a href="about.html">About</a> ·
+    <a href="https://forms.gle/oSW4TNBTUBnWSwwc8" target="_blank" rel="noopener">Add your own cat</a>
+  </footer>
+
+  <script src="landing.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 /* ============================================================
    style.css = PRESENTATION: colours, fonts, spacing, layout, the map's size.
-   Shared by index.html (the map page) and gallery.html (gallery.css adds to it).
+   Shared by map.html (the map page) and gallery.html (gallery.css adds to it).
 
    Sections:
      1. Colours and font
@@ -270,7 +270,7 @@ h1, h2 {
 .swatch.dot { border-radius: 50%; }   /* round instead of square */
 /* Alleys: the same green as alleyStyle in app.js */
 .swatch.alley { border: 1px solid #2e7d32; background: #31a354; opacity: 0.7; }
-.swatch.fountain { width: 12px; height: 16px; margin: 0 7px 0 1px; vertical-align: -3px; }   /* droplet drawn in index.html */
+.swatch.fountain { width: 12px; height: 16px; margin: 0 7px 0 1px; vertical-align: -3px; }   /* droplet drawn in map.html */
 
 /* Fountain droplets on the map: no box or background behind the drawing, and a soft shadow like the cat pins */
 .fountain-icon {

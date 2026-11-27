@@ -17,7 +17,7 @@ GEOG 464, Assignment 2 (MVP).
    - `fountains_pipeline.ipynb` → `data/water_fountains.geojson`
    - `gardens_pipeline.ipynb` → `data/communal_gardens.geojson`
    - `ac_pipeline.ipynb` → `data/cool_places.geojson`
-3. **Open the map.** In VS Code, right-click `site/index.html` and choose **Open with Live Server**. (Opening the file directly won't work: browsers block `fetch` from local files.)
+3. **Open the site.** In VS Code, right-click `site/index.html` (the landing page) and choose **Open with Live Server**, then click through to the map. (Opening the file directly won't work: browsers block `fetch` from local files.)
 
 To add new cats, put the photos in `photos_raw/` and re-run step 1. Names and descriptions typed into the CSV are kept.
 
@@ -39,7 +39,10 @@ geog464-starter/
   data/                CSV and GeoJSON files made by the notebooks....
   notebooks/           Python pipelines, one per layer
   site/
-    index.html         map page: the words and the order they appear in
+    index.html         landing page: a random cat photo each visit, links into the site
+    landing.css        landing page styles
+    landing/           web copies of the landing photos (resized from icons/IMG_*.JPG)
+    map.html           map page: the words and the order they appear in
     style.css          colours, fonts, layout and map size (shared by both pages)
     app.js             loads each layer, draws it, and builds the popups
     gallery.html       photo gallery page, photos in a larger format . 
@@ -51,7 +54,7 @@ geog464-starter/
 
 | I want to... | Open |
 |---|---|
-| Reword text, add a section or link | `site/index.html` |
+| Reword text, add a section or link | `site/map.html` (map page) or `site/index.html` (landing page) |
 | Change colours, layout or the map's size | `site/style.css` |
 | Change a popup, a layer's colour, or what loads | `site/app.js` |
 
@@ -200,7 +203,7 @@ Asked Destin to check on the waterfountain box and find the nearest water founta
 ## Update: build your own walk (choose your stops)
 The Theme menu (cat walk / nature walk) is replaced by a **Stops to include** checklist: Cats, Water fountains, Nature (green alleys, gardens) and Free AC (cool places). The starts (Métro Mont-Royal, Métro Laurier, Parc Laurier, My own spot…) and the 2, 3 and 5 km lengths are the same. 
 
-**Inspection:** every walk, including the three fixed starts, is now planned in the page from `data/walk_network.json`, with the same method as "My own spot". The map no longer loads `data/walks.geojson`. The fixed starts' street corners are written on their menu options in `index.html` (`data-lat` / `data-lng`). No library was added (still only Leaflet).
+**Inspection:** every walk, including the three fixed starts, is now planned in the page from `data/walk_network.json`, with the same method as "My own spot". The map no longer loads `data/walks.geojson`. The fixed starts' street corners are written on their menu options in `map.html` (`data-lat` / `data-lng`). No library was added (still only Leaflet).
 - **Event:** `walkForm.addEventListener("change", ...)` (`app.js` line 563), fired when the start, the length or any checkbox changes.
 - **Handler:** `showWalk()` (line 478) reads the start, the length and the ticked stops (`tickedStops()`, line 473), then `planWalk()` (line 916) calls `planLoop()` (line 817). It tries 160 loops through one stop of each ticked kind, visited in order around the start, and keeps the one within 15% of the length that passes the most ticked kinds.
 - **Update:** `walkLayer.clearLayers()` (line 479) removes the old route, and `drawWalk()` (line 530) draws the new loop, the fountains, gardens and AC places it passes (with their popups, even when those layers are off), and the summary, with the ticked kinds in bold. If a ticked kind doesn't fit, the walk is still drawn and the summary says, for example, "Sorry, I couldn't fit a free AC place into a loop this long from here. Try a longer walk or another start."

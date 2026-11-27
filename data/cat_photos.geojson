@@ -27,6 +27,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -73.810667,
+          45.509054
+        ]
+      },
+      "properties": {
+        "photo": "20230824_144856 - Lukas Kramosch.jpg",
+        "image": "photos/20230824_144856 - Lukas Kramosch.jpg",
+        "date": "2023-08-24 14:48",
+        "lat": 45.509054,
+        "lon": -73.810667,
+        "name": "Soldier",
+        "category": "Cat",
+        "description": "friendly",
+        "submitted_by": "LK"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -73.580367,
           45.520292
         ]
@@ -804,6 +825,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -73.62801,
+          45.47834
+        ]
+      },
+      "properties": {
+        "photo": "IMG_5627 - Ma x.jpeg",
+        "image": "photos/IMG_5627 - Ma x.jpg",
+        "date": "2025-06-22 15:31",
+        "lat": 45.47834,
+        "lon": -73.62801,
+        "name": "",
+        "category": "Cat",
+        "description": "",
+        "submitted_by": "Anonymous"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -73.582161,
           45.522511
         ]
@@ -1350,6 +1392,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -73.809834,
+          45.50348
+        ]
+      },
+      "properties": {
+        "photo": "20250922_174803 - Lukas Kramosch.jpg",
+        "image": "photos/20250922_174803 - Lukas Kramosch.jpg",
+        "date": "2025-09-22 17:48",
+        "lat": 45.50348,
+        "lon": -73.809834,
+        "name": "",
+        "category": "Cat",
+        "description": "",
+        "submitted_by": "LK"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -73.586328,
           45.517697
         ]
@@ -1490,6 +1553,27 @@
         "category": "Cat",
         "description": "",
         "submitted_by": "admin"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.80518,
+          45.505774
+        ]
+      },
+      "properties": {
+        "photo": "20260318_173126 - Lukas Kramosch.jpg",
+        "image": "photos/20260318_173126 - Lukas Kramosch.jpg",
+        "date": "2026-03-18 17:31",
+        "lat": 45.505774,
+        "lon": -73.80518,
+        "name": "",
+        "category": "Cat",
+        "description": "",
+        "submitted_by": "LK"
       }
     },
     {
@@ -2001,20 +2085,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.57685,
-          45.519386
+          -73.805765,
+          45.509262
         ]
       },
       "properties": {
-        "photo": "IMG_3667.HEIC",
-        "image": "photos/IMG_3667.jpg",
-        "date": "2026-07-13 17:45",
-        "lat": 45.519386,
-        "lon": -73.57685,
-        "name": "Cat #97",
+        "photo": "20260709_180945 - Lukas Kramosch.jpg",
+        "image": "photos/20260709_180945 - Lukas Kramosch.jpg",
+        "date": "2026-07-09 18:09",
+        "lat": 45.509262,
+        "lon": -73.805765,
+        "name": "",
         "category": "Cat",
         "description": "",
-        "submitted_by": "admin"
+        "submitted_by": "LK"
       }
     },
     {
@@ -2421,6 +2505,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -73.596611,
+          45.4903
+        ]
+      },
+      "properties": {
+        "photo": "IMG_2858 - Asher Gorris.jpeg",
+        "image": "photos/IMG_2858 - Asher Gorris.jpg",
+        "date": "2026-10-29 15:15",
+        "lat": 45.4903,
+        "lon": -73.596611,
+        "name": "",
+        "category": "Cat",
+        "description": "friendly",
+        "submitted_by": "Asher"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -73.572311,
           45.516603
         ]
@@ -2456,6 +2561,27 @@
         "category": "Cat",
         "description": "",
         "submitted_by": "Anonymous"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5549,
+          45.6648
+        ]
+      },
+      "properties": {
+        "photo": "PXL_20261122_170036555.MP - Kasey Lamer.jpg",
+        "image": "photos/PXL_20261122_170036555.MP - Kasey Lamer.jpg",
+        "date": "2026-11-22 12:00",
+        "lat": 45.6648,
+        "lon": -73.5549,
+        "name": "Holly",
+        "category": "Cat",
+        "description": "Holly is a loyal friend. If she doesn't know you, she may be hesitant to be near you. But if you show her love and care, she will love you forever. Holly is tired here, and quite sick. She is still so kind and loving though.",
+        "submitted_by": "Kasey"
       }
     }
   ]

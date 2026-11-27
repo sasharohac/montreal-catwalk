@@ -3,6 +3,7 @@
 # which keeps each publish small and fast. The website only needs site/ and data/.
 exclude:
   - photos_raw/              # full-size originals (~226 MB); the site uses the copies in site/photos/
+  - photos_removed/          # photos taken off the map (kept, not published)
   - notebooks/               # Python pipelines that make the files in data/
   - cache/
   - site/backup-before-cleanup/
