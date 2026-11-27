@@ -300,14 +300,15 @@ h1, h2 {
   background: var(--paper);
 }
 
-/* A pink cat paw instead of the mouse cursor on the map, also over cats, alleys and other dots you can click.
-   (Leaflet's own rules still apply on top: a closed fist while dragging the map, and the normal
-   arrow over the walk box, the layer switcher and popups.) "16 16" puts the click point in the middle
-   of the paw; if the image can't load, the browser falls back to its usual hand. The picture is
+/* A pink cat paw instead of the mouse cursor, ONLY while "My own spot…" is chosen in the walk box,
+   when tapping the map picks the walk's start. app.js (showWalk, section 10) adds the "picking-spot"
+   class to the map then and removes it otherwise; the rest of the time Leaflet's normal cursors apply.
+   (A closed fist while dragging still wins.) "16 16" puts the click point in the middle of the paw;
+   if the image can't load, the browser falls back to a crosshair. The picture is
    icons/cat_paw_cursor.png (32 × 32, see icons/cat_paw.png for the large version). */
-.leaflet-grab,
-.leaflet-interactive {
-  cursor: url("icons/cat_paw_cursor.png") 16 16, pointer;
+#map.picking-spot.leaflet-grab,
+#map.picking-spot .leaflet-interactive {
+  cursor: url("icons/cat_paw_cursor.png") 16 16, crosshair;
 }
 
 
@@ -371,7 +372,7 @@ h1, h2 {
 }
 
 /* The "Save to Cats to visit" and "Mark as visited" buttons remember.js adds under a cat popup's text.
-   Pink pills like "Add your own cat", lined up with the text (14px in), with the paw cursor.
+   Pink pills like "Add your own cat", lined up with the text (14px in), with a pointing-hand cursor.
    Not saved yet: outlined, with an empty heart or a paw. Saved / visited (class "is-on"): filled in.
    remember.js sets display, margin-top and cursor in a style="" attribute, so those need !important. */
 .leaflet-popup-content .geog464-mark-btn {
@@ -385,7 +386,7 @@ h1, h2 {
   color: var(--accent);
   font: 500 14px var(--font);
   text-align: left;
-  cursor: url("icons/cat_paw_cursor.png") 16 16, pointer !important;
+  cursor: pointer !important;
   transition: background 0.15s, transform 0.1s;
 }
 .leaflet-popup-content .geog464-mark-btn:last-child { margin-bottom: 14px !important; }

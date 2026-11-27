@@ -13,7 +13,6 @@
 /* ---------- 1. Extra colours and the heading font ---------- */
 :root {
   --cream: #f6f1e4;   /* panel background */
-  --sky: #c6d6ec;     /* soft blue block */
   --ink: #3a2a2e;     /* deep plum-brown for big headings */
   --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
 }
@@ -211,7 +210,7 @@ body.landing {
   align-items: center;
   justify-content: center;
   padding: 56px 40px;
-  background: var(--sky);
+  background: var(--butter);   /* same yellow as the map and gallery pages */
   border-radius: 6px;
   text-align: center;
 }

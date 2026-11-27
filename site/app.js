@@ -501,6 +501,8 @@ function showWalk() {
   const start = select.value;
   const km = Number(document.getElementById("walk-km").value);
   customStartBox.hidden = start !== "custom";   // the address box only shows for "My own spot…"
+  // Paw cursor on the map only while "My own spot…" is chosen, when a tap picks the start (style.css, section 4)
+  map.getContainer().classList.toggle("picking-spot", start === "custom");
   // "All cats / My cats" only matters while Cats is ticked
   document.getElementById("which-cats").disabled = !walkForm.querySelector('input[name="stop"][value="cats"]').checked;
   if (!start) {
