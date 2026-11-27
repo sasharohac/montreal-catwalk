@@ -212,6 +212,13 @@ The Theme menu (cat walk / nature walk) is replaced by a **Stops to include** ch
 
 ## Update: green alleys in one colour
 I removed the green alleys' distance-to-the-nearest-cat colours, and `ruelles_cat_distance.ipynb` with them, because the gradient didn't add much to the map (see Leo's comment above). The alleys are now one green, loaded straight from `data/ruelles_vertes.geojson`, and the map key has a single "Green alleys" entry. The alley popup no longer shows the nearest cat or the cats within 500 m.
+
 ## Made my map remember!!! 
 - Added a **My cats** list (using `remember.js`): you can save cats with "♡ Save to My cats" from a cat's popup or the gallery, and mark them as met. The list stays saved in your browser after a reload. Saved cats get a dark pink pin, and met cats a light pink one.
 - Walks can now aim for your own cats: tick Cats and choose "My cats" to plan a loop through the saved cats you haven't met yet. Each one the walk passes gets a pink ring on the map and is named in the summary.
+
+## Consultation - November 25th 
+- consultation went well, main critiques from my professor was the suggestion of adding a landing page and pretty much just polishing / finalizing my map for the A4 presentation! 
+
+## Lab November 27th 
+- focusing on adding a landing page 

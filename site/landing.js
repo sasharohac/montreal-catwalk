@@ -7,7 +7,7 @@
 //   2. fills the cat row with 4 random cats from the map data
 // ============================================================
 
-const HERO_PHOTOS = ["IMG_0161", "IMG_0350", "IMG_2108", "IMG_3633", "IMG_4294", "IMG_4311", "IMG_4312"];
+const HERO_PHOTOS = ["IMG_0161", "IMG_0350", "IMG_2108", "IMG_3633", "IMG_4294", "IMG_4311", "IMG_4312", "IMG_5354", "IMG_5381", "IMG_5382", "IMG_9350"];
 const DATA_URL = "../data/cat_photos.geojson"; // same file the map and gallery use
 const CATS_TO_SHOW = 4;
 

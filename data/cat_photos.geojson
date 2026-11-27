@@ -1623,6 +1623,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -73.809174,
+          45.503939
+        ]
+      },
+      "properties": {
+        "photo": "20260427_123704 - Lukas Kramosch.jpg",
+        "image": "photos/20260427_123704 - Lukas Kramosch.jpg",
+        "date": "2026-04-27 12:37",
+        "lat": 45.503939,
+        "lon": -73.809174,
+        "name": "Grat / Tornade",
+        "category": "Cat",
+        "description": "She's super friendly",
+        "submitted_by": "LK"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -73.610261,
           45.537972
         ]
