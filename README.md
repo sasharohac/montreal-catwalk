@@ -85,8 +85,6 @@ What I changed: each city dataset was cut down to the columns the popups show, w
 
 **Not in this iteration:** suggested walking routes. `walks_pipeline.ipynb` already builds 18 loops (3 starting points in the Plateau × 2, 3 and 5 km × a cat theme and a nature theme) into `data/walks.geojson`, but they are not on the page yet, because it needs some tweaking / i dont fully understand what it does yet lol .
 
-<img src="readme_images/cat_figurine.jpg" alt="Two porcelain cat figurines" width="45"> <img src="readme_images/pink_blob.png" alt="Pink blob shape" width="45">
-
 **Next working state:** the walks appear on the map. You choose a start, a length and a theme, and that walk is drawn with its distance and the number of cats, metres of green alley, gardens and fountains it passes. I'll know it works when all  combinations draw correctly. 
 
 **Known limitations**
@@ -212,6 +210,15 @@ The Theme menu (cat walk / nature walk) is replaced by a **Stops to include** ch
 
 **Checks:** all 3 starts × 2, 3 and 5 km × 6 combinations of ticks (54 walks) drew a loop that passes every ticked kind, each planned in under 0.11 s. Métro Mont-Royal, 2 km, cats only: 2.2 km loop, 22 cats. Starts near the edge of the network: a 2 km walk with everything ticked says what it couldn't fit, and a 5 km walk from the same spot usually fits everything.
 
+## Update: "Take me there" button
+I added a **Take me there** button under every walk's summary, so you can actually go on the walk. It opens the loop as walking directions in Google Maps in a new tab, and on a phone that opens the Maps app with turn-by-turn directions. Next to it there's a **Start in Street View** button that opens Street View at the start of the walk, facing the way the walk sets off.
+
+**How I did it:** no API key or new library, the buttons are just Google Maps links that `app.js` builds for each walk (section 12, line 1062).
+- `directionsUrl()` (line 1145) makes a Google Maps directions link (`google.com/maps/dir/?api=1`) with the start as both the origin and the destination, `travelmode=walking`, and points along the loop as waypoints.
+- Google only takes **9 waypoints** in a link and picks its own streets between them, so `walkWaypoints()` (line 1111) chooses them to keep Google's route on the pink line: first the middle of the longest green alleys the walk goes through (`greenStretches()`, line 1080, otherwise Google takes the street next to the alley), then the points where the loop bends the most away from a straight line (like Douglas-Peucker line simplification), stopping once the line is within 25 m of the points.
+- `streetViewUrl()` (line 1158) makes a Street View link at the start, with the heading worked out from the first ~30 m of the walk.
+- The buttons are added in `drawWalk()` (line 602) and styled as two pink buttons in `style.css` (`.walk-go`). A small hint under them says Google may pick slightly different streets than the pink line.
+
 ## Update: green alleys in one colour
 I removed the green alleys' distance-to-the-nearest-cat colours, and `ruelles_cat_distance.ipynb` with them, because the gradient didn't add much to the map (see Leo's comment above). The alleys are now one green, loaded straight from `data/ruelles_vertes.geojson`, and the map key has a single "Green alleys" entry. The alley popup no longer shows the nearest cat or the cats within 500 m.
 
@@ -224,3 +231,7 @@ I removed the green alleys' distance-to-the-nearest-cat colours, and `ruelles_ca
 
 ## Lab November 27th 
 - focusing on adding a landing page 
+- wanted it to be a main photo (~8 of my best film photos of montreal cats, to give them a splotlight on the website since the map is all iphone photos as film ones have no location :((()))) these photos suffle through every time you reopen/refresh the page 
+- Used a logo I created from a picture of two ceramic cats my grandmother had (lol) 
+
+<img src="readme_images/cat_figurine.jpg" alt="Two porcelain cat figurines" width="45"> <img src="readme_images/pink_blob.png" alt="Pink blob shape" width="45">
