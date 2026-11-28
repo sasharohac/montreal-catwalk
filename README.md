@@ -235,10 +235,10 @@ I removed the green alleys' distance-to-the-nearest-cat colours, and `ruelles_ca
 
 ## Lab November 27th 
 - focusing on adding a landing page 
-- wanted it to be a main photo (13 of my best film photos of montreal cats, to give them a splotlight on the website since the map is all iphone photos as film ones have no location :((()))) these photos suffle through every time you reopen/refresh the page 
+- wanted it to be a main photo (13 of my best film photos of montreal cats, to give them a spotlight on the website since the map is all iphone photos as film ones have no location :((()))) these photos shuffle through every time you reopen/refresh the page 
 - Used a logo I created from a picture of two ceramic cats my grandmother had (lol) 
-- used a fancier font for the title, and stuck with my helvetica for the rest to keep it consistent 
-- when you scroll down on the landing page, a butter yellow page slides up with a link to the gallery, and featured photos from the gallery that alternate as well. 
+- Used a fancier font for the title, and stuck with my helvetica for the rest to keep it consistent 
+- When you scroll down on the landing page, a  yellow page slides up with a link to the gallery, and featured photos from the gallery that alternate as well. 
 <img src="readme_images/cat_figurine.jpg" alt="Two porcelain cat figurines" width="45"> <img src="readme_images/pink_blob.png" alt="Pink blob shape" width="45">
 
 ## Current state (A4)

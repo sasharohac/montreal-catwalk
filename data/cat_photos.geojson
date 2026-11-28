@@ -48,6 +48,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -73.606644,
+          45.526089
+        ]
+      },
+      "properties": {
+        "photo": "FullSizeRender - logan.jpeg",
+        "image": "photos/FullSizeRender - logan.jpg",
+        "date": "2024-03-22 10:49",
+        "lat": 45.526089,
+        "lon": -73.606644,
+        "name": "",
+        "category": "Cat",
+        "description": "friendly",
+        "submitted_by": "logibugg"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -73.580367,
           45.520292
         ]
@@ -1812,20 +1833,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.580047,
-          45.520503
+          -73.579917,
+          45.520442
         ]
       },
       "properties": {
-        "photo": "IMG_5757.HEIC",
-        "image": "photos/IMG_5757.jpg",
+        "photo": "IMG_3256 - Alexander Chen.jpeg",
+        "image": "photos/IMG_3256 - Alexander Chen.jpg",
         "date": "2026-05-23 17:16",
-        "lat": 45.520503,
-        "lon": -73.580047,
-        "name": "Cat #82",
+        "lat": 45.520442,
+        "lon": -73.579917,
+        "name": "",
         "category": "Cat",
         "description": "",
-        "submitted_by": "admin"
+        "submitted_by": "Alex"
       }
     },
     {
